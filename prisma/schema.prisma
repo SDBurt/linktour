@@ -56,6 +56,7 @@ model User {
     stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
     stripePriceId          String?   @map(name: "stripe_price_id")
     stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
+    Project                Project[]
 
     @@map(name: "users")
 }
@@ -73,12 +74,16 @@ model Project {
     id       String  @id @default(cuid())
     name     String
     slug     String  @unique
-    domain   String
+    domain   String  @unique
     verified Boolean @default(false)
 
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now())
     links     Link[]
+
+    // Creator
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
 }
 
 model Link {
@@ -94,15 +99,15 @@ model Link {
     public      Boolean @default(false)
     publicStats Boolean @default(false)
 
-    createdAt DateTime @default(now()) @map(name: "created_at")
-    updatedAt DateTime @default(now()) @map(name: "updated_at")
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
 
     // Creator
     userId String
     user   User   @relation(fields: [userId], references: [id])
 
     // project
-    project         Project? @relation(fields: [domain], references: [domain], onUpdate: Cascade, onDelete: Cascade)s
+    project Project? @relation(fields: [domain], references: [domain], onUpdate: Cascade, onDelete: Cascade)
 
     @@unique([domain, key])
 }

@@ -38,26 +38,6 @@ const getLinksForUser = cache(async (userId: User["id"]) => {
   })
 })
 
-const getProjectsForUser = cache(async (userId: User["id"]) => {
-  return await db.project.findMany({
-    where: {
-      userId: userId,
-    },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      domain: true,
-      verified: true,
-      links: true,
-      createdAt: true,
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-  })
-})
-
 async function DashboardPage() {
   const user = await getCurrentUser()
 
@@ -65,27 +45,26 @@ async function DashboardPage() {
     redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const projects = await getProjectsForUser(user.id)
+  const links = await getLinksForUser(user.id)
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Projects" text="Create and manage projectss.">
+      <DashboardHeader heading="Short Links" text="Create and manage short links.">
         <ShortLinkCreateButton />
       </DashboardHeader>
       <div>
-        {projects?.length ? (
+        {links?.length ? (
           <div className="divide-y divide-neutral-200 rounded-md border border-slate-200">
-            {projects.map((project) => (
-              <p>{project.id}</p>
-              
+            {links.map((link) => (
+              <ShortLinkItem key={link.id} shortLink={link} />
             ))}
           </div>
         ) : (
           <EmptyPlaceholder>
             <EmptyPlaceholder.Icon name="post" />
-            <EmptyPlaceholder.Title>No projects created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Title>No links created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              You don&apos;t have any projects yet. Start creating content.
+              You don&apos;t have any short links yet. Start creating content.
             </EmptyPlaceholder.Description>
             <ShortLinkCreateButton
               className={cn(
