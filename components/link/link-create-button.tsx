@@ -7,16 +7,20 @@ import { toast } from "@/hooks/use-toast"
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog"
+import { LinkCreateForm } from "./link-create-form"
 
-interface ShortLinkCreateButtonProps
+interface LinkCreateButtonProps
   extends React.HTMLAttributes<HTMLButtonElement> {}
 
-export function ShortLinkCreateButton({
+export function LinkCreateButton({
   className,
   ...props
-}: ShortLinkCreateButtonProps) {
+}: LinkCreateButtonProps) {
   const router = useRouter()
+
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [showCreateDialog, setShowCreateDialog] = React.useState<boolean>(false)
 
   async function onClick() {
     setIsLoading(true)
@@ -51,33 +55,38 @@ export function ShortLinkCreateButton({
       })
     }
 
-    const shortLink = await response.json()
+    const link = await response.json()
 
     // This forces a cache invalidation.
     router.refresh()
 
-    // router.push(`/editor/${shortLink.id}`)
+    // router.push(`/editor/${link.id}`)
   }
 
   return (
-    <button
-      onClick={onClick}
-      className={cn(
-        buttonVariants(),
-        {
-          "cursor-not-allowed opacity-60": isLoading,
-        },
-        className
-      )}
-      disabled={isLoading}
-      {...props}
-    >
-      {isLoading ? (
-        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-      ) : (
-        <Icons.add className="mr-2 h-4 w-4" />
-      )}
-      New Link
-    </button>
+    <>
+      <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+        <DialogTrigger className={cn(
+          buttonVariants(),
+          {
+            "cursor-not-allowed opacity-60": isLoading,
+          },
+          className
+        )}
+        disabled={isLoading}
+        {...props}
+      >
+        {isLoading ? (
+          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <Icons.add className="mr-2 h-4 w-4" />
+        )}
+          {`New Link`}
+        </DialogTrigger>
+        <DialogContent className="p-0">
+          <LinkCreateForm />
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }

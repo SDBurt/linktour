@@ -8,8 +8,8 @@ import { getCurrentUser } from "@/lib/session"
 import { cn } from "@/lib/utils"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { DashboardHeader } from "@/components/header"
-import { ShortLinkCreateButton } from "@/components/short-link/short-link-create-button"
-import { ShortLinkItem } from "@/components/short-link/short-link-item"
+import { LinkCreateButton } from "@/components/link/link-create-button"
+import { LinkItem } from "@/components/link/link-item"
 import { DashboardShell } from "@/components/layouts/shell"
 import { buttonVariants } from "@/components/ui/button"
 
@@ -19,17 +19,16 @@ export const metadata = {
 }
 
 const getLinksForUser = cache(async (userId: User["id"]) => {
-  return await db.shortLink.findMany({
+  return await db.link.findMany({
     where: {
-      authorId: userId,
+      userId: userId,
     },
     select: {
       id: true,
       title: true,
-      shortUrl: true,
-      destinationUrl: true,
+      key: true,
+      url: true,
       clicks: true,
-      published: true,
       createdAt: true,
     },
     orderBy: {
@@ -49,14 +48,18 @@ async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Short Links" text="Create and manage short links.">
-        <ShortLinkCreateButton />
+      <DashboardHeader heading=" Links" text="Create and manage short links.">
+        <LinkCreateButton
+          className={cn(
+          buttonVariants({ variant: "default" }),
+          "mt-1"
+        )}/>
       </DashboardHeader>
       <div>
         {links?.length ? (
           <div className="divide-y divide-neutral-200 rounded-md border border-slate-200">
             {links.map((link) => (
-              <ShortLinkItem key={link.id} shortLink={link} />
+              <LinkItem key={link.id} link={link} />
             ))}
           </div>
         ) : (
@@ -66,7 +69,7 @@ async function DashboardPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any short links yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <ShortLinkCreateButton
+            <LinkCreateButton
               className={cn(
                 buttonVariants({ variant: "outline" }),
                 "text-slate-900"

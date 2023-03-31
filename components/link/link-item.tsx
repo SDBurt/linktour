@@ -1,50 +1,50 @@
-import Link from "next/link"
-import { ShortLink } from "@prisma/client"
+import NextLink from "next/link"
+import { Link } from "@prisma/client"
 
 import { formatDate } from "@/lib/utils"
-import { ShortLinkOperations } from "@/components/short-link/short-link-operations"
+import { LinkOperations } from "@/components/link/link-operations"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Icons } from "../icons"
 
-interface ShortLinkItemProps {
-  shortLink: Pick<ShortLink, "id" | "title" | "published" | "createdAt" | "shortUrl" | "destinationUrl" | "clicks">
+interface LinkItemProps {
+  link: Pick<Link, "id" | "title" | "createdAt" | "url" | "key" | "clicks">
 }
 
-export function ShortLinkItem({ shortLink }: ShortLinkItemProps) {
+export function LinkItem({ link }: LinkItemProps) {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="flex justify-between w-full px-2 items-center">
-          <Link
-            href={shortLink.shortUrl}
+          <NextLink
+            href={link.key}
             className="font-semibold hover:underline"
           >
-            {shortLink.title}
-          </Link>
+            {link.title}
+          </NextLink>
           <div className="flex flex-row space-x-1">
             <Icons.chainlink />
-            <p>{shortLink.shortUrl || "unknown"}</p>
+            <p>{link.key || "unknown"}</p>
           </div>
           <div className="flex flex-row space-x-1">
             <Icons.chainlink />
-            <p>{shortLink.destinationUrl || "unknown"}</p>
+            <p>{link.url || "unknown"}</p>
           </div>
           <div className="flex flex-row space-x-1">
             <Icons.bars />
-            <p>{shortLink.clicks}</p>
+            <p>{link.clicks}</p>
           </div>
           <p className="text-sm text-slate-600">
-            {formatDate(shortLink.createdAt?.toDateString())}
+            {formatDate(link.createdAt?.toDateString())}
           </p>
       
         
       </div>
-      <ShortLinkOperations shortLink={{id: shortLink.id, shortUrl: shortLink.shortUrl, destinationUrl: shortLink.destinationUrl, clicks: shortLink.clicks, title: shortLink.title}} />
+      <LinkOperations link={{id: link.id, key: link.key, url: link.url, clicks: link.clicks, title: link.title}} />
       {/* <PostDeleteButton post={{ id: post.id, title: post.title }} /> */}
     </div>
   )
 }
 
-ShortLinkItem.Skeleton = function ShortLinkItemSkeleton() {
+LinkItem.Skeleton = function LinkItemSkeleton() {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="flex w-full px-2">

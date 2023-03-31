@@ -9,17 +9,17 @@ export const schema = z.object({
   linkId: z.string(),
 });
 
-export function withShortLink(handler: NextApiHandler) {
+export function withLink(handler: NextApiHandler) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
     try {
       const query = await schema.parse(req.query);
 
       // Check if the user has access to this post.
       const session = await getServerSession(req, res, authOptions);
-      const count = await db.shortLink.count({
+      const count = await db.link.count({
         where: {
           id: query.linkId,
-          authorId: session?.user.id,
+          userId: session?.user.id,
         },
       });
 

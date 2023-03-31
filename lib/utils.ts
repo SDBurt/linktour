@@ -1,6 +1,13 @@
+import { createClient } from "@vercel/edge-config";
+
 import { ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+
 import { HOME_HOSTNAMES } from "./constants";
+
+export const edgeConfig = createClient(
+  `https://edge-config.vercel.com/ecfg_eh6zdvznm70adch6q0mqxshrt4ny?token=64aef40c-ea06-4aeb-b528-b94d924ec05a`
+);
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -21,4 +28,14 @@ export function absoluteUrl(path: string) {
 
 export const isHomeHostname = (domain: string) => {
   return HOME_HOSTNAMES.has(domain) || domain.endsWith(".vercel.app");
+};
+
+export const isReservedKey = async (key: string) => {
+  let reservedKey;
+  try {
+    reservedKey = await edgeConfig.get("reserved");
+  } catch (e) {
+    reservedKey = [];
+  }
+  return new Set(reservedKey).has(key);
 };

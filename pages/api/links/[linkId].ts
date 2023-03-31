@@ -2,15 +2,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 import * as z from "zod";
 
 import { withMethods } from "@/lib/api-middlewares/with-methods";
-import { withShortLink } from "@/lib/api-middlewares/with-short-link";
+import { withLink } from "@/lib/api-middlewares/with-link";
 import { db } from "@/lib/db";
-import { shortLinkPatchSchema } from "@/lib/validations/short-link";
+import { linkPatchSchema } from "@/lib/validations/link";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
     console.log("GET: ", req.query.linkId);
     const linkId = req.query.linkId as string;
-    const link = await db.shortLink.findUnique({
+    const link = await db.link.findUnique({
       where: {
         id: linkId,
       },
@@ -23,7 +23,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.status(200).json(link);
   } else if (req.method === "DELETE") {
     try {
-      await db.shortLink.delete({
+      await db.link.delete({
         where: {
           id: req.query.linkId as string,
         },
@@ -36,26 +36,26 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   } else if (req.method === "PATCH") {
     try {
       const linkId = req.query.linkId as string;
-      const shortLink = await db.shortLink.findUnique({
+      const link = await db.link.findUnique({
         where: {
           id: linkId,
         },
       });
 
-      if (!shortLink) {
+      if (!link) {
         throw new Error("Short link not found.");
       }
 
-      const body = shortLinkPatchSchema.parse(req.body);
+      const body = linkPatchSchema.parse(req.body);
 
-      await db.shortLink.update({
+      await db.link.update({
         where: {
-          id: shortLink.id,
+          id: link.id,
         },
         data: {
-          title: body.title || shortLink.title,
-          shortUrl: body.shortUrl,
-          destinationUrl: body.destinationUrl,
+          title: body.title || link.title,
+          key: body.key,
+          url: body.url,
         },
       });
 
@@ -71,4 +71,4 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(["GET", "DELETE", "PATCH"], withShortLink(handler));
+export default withMethods(["GET", "DELETE", "PATCH"], withLink(handler));

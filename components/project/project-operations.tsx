@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "@/hooks/use-toast"
-import { ShortLink } from "@prisma/client"
+import { Project } from "@prisma/client"
 
 import { Icons } from "@/components/icons"
 import {
@@ -26,7 +26,7 @@ import {
 
 import { Dialog, DialogContent } from "../ui/dialog"
 
-import { ShortLinkForm } from '@/components/short-link/short-link-edit-form'
+import { ProjectEditForm } from "./project-edit-form"
 
 async function deletePost(linkId: string) {
   const response = await fetch(`/api/links/${linkId}`, {
@@ -44,11 +44,11 @@ async function deletePost(linkId: string) {
   return true
 }
 
-interface ShortLinkOperationsProps {
-  shortLink: Pick<ShortLink, "id" | "title" | "shortUrl" | "destinationUrl" | "clicks">
+interface ProjectOperationsProps {
+  project: Pick<Project, "id" | "name">
 }
 
-export function ShortLinkOperations({ shortLink }: ShortLinkOperationsProps) {
+export function ProjectOperations({ project }: ProjectOperationsProps) {
   const router = useRouter()
 
 
@@ -96,7 +96,7 @@ export function ShortLinkOperations({ shortLink }: ShortLinkOperationsProps) {
                 event.preventDefault()
                 setIsDeleteLoading(true)
 
-                const deleted = await deletePost(shortLink.id)
+                const deleted = await deletePost(project.id)
 
                 if (deleted) {
                   setIsDeleteLoading(false)
@@ -118,7 +118,7 @@ export function ShortLinkOperations({ shortLink }: ShortLinkOperationsProps) {
       </AlertDialog>
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
         <DialogContent className="p-0">
-          <ShortLinkForm shortLink={shortLink}/>
+          <ProjectEditForm project={project}/>
         </DialogContent>
       </Dialog>
     </>

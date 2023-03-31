@@ -4,12 +4,12 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "@/hooks/use-toast"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ShortLink, User } from "@prisma/client"
+import { Link } from "@prisma/client"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { cn } from "@/lib/utils"
-import { shortLinkPatchSchema } from "@/lib/validations/short-link"
+import { linkPatchSchema } from "@/lib/validations/link"
 
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
@@ -17,25 +17,25 @@ import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-interface shortLinkFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  shortLink: Pick<ShortLink, "id" | "title" | "shortUrl" | "destinationUrl" | "clicks">
+interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
+  link: Pick<Link, "id" | "title" | "key" | "url" | "clicks">
 }
 
-type FormData = z.infer<typeof shortLinkPatchSchema>
+type FormData = z.infer<typeof linkPatchSchema>
 
-export function ShortLinkForm({ shortLink, className, ...props }: shortLinkFormProps) {
+export function LinkEditForm({ link, className, ...props }: linkFormProps) {
   const router = useRouter()
-  console.log(shortLink)
+
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(shortLinkPatchSchema),
+    resolver: zodResolver(linkPatchSchema),
     defaultValues: {
-      title: shortLink?.title || "",
-      shortUrl: shortLink.shortUrl || "",
-      destinationUrl: shortLink.destinationUrl || "",
+      title: link?.title || "", // Name of the link
+      url: link.url || "", // Destination of the link
+      key: link.key || "", // key of the link, uses the domain
     },
   })
   const [isSaving, setIsSaving] = React.useState<boolean>(false)
@@ -43,15 +43,15 @@ export function ShortLinkForm({ shortLink, className, ...props }: shortLinkFormP
   async function onSubmit(data: FormData) {
     setIsSaving(true)
 
-    const response = await fetch(`/api/links/${shortLink.id}`, {
+    const response = await fetch(`/api/links/${link.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         title: data?.title,
-        shortUrl: data.shortUrl,
-        destinationUrl: data.destinationUrl,
+        url: data.url,
+        key: data.key,
       }),
     })
 
@@ -61,13 +61,13 @@ export function ShortLinkForm({ shortLink, className, ...props }: shortLinkFormP
       console.error(await response.json())
       return toast({
         title: "Something went wrong.",
-        description: "Your short link was not updated. Please try again.",
+        description: "Your link was not updated. Please try again.",
         variant: "destructive",
       })
     }
 
     toast({
-      description: "Your short link has been updated.",
+      description: "Your link has been updated.",
     })
 
     router.refresh()
@@ -99,30 +99,30 @@ export function ShortLinkForm({ shortLink, className, ...props }: shortLinkFormP
               <p className="px-1 text-xs text-red-600">{errors.title.message}</p>
             )}
 
-            <Label htmlFor="shorturl">
-              Short URL
+            <Label htmlFor="key">
+              Key
             </Label>
             <Input
-              id="shorturl"
+              id="key"
               className="w-[400px]"
               size={32}
-              {...register("shortUrl")}
+              {...register("url")}
             />
-            {errors?.shortUrl && (
-              <p className="px-1 text-xs text-red-600">{errors.shortUrl.message}</p>
+            {errors?.key && (
+              <p className="px-1 text-xs text-red-600">{errors.key.message}</p>
             )}
 
-            <Label htmlFor="destinationurl">
-              Destination URL
+            <Label htmlFor="url">
+              URL
             </Label>
             <Input
-              id="destinationurl"
+              id="url"
               className="w-[400px]"
               size={32}
-              {...register("destinationUrl")}
+              {...register("url")}
             />
-            {errors?.destinationUrl && (
-              <p className="px-1 text-xs text-red-600">{errors.destinationUrl.message}</p>
+            {errors?.url && (
+              <p className="px-1 text-xs text-red-600">{errors.url.message}</p>
             )}
 
           </div>

@@ -10,9 +10,9 @@ import { getUserSubscriptionPlan } from "@/lib/subscription";
 
 const linkCreateSchema = z.object({
   title: z.string(),
+  domain: z.string(),
   key: z.string(),
   url: z.string(),
-  domain: z.string(),
 });
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -66,10 +66,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const post = await db.link.create({
         data: {
           title: body.title,
+          domain: body.domain,
           key: body.key,
           url: body.url,
           userId: session.user.id,
-          domain: body.domain,
         },
         select: {
           id: true,

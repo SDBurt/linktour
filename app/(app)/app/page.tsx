@@ -8,8 +8,7 @@ import { getCurrentUser } from "@/lib/session"
 import { cn } from "@/lib/utils"
 import { EmptyPlaceholder } from "@/components/empty-placeholder"
 import { DashboardHeader } from "@/components/header"
-import { ShortLinkCreateButton } from "@/components/short-link/short-link-create-button"
-import { ShortLinkItem } from "@/components/short-link/short-link-item"
+import { ProjectCreateButton } from "@/components/project/project-create-button"
 import { DashboardShell } from "@/components/layouts/shell"
 import { buttonVariants } from "@/components/ui/button"
 
@@ -17,26 +16,6 @@ import { buttonVariants } from "@/components/ui/button"
 export const metadata = {
   title: "Dashboard",
 }
-
-const getLinksForUser = cache(async (userId: User["id"]) => {
-  return await db.shortLink.findMany({
-    where: {
-      authorId: userId,
-    },
-    select: {
-      id: true,
-      title: true,
-      shortUrl: true,
-      destinationUrl: true,
-      clicks: true,
-      published: true,
-      createdAt: true,
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-  })
-})
 
 const getProjectsForUser = cache(async (userId: User["id"]) => {
   return await db.project.findMany({
@@ -58,7 +37,7 @@ const getProjectsForUser = cache(async (userId: User["id"]) => {
   })
 })
 
-async function DashboardPage() {
+async function AppPage() {
   const user = await getCurrentUser()
 
   if (!user) {
@@ -69,8 +48,8 @@ async function DashboardPage() {
 
   return (
     <DashboardShell>
-      <DashboardHeader heading="Projects" text="Create and manage projectss.">
-        <ShortLinkCreateButton />
+      <DashboardHeader heading="Projects" text="Create and manage projects.">
+        <ProjectCreateButton />
       </DashboardHeader>
       <div>
         {projects?.length ? (
@@ -87,7 +66,7 @@ async function DashboardPage() {
             <EmptyPlaceholder.Description>
               You don&apos;t have any projects yet. Start creating content.
             </EmptyPlaceholder.Description>
-            <ShortLinkCreateButton
+            <ProjectCreateButton
               className={cn(
                 buttonVariants({ variant: "outline" }),
                 "text-slate-900"
@@ -100,4 +79,4 @@ async function DashboardPage() {
   )
 }
 
-export default DashboardPage
+export default AppPage
