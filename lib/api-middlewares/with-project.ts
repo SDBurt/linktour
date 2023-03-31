@@ -16,7 +16,7 @@ export function withProject(handler: NextApiHandler) {
 
       // Check if the user has access to this post.
       const session = await getServerSession(req, res, authOptions);
-      const count = await db.link.count({
+      const count = await db.project.count({
         where: {
           id: query.projectId,
           userId: session?.user.id,
@@ -29,6 +29,7 @@ export function withProject(handler: NextApiHandler) {
 
       return handler(req, res);
     } catch (error) {
+      console.error(error);
       if (error instanceof z.ZodError) {
         return res.status(422).json(error.issues);
       }

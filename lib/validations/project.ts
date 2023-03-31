@@ -10,8 +10,8 @@ import * as z from "zod";
   updatedAt
   userId
 */
-export const projectPatchSchema = z.object({
-  name: z.string().min(3).max(128),
-  slug: z.string().min(3).max(128),
-  domain: z.string().min(3).max(128),
+export const projectCreateSchema = z.object({
+  name: z.string().min(3).max(128).trim(),
+  slug: z.string().min(3).max(128).trim(),
+  domain: z.string().min(3).max(128).trim(),
 });

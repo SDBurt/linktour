@@ -7,13 +7,7 @@ import { authOptions } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { RequiresProPlanError } from "@/lib/exceptions";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
-
-const linkCreateSchema = z.object({
-  title: z.string(),
-  domain: z.string(),
-  key: z.string(),
-  url: z.string(),
-});
+import { projectCreateSchema } from "@/lib/validations/project";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions);
@@ -26,10 +20,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === "GET") {
     try {
-      const posts = await db.link.findMany({
+      const projects = await db.project.findMany({
         select: {
           id: true,
-          title: true,
+          name: true,
+          slug: true,
+          domain: true,
           createdAt: true,
         },
         where: {
@@ -37,20 +33,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
       });
 
-      return res.json(posts);
+      return res.json(projects);
     } catch (error) {
       return res.status(500).end();
     }
   }
 
   if (req.method === "POST") {
+    console.log("POST");
     try {
       const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
       // If user is on a free plan.
-      // Check if user has reached limit of 3 posts.
+      // Check if user has reached limit of 3 projects.
       if (!subscriptionPlan?.isPro) {
-        const count = await db.link.count({
+        const count = await db.project.count({
           where: {
             userId: user.id,
           },
@@ -61,14 +58,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         }
       }
 
-      const body = linkCreateSchema.parse(req.body);
+      const body = projectCreateSchema.parse(req.body);
 
-      const post = await db.link.create({
+      const post = await db.project.create({
         data: {
-          title: body.title,
-          domain: body.domain,
-          key: body.key,
-          url: body.url,
+          ...body,
           userId: session.user.id,
         },
         select: {

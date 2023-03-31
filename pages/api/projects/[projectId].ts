@@ -4,7 +4,7 @@ import * as z from "zod";
 import { withMethods } from "@/lib/api-middlewares/with-methods";
 import { withProject } from "@/lib/api-middlewares/with-project";
 import { db } from "@/lib/db";
-import { projectPatchSchema } from "@/lib/validations/project";
+import { projectCreateSchema } from "@/lib/validations/project";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "GET") {
@@ -46,14 +46,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         throw new Error("Short project not found.");
       }
 
-      const body = projectPatchSchema.parse(req.body);
+      const body = projectCreateSchema.parse(req.body);
 
       await db.project.update({
         where: {
           id: project.id,
         },
         data: {
-          name: body.name || project.name,
+          ...body,
         },
       });
 

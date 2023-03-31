@@ -110,4 +110,5 @@ model Link {
     project Project? @relation(fields: [domain], references: [domain], onUpdate: Cascade, onDelete: Cascade)
 
     @@unique([domain, key])
+    @@index([userId])
 }

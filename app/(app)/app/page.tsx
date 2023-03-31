@@ -11,6 +11,7 @@ import { DashboardHeader } from "@/components/header"
 import { ProjectCreateButton } from "@/components/project/project-create-button"
 import { DashboardShell } from "@/components/layouts/shell"
 import { buttonVariants } from "@/components/ui/button"
+import { ProjectItem } from "@/components/project/project-item"
 
 
 export const metadata = {
@@ -53,10 +54,9 @@ async function AppPage() {
       </DashboardHeader>
       <div>
         {projects?.length ? (
-          <div className="divide-y divide-neutral-200 rounded-md border border-slate-200">
+          <div className="space-y-1">
             {projects.map((project) => (
-              <p>{project.id}</p>
-              
+             <ProjectItem key={project.id} project={{id: project.id, name: project.name, slug: project.slug, domain: project.domain}} />
             ))}
           </div>
         ) : (

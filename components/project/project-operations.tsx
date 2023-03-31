@@ -45,7 +45,7 @@ async function deletePost(linkId: string) {
 }
 
 interface ProjectOperationsProps {
-  project: Pick<Project, "id" | "name">
+  project: Pick<Project, "id" | "name" | "slug" | "domain">
 }
 
 export function ProjectOperations({ project }: ProjectOperationsProps) {

@@ -12,7 +12,6 @@ const linkCreateSchema = z.object({
   title: z.string(),
   key: z.string(),
   url: z.string(),
-  domain: z.string(),
 });
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -45,6 +44,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === "POST") {
     try {
+      console.log("POST");
       const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
       // If user is on a free plan.
@@ -65,11 +65,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const post = await db.link.create({
         data: {
-          title: body.title,
-          key: body.key,
-          url: body.url,
+          ...body,
           userId: session.user.id,
-          domain: body.domain,
+          domain: "https://dub.sh",
         },
         select: {
           id: true,
@@ -78,6 +76,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       return res.json(post);
     } catch (error) {
+      console.error(error);
       if (error instanceof z.ZodError) {
         return res.status(422).json(error.issues);
       }

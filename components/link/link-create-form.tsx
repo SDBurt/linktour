@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  link?: Pick<Link, "id" | "title" | "key" | "url" | "clicks">
+  link?: Pick<Link, "id" | "title" | "key" | "url" | "clicks" | "domain">
 }
 
 type FormData = z.infer<typeof linkPatchSchema>
@@ -51,7 +51,7 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
       body: JSON.stringify({
         title: data?.title,
         url: data.url,
-        key: data.key,
+        key: data.key
       }),
     })
 
@@ -108,7 +108,7 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
               className="w-[400px]"
               size={32}
               placeholder="ex: github"
-              {...register("url")}
+              {...register("key")}
             />
             {errors?.key && (
               <p className="px-1 text-xs text-red-600">{errors.key.message}</p>
