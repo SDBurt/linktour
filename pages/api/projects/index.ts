@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth/next";
 import * as z from "zod";
 
 import { withMethods } from "@/lib/api-middlewares/with-methods";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/lib/auth-options";
 import { db } from "@/lib/db";
 import { RequiresProPlanError } from "@/lib/exceptions";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
@@ -72,6 +72,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       return res.json(post);
     } catch (error) {
+      console.log(error);
+
       if (error instanceof z.ZodError) {
         return res.status(422).json(error.issues);
       }

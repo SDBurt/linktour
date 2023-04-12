@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  link: Pick<Link, "id" | "title" | "key" | "url" | "clicks">
+  link: Pick<Link, "id" | "domain" | "title" | "key" | "url" | "clicks">
 }
 
 type FormData = z.infer<typeof linkPatchSchema>
@@ -58,7 +58,7 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
     setIsSaving(false)
 
     if (!response?.ok) {
-      console.error(await response.json())
+      console.error(await response?.json())
       return toast({
         title: "Something went wrong.",
         description: "Your link was not updated. Please try again.",
@@ -81,7 +81,7 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
     >
       <Card>
         <Card.Header>
-          <Card.Title>Edit Short Link</Card.Title>
+          <Card.Title>Edit Link</Card.Title>
         </Card.Header>
         <Card.Content>
           <div className="grid gap-2">
@@ -91,7 +91,6 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
             </Label>
             <Input
               id="title"
-              className="w-[400px]"
               size={32}
               {...register("title")}
             />
@@ -102,12 +101,18 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
             <Label htmlFor="key">
               Key
             </Label>
-            <Input
-              id="key"
-              className="w-[400px]"
-              size={32}
-              {...register("url")}
-            />
+            <div className="flex w-full items-center">
+              <Label htmlFor="key" className=" text-slate-600 h-10 items-center font-normal rounded-l-md border border-r-0 border-slate-300 bg-slate-50 py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900">
+                {link?.domain || "undefined"}
+              </Label>
+              <Input
+                id="key"
+                className="w-full border rounded-r-md rounded-l-none"
+                size={32}
+                placeholder="Your project key"
+                {...register("key")}
+              />
+            </div>
             {errors?.key && (
               <p className="px-1 text-xs text-red-600">{errors.key.message}</p>
             )}
@@ -117,14 +122,12 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
             </Label>
             <Input
               id="url"
-              className="w-[400px]"
               size={32}
               {...register("url")}
             />
             {errors?.url && (
               <p className="px-1 text-xs text-red-600">{errors.url.message}</p>
             )}
-
           </div>
         </Card.Content>
         <Card.Footer>

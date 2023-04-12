@@ -7,7 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Icons } from "../icons"
 
 interface LinkItemProps {
-  link: Pick<Link, "id" | "title" | "createdAt" | "url" | "key" | "clicks">
+  link: Pick<Link, "id" | "title" | "domain" | "key" | "createdAt" | "url" | "clicks">
 }
 
 export function LinkItem({ link }: LinkItemProps) {
@@ -22,7 +22,7 @@ export function LinkItem({ link }: LinkItemProps) {
           </NextLink>
           <div className="flex flex-row space-x-1">
             <Icons.chainlink />
-            <p>{link.key || "unknown"}</p>
+            <p>{link.domain || "unknown"}/{link.key || "unknown"}</p>
           </div>
           <div className="flex flex-row space-x-1">
             <Icons.chainlink />
@@ -38,7 +38,7 @@ export function LinkItem({ link }: LinkItemProps) {
       
         
       </div>
-      <LinkOperations link={{id: link.id, key: link.key, url: link.url, clicks: link.clicks, title: link.title}} />
+      <LinkOperations link={{id: link.id, domain: link.domain, key: link.key, url: link.url, clicks: link.clicks, title: link.title}} />
       {/* <PostDeleteButton post={{ id: post.id, title: post.title }} /> */}
     </div>
   )

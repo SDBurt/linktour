@@ -2,7 +2,7 @@ import { cache } from "react"
 import { notFound, redirect } from "next/navigation"
 import { User, Project } from "@prisma/client"
 
-import { authOptions } from "@/lib/auth"
+import { authOptions } from "@/lib/auth-options"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/session"
 import { cn } from "@/lib/utils"

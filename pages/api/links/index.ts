@@ -1,12 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { getServerSession } from "next-auth/next";
+// import { getServerSession } from "next-auth/next";
 import * as z from "zod";
 
-import { withMethods } from "@/lib/api-middlewares/with-methods";
-import { authOptions } from "@/lib/auth";
+// import { withMethods } from "@/lib/api-middlewares/with-methods";
 import { db } from "@/lib/db";
+// import { authOptions } from "@/lib/auth-options";
 import { RequiresProPlanError } from "@/lib/exceptions";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { Session, withUserAuth } from "@/lib/auth";
 
 const linkCreateSchema = z.object({
   title: z.string(),
@@ -14,14 +15,26 @@ const linkCreateSchema = z.object({
   url: z.string(),
 });
 
-async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getServerSession(req, res, authOptions);
+// Foreign key constraint failed on the field: `domain`
+// Is there a domain called localhost created?
+const domain = "localhost:3000";
+
+async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  session: Session
+) {
+  // const session = await getServerSession(req, res, authOptions);
 
   if (!session) {
     return res.status(403).end();
   }
 
   const { user } = session;
+
+  if (!user || !user.id) {
+    return res.status(403).end();
+  }
 
   if (req.method === "GET") {
     try {
@@ -63,12 +76,16 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const body = linkCreateSchema.parse(req.body);
 
+      const payload = {
+        ...body,
+        domain: domain,
+        userId: user.id,
+      };
+
+      console.log(payload);
+
       const post = await db.link.create({
-        data: {
-          ...body,
-          userId: session.user.id,
-          domain: "https://dub.sh",
-        },
+        data: payload,
         select: {
           id: true,
         },
@@ -90,4 +107,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withMethods(["GET", "POST"], handler);
+// export default withMethods(["GET", "POST"], handler);
+export default withUserAuth(handler);

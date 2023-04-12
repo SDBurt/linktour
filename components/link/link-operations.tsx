@@ -45,7 +45,7 @@ async function deleteLink(linkId: string) {
 }
 
 interface LinkOperationsProps {
-  link: Pick<Link, "id" | "title" | "key" | "url" | "clicks">
+  link: Pick<Link, "id" | "title" | "domain" | "key" | "url" | "clicks">
 }
 
 export function LinkOperations({ link }: LinkOperationsProps) {

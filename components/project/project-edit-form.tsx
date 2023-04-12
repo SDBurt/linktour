@@ -90,7 +90,6 @@ export function ProjectEditForm({ project, className, ...props }: ProjectFormPro
             </Label>
             <Input
               id="name"
-              className="w-[400px]"
               size={32}
               {...register("name")}
             />
@@ -113,6 +112,9 @@ export function ProjectEditForm({ project, className, ...props }: ProjectFormPro
                 {...register("slug")}
               />
             </div>
+            {errors?.slug && (
+              <p className="px-1 text-xs text-red-600">{errors.slug.message}</p>
+            )}
 
             <Label htmlFor="domain">
               Domain
