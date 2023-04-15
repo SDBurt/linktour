@@ -28,8 +28,8 @@ import { Dialog, DialogContent } from "../ui/dialog"
 
 import { LinkEditForm } from '@/components/link/link-edit-form'
 
-async function deleteLink(linkId: string) {
-  const response = await fetch(`/api/links/${linkId}`, {
+async function deleteLink(key: string) {
+  const response = await fetch(`/api/links/${key}`, {
     method: "DELETE",
   })
 
@@ -96,7 +96,7 @@ export function LinkOperations({ link }: LinkOperationsProps) {
                 event.preventDefault()
                 setIsDeleteLoading(true)
 
-                const deleted = await deleteLink(link.id)
+                const deleted = await deleteLink(link.key)
 
                 if (deleted) {
                   setIsDeleteLoading(false)

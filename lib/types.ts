@@ -8,36 +8,41 @@ export interface LinkProps {
   domain: string;
   key: string;
   url: string;
-  archived: boolean;
-  expiresAt: Date | null;
-  password: string | null;
 
-  proxy: boolean;
   title: string | null;
   description: string | null;
-  image: string | null;
-
-  ios: string | null;
-  android: string | null;
 
   clicks: number;
-  userId: string;
+
+  public: boolean;
+  publicStats: boolean;
 
   createdAt: Date;
+  updatedAt: Date;
+
+  userId: string;
 }
+
+// export interface ProjectProps {
+//   id: string;
+//   name: string;
+//   slug: string;
+//   domain: string;
+//   domainVerified: boolean;
+//   logo?: string;
+//   ownerUsageLimit?: number;
+//   ownerExceededUsage?: boolean;
+//   users?: {
+//     role: string;
+//   }[];
+// }
 
 export interface ProjectProps {
   id: string;
   name: string;
   slug: string;
   domain: string;
-  domainVerified: boolean;
-  logo?: string;
-  ownerUsageLimit?: number;
-  ownerExceededUsage?: boolean;
-  users?: {
-    role: string;
-  }[];
+  userId: string;
 }
 
 export interface UsageProps {

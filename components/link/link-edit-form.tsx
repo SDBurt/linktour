@@ -43,7 +43,7 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
   async function onSubmit(data: FormData) {
     setIsSaving(true)
 
-    const response = await fetch(`/api/links/${link.id}`, {
+    const response = await fetch(`/api/links/${link.key}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

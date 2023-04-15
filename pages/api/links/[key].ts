@@ -62,14 +62,17 @@ async function handler(
       });
 
       const body = linkPatchSchema.parse(req.body);
+      const where = {
+        domain_key: {
+          domain,
+          key,
+        },
+      };
+
+      console.log(where);
 
       await db.link.update({
-        where: {
-          domain_key: {
-            domain,
-            key,
-          },
-        },
+        where: where,
         data: {
           title: body.title || link?.title,
           key: body.key,

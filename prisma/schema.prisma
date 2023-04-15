@@ -88,11 +88,11 @@ model Project {
 
 model Link {
     id     String @id @default(cuid())
-    title  String
     domain String
     key    String
     url    String @db.LongText
 
+    title       String
     description String? @db.VarChar(280)
 
     clicks      Int     @default(0)

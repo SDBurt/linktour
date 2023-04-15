@@ -12,31 +12,12 @@ import { ProjectCreateButton } from "@/components/project/project-create-button"
 import { DashboardShell } from "@/components/layouts/shell"
 import { buttonVariants } from "@/components/ui/button"
 import { ProjectItem } from "@/components/project/project-item"
+import { getProjectsForUser } from "@/lib/api/projects"
 
 
 export const metadata = {
-  title: "Dashboard",
+  title: "App",
 }
-
-const getProjectsForUser = cache(async (userId: User["id"]) => {
-  return await db.project.findMany({
-    where: {
-      userId: userId,
-    },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      domain: true,
-      verified: true,
-      links: true,
-      createdAt: true,
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-  })
-})
 
 async function AppPage() {
   const user = await getCurrentUser()

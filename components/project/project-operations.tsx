@@ -28,15 +28,15 @@ import { Dialog, DialogContent } from "../ui/dialog"
 
 import { ProjectEditForm } from "./project-edit-form"
 
-async function deletePost(linkId: string) {
-  const response = await fetch(`/api/links/${linkId}`, {
+async function deleteProject(slug: string) {
+  const response = await fetch(`/api/projects/${slug}`, {
     method: "DELETE",
   })
 
   if (!response?.ok) {
     toast({
       title: "Something went wrong.",
-      description: "Your link was not deleted. Please try again.",
+      description: "Your project was not deleted. Please try again.",
       variant: "destructive",
     })
   }
@@ -83,7 +83,7 @@ export function ProjectOperations({ project }: ProjectOperationsProps) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this link?
+              Are you sure you want to delete this project?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -96,7 +96,7 @@ export function ProjectOperations({ project }: ProjectOperationsProps) {
                 event.preventDefault()
                 setIsDeleteLoading(true)
 
-                const deleted = await deletePost(project.id)
+                const deleted = await deleteProject(project.slug)
 
                 if (deleted) {
                   setIsDeleteLoading(false)

@@ -31,7 +31,7 @@ export function LinkCreateButton({
           New Link
         </DialogTrigger>
         <DialogContent className="p-0">
-          <LinkCreateForm />
+          <LinkCreateForm/>
         </DialogContent>
       </Dialog>
     </>

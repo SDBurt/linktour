@@ -24,6 +24,7 @@ export function withProject(handler: NextApiHandler) {
       });
 
       if (count < 1) {
+        console.log("No project");
         return res.status(403).end();
       }
 
