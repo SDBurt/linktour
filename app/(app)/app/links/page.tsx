@@ -15,7 +15,7 @@ import { buttonVariants } from "@/components/ui/button"
 
 
 export const metadata = {
-  title: "Dashboard",
+  title: "Links",
 }
 
 const getLinksForUser = cache(async (userId: User["id"]) => {
@@ -38,7 +38,7 @@ const getLinksForUser = cache(async (userId: User["id"]) => {
   })
 })
 
-async function DashboardPage() {
+async function LinksPage() {
   const user = await getCurrentUser()
 
   if (!user) {
@@ -83,4 +83,4 @@ async function DashboardPage() {
   )
 }
 
-export default DashboardPage
+export default LinksPage

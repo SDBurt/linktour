@@ -9,19 +9,19 @@ import { projectCreateSchema } from "@/lib/validations/project";
 import { Session, withUserAuth } from "@/lib/auth";
 import { getLinksForProject } from "@/lib/api/links";
 import { countProjects } from "@/lib/api/projects";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
 export default withUserAuth(
-  async (req: NextApiRequest, res: NextApiResponse, session: Session) => {
-    if (!session?.user.id || !session.user.id) {
-      return res.status(401).end("Unauthorized");
-    }
+  async (req: NextApiRequest, res: NextApiResponse) => {
+    const session = await getServerSession(req, res, authOptions);
 
     // Get all Links with the default project
     if (req.method === "GET") {
       try {
         const projects = await getLinksForProject({
-          domain: "localhost:3000",
-          userId: session.user.id,
+          domain: "http://localhost:3000",
+          userId: session?.user.id,
         });
 
         return res.json(projects);

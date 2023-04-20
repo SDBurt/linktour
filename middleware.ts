@@ -4,31 +4,41 @@ import LinkMiddleware from "./lib/middleware/link";
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
 import { DEFAULT_REDIRECTS } from "./lib/constants";
 import { isReservedKey } from "./lib/utils";
+import ApiMiddleware from "./lib/middleware/api";
+import RootMiddleware from "./lib/middleware/root";
 
 // export default withAuth(
 // async function middleware(req: NextRequest, ev: NextFetchEvent) {
 export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  const { domain, path, linkId } = parse(req);
-  const home = domain === "dub.sh";
+  const { domain, path, key } = parse(req);
+  const home = domain === "localhost:3000";
 
-  // for App (app.dub.sh and app.localhost:3000)
-  if (domain === "app.dub.sh" || domain === "app.localhost:3000") {
+  if (domain === "app.localhost:3000") {
     return AppMiddleware(req);
   }
 
+  if (domain === "api.localhost:3000") {
+    return ApiMiddleware(req);
+  }
+
+  if (path.startsWith("/stats/")) {
+    return NextResponse.next();
+  }
+
+  if (key.length === 0) {
+    return RootMiddleware(req, ev);
+  }
+
   if (home) {
-    if (DEFAULT_REDIRECTS[linkId]) {
-      return NextResponse.redirect(DEFAULT_REDIRECTS[linkId]);
+    if (DEFAULT_REDIRECTS[key]) {
+      return NextResponse.redirect(DEFAULT_REDIRECTS[key]);
     }
     // TODO: Reserved
   }
 
+  console.log("LINK MIDDLEWARE");
   return LinkMiddleware(req, ev);
 }
-
-// export const config = {
-//   matcher: ["/dashboard/:path*", "/login", "/register"],
-// };
 
 export const config = {
   matcher: [

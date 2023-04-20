@@ -15,7 +15,7 @@ export function LinkItem({ link }: LinkItemProps) {
     <div className="flex items-center justify-between p-4">
       <div className="flex justify-between w-full px-2 items-center">
           <NextLink
-            href={link.key}
+            href={`links/${link.key}`}
             className="font-semibold hover:underline"
           >
             {link.title}

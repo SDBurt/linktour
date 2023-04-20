@@ -1,64 +1,84 @@
 import { getServerSession } from "next-auth";
 
-import { NextApiRequest, NextApiResponse } from "next";
-import { UserProps, ProjectProps } from "@/lib/types";
+import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
+import { ProjectProps } from "@/lib/types";
 import { authOptions } from "./auth-options";
 import { db } from "@/lib/db";
+import * as z from "zod";
 
-export interface Session {
-  user: {
-    email?: string | null;
-    id?: string | null;
-    name?: string | null;
-  };
-}
+export function withUserAuth(handler: NextApiHandler) {
+  return async function (req: NextApiRequest, res: NextApiResponse) {
+    console.log("withUserAuth");
 
-interface WithUserNextApiHandler {
-  (
-    req: NextApiRequest,
-    res: NextApiResponse,
-    session: Session,
-    user?: UserProps
-  ): Promise<void | NextApiResponse<any>>;
-}
+    const session = await getServerSession(req, res, authOptions);
 
-interface WithProjectNextApiHandler {
-  (
-    req: NextApiRequest,
-    res: NextApiResponse,
-    project?: ProjectProps,
-    session?: Session,
-    user?: UserProps
-  ): Promise<void | NextApiResponse<any>>;
-}
-
-export const withUserAuth =
-  (handler: WithUserNextApiHandler) =>
-  async (req: NextApiRequest, res: NextApiResponse) => {
-    const session = (await getServerSession(req, res, authOptions)) as Session;
-
-    console.log("HERE");
-
-    if (!session?.user.id || !session.user.id) {
-      return res.status(401).end("Unauthorized");
+    console.log("SESSION: ", session);
+    if (!session) {
+      console.log("No Session");
+      return res.status(403).end();
     }
 
-    return handler(req, res, session);
+    return handler(req, res);
   };
-export function withProjectAuth(handler: WithProjectNextApiHandler) {
+}
+
+export const linkSchema = z.object({
+  key: z.string(),
+});
+
+export function withLinkAuth(handler: NextApiHandler) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
     try {
+      console.log("withLinkAuth");
+      const query = await linkSchema.parse(req.query);
+
       const session = await getServerSession(req, res, authOptions);
 
       if (!session?.user.id) {
-        return res.status(401).end("Unauthorized");
+        return res.status(403).end();
       }
 
-      const { slug } = req.query;
+      const count = await db.link.count({
+        where: {
+          userId: session.user.id,
+          key: query.key,
+        },
+      });
+
+      if (count < 1) {
+        return res.status(403).end();
+      }
+
+      return handler(req, res);
+    } catch (err) {
+      console.error(err);
+      if (err instanceof z.ZodError) {
+        return res.status(422).json(err.issues);
+      }
+
+      return res.status(500).end();
+    }
+  };
+}
+
+export const projectSchema = z.object({
+  slug: z.string(),
+});
+
+export function withProjectAuth(handler: NextApiHandler) {
+  return async function (req: NextApiRequest, res: NextApiResponse) {
+    try {
+      const query = await projectSchema.parse(req.query);
+
+      const session = await getServerSession(req, res, authOptions);
+
+      if (!session?.user.id) {
+        return res.status(403).end();
+      }
 
       const project = (await db.project.findUnique({
         where: {
-          slug: slug as string,
+          slug: query.slug,
         },
         select: {
           id: true,
@@ -69,8 +89,16 @@ export function withProjectAuth(handler: WithProjectNextApiHandler) {
         },
       })) as ProjectProps;
 
-      return handler(req, res, project, session);
+      if (project.userId !== session?.user.id) {
+        return res.status(403).end();
+      }
+
+      return handler(req, res);
     } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(422).json(err.issues);
+      }
+
       return res.status(500).end();
     }
   };

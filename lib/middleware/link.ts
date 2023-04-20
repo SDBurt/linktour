@@ -12,29 +12,35 @@ export default async function LinkMiddleware(
   ev: NextFetchEvent
 ) {
   const url = req.nextUrl.clone();
-  const { domain, linkId } = parse(req);
+  const { domain, key } = parse(req);
 
-  console.log("domain: ", domain, "linkId: ", linkId);
+  console.log("domain: ", domain, "key: ", key);
 
-  if (!domain || !linkId) {
+  if (!domain || !key) {
     return NextResponse.next();
   }
-  const addr = process.env.NEXT_PUBLIC_APP_URL + `/api/links/${linkId}`;
-  console.log(addr);
-  const response = await fetch(addr);
+  const addr = process.env.NEXT_PUBLIC_APP_URL + `/api/redirect/${key}`;
 
-  const data = await response.json();
-  console.log(data);
+  let data = null;
+  try {
+    console.info(addr);
+    const response = await fetch(addr);
+    data = await response.json();
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+
   if (!data) {
     console.error("No Response");
     return NextResponse.redirect(url, REDIRECT_HEADERS);
   }
 
-  const { destinationUrl } = data;
+  const { url: redirectUrl } = data;
 
-  if (destinationUrl) {
-    console.error("Redirecting to ", destinationUrl);
-    return NextResponse.redirect(destinationUrl, REDIRECT_HEADERS);
+  if (redirectUrl) {
+    console.error("Redirecting to ", redirectUrl);
+    return NextResponse.redirect(redirectUrl, REDIRECT_HEADERS);
   }
 
   url.pathname = "/";

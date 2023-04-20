@@ -2,12 +2,14 @@ import { NextApiRequest, NextApiResponse } from "next";
 // import { getServerSession } from "next-auth/next";
 import * as z from "zod";
 
-// import { withMethods } from "@/lib/api-middlewares/with-methods";
+import { withMethods } from "@/lib/api-middlewares/with-methods";
 import { db } from "@/lib/db";
-// import { authOptions } from "@/lib/auth-options";
+
 import { RequiresProPlanError } from "@/lib/exceptions";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
-import { Session, withUserAuth } from "@/lib/auth";
+import { withUserAuth } from "@/lib/auth";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
 const linkCreateSchema = z.object({
   title: z.string(),
@@ -17,24 +19,12 @@ const linkCreateSchema = z.object({
 
 // Foreign key constraint failed on the field: `domain`
 // Is there a domain called localhost created?
-const domain = "localhost:3000";
+const domain = "http://localhost:3000";
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  session: Session
-) {
-  // const session = await getServerSession(req, res, authOptions);
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const session = await getServerSession(req, res, authOptions);
 
-  if (!session) {
-    return res.status(403).end();
-  }
-
-  const { user } = session;
-
-  if (!user || !user.id) {
-    return res.status(403).end();
-  }
+  const userId = session?.user.id as string;
 
   if (req.method === "GET") {
     try {
@@ -45,7 +35,7 @@ async function handler(
           createdAt: true,
         },
         where: {
-          userId: user.id,
+          userId: userId,
         },
       });
 
@@ -58,14 +48,14 @@ async function handler(
   if (req.method === "POST") {
     try {
       console.log("POST");
-      const subscriptionPlan = await getUserSubscriptionPlan(user.id);
+      const subscriptionPlan = await getUserSubscriptionPlan(userId);
 
       // If user is on a free plan.
       // Check if user has reached limit of 3 posts.
       if (!subscriptionPlan?.isPro) {
         const count = await db.link.count({
           where: {
-            userId: user.id,
+            userId: userId,
           },
         });
 
@@ -79,7 +69,7 @@ async function handler(
       const payload = {
         ...body,
         domain: domain,
-        userId: user.id,
+        userId: userId,
       };
 
       console.log(payload);
@@ -107,5 +97,4 @@ async function handler(
   }
 }
 
-// export default withMethods(["GET", "POST"], handler);
-export default withUserAuth(handler);
+export default withMethods(["GET", "POST"], withUserAuth(handler));

@@ -6,10 +6,10 @@ export const parse = (req: NextRequest) => {
 
   if (domain) {
     domain = domain.replace("www.", ""); // remove www. from domain
-    if (HOME_HOSTNAMES.has(domain)) domain = "dub.sh";
+    if (HOME_HOSTNAMES.has(domain)) domain = "http://localhost:3000";
   }
 
   const path = req.nextUrl.pathname;
-  const linkId = decodeURIComponent(path.split("/")[1]); // to handle foreign languages like Hebrew
-  return { domain, path, linkId };
+  const key = decodeURIComponent(path.split("/")[1]); // to handle foreign languages like Hebrew
+  return { domain, path, key };
 };

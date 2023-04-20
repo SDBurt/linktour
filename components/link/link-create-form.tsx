@@ -16,6 +16,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import useProject from "@/hooks/use-project"
 
 interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
   link?: Pick<Link, "id" | "title" | "key" | "url" | "clicks" | "domain">
@@ -24,8 +25,12 @@ interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
 
 type FormData = z.infer<typeof linkPatchSchema>
 
-export function LinkCreateForm({ link, domain, className, ...props }: linkFormProps) {
+export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
   const router = useRouter()
+
+  const { project: { domain } = {} } = useProject();
+
+  console.log(domain)
 
   const {
     handleSubmit,
@@ -106,7 +111,7 @@ export function LinkCreateForm({ link, domain, className, ...props }: linkFormPr
             </Label>
             <div className="flex w-full items-center">
               <Label htmlFor="key" className=" text-slate-600 h-10 items-center font-normal rounded-l-md border border-r-0 border-slate-300 bg-slate-50 py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900">
-                {link?.domain || domain || "undefined"}
+                {link?.domain || domain || "localhost:3000"}
               </Label>
               <Input
                 id="key"

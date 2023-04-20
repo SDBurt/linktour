@@ -55,24 +55,20 @@ export const FADE_IN_ANIMATION_SETTINGS = {
 
 export const HOME_HOSTNAMES = new Set([
   // comment for better diffs
-  "dub.sh",
-  "preview.dub.sh",
   "localhost:3000",
 ]);
 
 export const DEFAULT_REDIRECTS = {
-  home: "https://dub.sh",
-  signin: "https://app.dub.sh/login",
-  login: "https://app.dub.sh/login",
-  register: "https://app.dub.sh/register",
-  signup: "https://app.dub.sh/register",
-  app: "https://app.dub.sh",
-  dashboard: "https://app.dub.sh",
-  links: "https://app.dub.sh/links",
-  settings: "https://app.dub.sh/settings",
-  welcome: "https://app.dub.sh/welcome",
-  slack: "https://dub.slack.com",
-  discord: "https://twitter.com/dubdotsh", // placeholder for now
+  home: "localhost:3000",
+  signin: "app.localhost:3000/login",
+  login: "app.localhost:3000/login",
+  register: "app.localhost:3000/register",
+  signup: "app.localhost:3000/register",
+  app: "app.localhost:3000",
+  dashboard: "app.localhost:3000",
+  links: "app.localhost:3000/links",
+  settings: "app.localhost:3000/settings",
+  welcome: "app.localhost:3000/welcome",
 };
 
 export const REDIRECT_HEADERS = {

@@ -3,28 +3,20 @@ import * as z from "zod";
 
 import { db } from "@/lib/db";
 import { linkPatchSchema } from "@/lib/validations/link";
-import { Session, withUserAuth } from "@/lib/auth";
+import { withUserAuth, linkSchema } from "@/lib/auth";
 
 const domain = "localhost:3000";
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  session: Session
-) {
-  const key = req.query.key as string;
-
-  if (!key) {
-    throw new Error("Link not found.");
-  }
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { key } = await linkSchema.parse(req.query);
 
   if (req.method === "GET") {
     try {
       const link = await db.link.findUnique({
         where: {
           domain_key: {
-            key,
             domain,
+            key,
           },
         },
       });

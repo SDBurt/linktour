@@ -5,7 +5,7 @@ import GitHubProvider from "next-auth/providers/github";
 import { db } from "@/lib/db";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(db as any),
+  adapter: PrismaAdapter(db),
   session: {
     strategy: "jwt",
   },
