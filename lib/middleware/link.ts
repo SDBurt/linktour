@@ -21,18 +21,12 @@ export default async function LinkMiddleware(
   }
   const addr = process.env.NEXT_PUBLIC_APP_URL + `/api/redirect/${key}`;
 
-  let data = null;
-  try {
-    console.info(addr);
-    const response = await fetch(addr);
-    data = await response.json();
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
+  const response = await fetch(addr);
+  const data = await response.json();
 
   if (!data) {
     console.error("No Response");
+    url.pathname = "/";
     return NextResponse.redirect(url, REDIRECT_HEADERS);
   }
 
