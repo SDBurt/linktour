@@ -43,6 +43,7 @@ export interface ProjectProps {
   slug: string;
   domain: string;
   userId: string;
+  links?: { id: string }[];
 }
 
 export interface UsageProps {

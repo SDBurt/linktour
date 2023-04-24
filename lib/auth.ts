@@ -29,7 +29,6 @@ export const linkSchema = z.object({
 export function withLinkAuth(handler: NextApiHandler) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
     try {
-      console.log("withLinkAuth");
       const query = await linkSchema.parse(req.query);
 
       const session = await getServerSession(req, res, authOptions);
@@ -76,20 +75,14 @@ export function withProjectAuth(handler: NextApiHandler) {
         return res.status(403).end();
       }
 
-      const project = (await db.project.findUnique({
+      const count = await db.project.count({
         where: {
+          userId: session?.user.id,
           slug: query.slug,
         },
-        select: {
-          id: true,
-          userId: true,
-          name: true,
-          slug: true,
-          domain: true,
-        },
-      })) as ProjectProps;
+      });
 
-      if (project.userId !== session?.user.id) {
+      if (count < 1) {
         return res.status(403).end();
       }
 

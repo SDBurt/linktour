@@ -1,22 +1,23 @@
-import { notFound } from "next/navigation"
+import { notFound } from "next/navigation";
 
-import { dashboardConfig } from "@/config/dashboard"
-import { getCurrentUser } from "@/lib/session"
-import { MainNav } from "@/components/nav/main-nav"
-import { DashboardNav } from "@/components/nav/nav"
-import { UserAccountNav } from "@/components/nav/user-account-nav"
+import { dashboardConfig } from "@/config/dashboard";
+import { MainNav } from "@/components/nav/main-nav";
+import { DashboardNav } from "@/components/nav/nav";
+import { UserAccountNav } from "@/components/nav/user-account-nav";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth-options";
 
 interface DashboardLayoutProps {
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 export default async function DashboardLayout({
   children,
 }: DashboardLayoutProps) {
-  const user = await getCurrentUser()
+  const session = await getServerSession(authOptions);
 
-  if (!user) {
-    return notFound()
+  if (!session?.user) {
+    return notFound();
   }
 
   return (
@@ -26,9 +27,9 @@ export default async function DashboardLayout({
           <MainNav items={dashboardConfig.mainNav} />
           <UserAccountNav
             user={{
-              name: user.name,
-              image: user.image,
-              email: user.email,
+              name: session.user.name,
+              image: session.user.image,
+              email: session.user.email,
             }}
           />
         </div>
@@ -42,5 +43,5 @@ export default async function DashboardLayout({
         </main>
       </div>
     </div>
-  )
+  );
 }

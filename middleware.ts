@@ -6,6 +6,7 @@ import { DEFAULT_REDIRECTS } from "./lib/constants";
 import { isReservedKey } from "./lib/utils";
 import ApiMiddleware from "./lib/middleware/api";
 import RootMiddleware from "./lib/middleware/root";
+import BioMiddleware from "./lib/middleware/bio";
 
 // export default withAuth(
 // async function middleware(req: NextRequest, ev: NextFetchEvent) {
@@ -19,6 +20,10 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
 
   if (domain === "api.localhost:3000") {
     return ApiMiddleware(req);
+  }
+
+  if (domain === "bio.localhost:3000") {
+    return BioMiddleware(req);
   }
 
   if (path.startsWith("/stats/")) {
@@ -36,7 +41,6 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
     // TODO: Reserved
   }
 
-  console.log("LINK MIDDLEWARE");
   return LinkMiddleware(req, ev);
 }
 

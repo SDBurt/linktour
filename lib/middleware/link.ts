@@ -14,8 +14,6 @@ export default async function LinkMiddleware(
   const url = req.nextUrl.clone();
   const { domain, key } = parse(req);
 
-  console.log("domain: ", domain, "key: ", key);
-
   if (!domain || !key) {
     return NextResponse.next();
   }
@@ -25,7 +23,6 @@ export default async function LinkMiddleware(
   const data = await response.json();
 
   if (!data) {
-    console.error("No Response");
     url.pathname = "/";
     return NextResponse.redirect(url, REDIRECT_HEADERS);
   }
@@ -33,7 +30,6 @@ export default async function LinkMiddleware(
   const { url: redirectUrl } = data;
 
   if (redirectUrl) {
-    console.error("Redirecting to ", redirectUrl);
     return NextResponse.redirect(redirectUrl, REDIRECT_HEADERS);
   }
 

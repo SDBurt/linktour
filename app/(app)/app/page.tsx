@@ -1,32 +1,28 @@
-import { cache } from "react"
-import { redirect } from "next/navigation"
-import { User } from "@prisma/client"
+import { redirect } from "next/navigation";
 
-import { authOptions } from "@/lib/auth-options"
-import { db } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
-import { cn } from "@/lib/utils"
-import { EmptyPlaceholder } from "@/components/empty-placeholder"
-import { DashboardHeader } from "@/components/header"
-import { ProjectCreateButton } from "@/components/project/project-create-button"
-import { DashboardShell } from "@/components/layouts/shell"
-import { buttonVariants } from "@/components/ui/button"
-import { ProjectItem } from "@/components/project/project-item"
-import { getProjectsForUser } from "@/lib/api/projects"
-
+import { authOptions } from "@/lib/auth-options";
+import { cn } from "@/lib/utils";
+import { EmptyPlaceholder } from "@/components/empty-placeholder";
+import { DashboardHeader } from "@/components/header";
+import { ProjectCreateButton } from "@/components/project/project-create-button";
+import { DashboardShell } from "@/components/layouts/shell";
+import { buttonVariants } from "@/components/ui/button";
+import { ProjectItem } from "@/components/project/project-item";
+import { getProjectsForUser } from "@/lib/api/projects";
+import { getServerSession } from "next-auth";
 
 export const metadata = {
   title: "App",
-}
+};
 
 async function AppPage() {
-  const user = await getCurrentUser()
+  const session = await getServerSession(authOptions);
 
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+  if (!session?.user) {
+    redirect(authOptions?.pages?.signIn || "/login");
   }
 
-  const projects = await getProjectsForUser(user.id)
+  const projects = await getProjectsForUser(session.user.id);
 
   return (
     <DashboardShell>
@@ -37,7 +33,15 @@ async function AppPage() {
         {projects?.length ? (
           <div className="space-y-1">
             {projects.map((project) => (
-             <ProjectItem key={project.id} project={{id: project.id, name: project.name, slug: project.slug, domain: project.domain}} />
+              <ProjectItem
+                key={project.id}
+                project={{
+                  id: project.id,
+                  name: project.name,
+                  slug: project.slug,
+                  domain: project.domain,
+                }}
+              />
             ))}
           </div>
         ) : (
@@ -57,7 +61,7 @@ async function AppPage() {
         )}
       </div>
     </DashboardShell>
-  )
+  );
 }
 
-export default AppPage
+export default AppPage;

@@ -22,11 +22,12 @@ import {
   Twitter,
   User,
   X,
+  Share,
   type Icon as LucideIcon,
   BarChart,
-} from "lucide-react"
+} from "lucide-react";
 
-export type Icon = LucideIcon
+export type Icon = LucideIcon;
 
 export const Icons = {
   logo: Command,
@@ -50,6 +51,7 @@ export const Icons = {
   chainlink: Link,
   external: ExternalLink,
   bars: BarChart,
+  share: Share,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
@@ -69,4 +71,4 @@ export const Icons = {
   ),
   twitter: Twitter,
   check: Check,
-}
+};

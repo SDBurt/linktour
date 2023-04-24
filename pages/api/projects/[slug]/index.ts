@@ -5,13 +5,8 @@ import { withMethods } from "@/lib/api-middlewares/with-methods";
 import { db } from "@/lib/db";
 import { projectEditSchema } from "@/lib/validations/project";
 import { withProjectAuth } from "@/lib/auth";
-import { ProjectProps } from "@/lib/types";
 
-async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  project: ProjectProps
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { slug } = req.query;
 
   if (!slug || typeof slug !== "string") {
@@ -21,7 +16,25 @@ async function handler(
   }
 
   if (req.method === "GET") {
-    return res.status(200).json(project);
+    try {
+      const project = await db.project.findUnique({
+        where: {
+          slug,
+        },
+        select: {
+          id: true,
+          domain: true,
+          name: true,
+          slug: true,
+          userId: true,
+        },
+      });
+
+      return res.status(200).json(project);
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   } else if (req.method === "DELETE") {
     try {
       await db.project.delete({
