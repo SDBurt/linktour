@@ -4,12 +4,14 @@ import { Link } from "@prisma/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface BioLinkItemProps {
-  link: Pick<Link, "title" | "url">;
+  link: Pick<Link, "title" | "url" | "slug" | "key">;
 }
 
 export function BioLinkItem({ link }: BioLinkItemProps) {
+  console.log(link.slug, link.key);
+
   return (
-    <NextLink href={link.url} className="font-semibold hover:underline">
+    <NextLink href={"#"} className="font-semibold hover:underline">
       <div className="flex items-center justify-between p-4">
         <div className="flex justify-center w-full px-2 items-center">
           {link.title}

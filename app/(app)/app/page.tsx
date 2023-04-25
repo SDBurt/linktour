@@ -17,7 +17,7 @@ export const metadata = {
 
 async function AppPage() {
   const session = await getServerSession(authOptions);
-
+  console.log(session);
   if (!session?.user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
@@ -39,7 +39,6 @@ async function AppPage() {
                   id: project.id,
                   name: project.name,
                   slug: project.slug,
-                  domain: project.domain,
                 }}
               />
             ))}

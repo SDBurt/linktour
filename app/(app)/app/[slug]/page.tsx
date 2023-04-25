@@ -23,7 +23,6 @@ const getUserProjects = cache(async (userId: User["id"]) => {
       id: true,
       name: true,
       slug: true,
-      domain: true,
       links: true,
     },
   });
@@ -39,7 +38,6 @@ const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
       id: true,
       name: true,
       slug: true,
-      domain: true,
       links: true,
     },
   });

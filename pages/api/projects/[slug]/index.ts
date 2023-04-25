@@ -23,7 +23,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
         select: {
           id: true,
-          domain: true,
           name: true,
           slug: true,
           userId: true,

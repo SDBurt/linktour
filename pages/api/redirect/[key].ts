@@ -1,21 +1,17 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import * as z from "zod";
 
 import { db } from "@/lib/db";
-import { linkPatchSchema } from "@/lib/validations/link";
-import { withUserAuth, linkSchema } from "@/lib/auth";
-
-const domain = "localhost:3000";
+import { linkSchema } from "@/lib/auth";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { key } = await linkSchema.parse(req.query);
+  const { slug, key } = await linkSchema.parse(req.query);
 
   if (req.method === "GET") {
     try {
       const link = await db.link.findUnique({
         where: {
-          domain_key: {
-            domain,
+          slug_key: {
+            slug,
             key,
           },
         },

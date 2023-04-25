@@ -60,10 +60,10 @@ export const HOME_HOSTNAMES = new Set([
 
 export const DEFAULT_REDIRECTS = {
   home: "localhost:3000",
-  signin: "app.localhost:3000/login",
-  login: "app.localhost:3000/login",
-  register: "app.localhost:3000/register",
-  signup: "app.localhost:3000/register",
+  signin: "localhost:3000/login",
+  login: "localhost:3000/login",
+  register: "localhost:3000/register",
+  signup: "localhost:3000/register",
   app: "app.localhost:3000",
   dashboard: "app.localhost:3000",
   links: "app.localhost:3000/links",

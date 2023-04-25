@@ -74,7 +74,6 @@ model Project {
     id       String  @id @default(cuid())
     name     String
     slug     String  @unique
-    domain   String  @unique
     verified Boolean @default(false)
 
     createdAt DateTime @default(now())
@@ -87,10 +86,11 @@ model Project {
 }
 
 model Link {
-    id     String @id @default(cuid())
-    domain String
-    key    String
-    url    String @db.LongText
+    id String @id @default(cuid())
+
+    slug String
+    key  String
+    url  String @db.LongText
 
     title       String
     description String? @db.VarChar(280)
@@ -107,8 +107,8 @@ model Link {
     user   User   @relation(fields: [userId], references: [id])
 
     // project
-    project Project? @relation(fields: [domain], references: [domain], onUpdate: Cascade, onDelete: Cascade)
+    project Project? @relation(fields: [slug], references: [slug], onUpdate: Cascade, onDelete: Cascade)
 
-    @@unique([domain, key])
+    @@unique([slug, key])
     @@index([userId])
 }

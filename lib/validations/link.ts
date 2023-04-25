@@ -3,7 +3,6 @@ import * as z from "zod";
 /*
   id
   title
-  domain
   key
   url
   description

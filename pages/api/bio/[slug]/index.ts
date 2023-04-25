@@ -15,7 +15,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   if (req.method === "GET") {
-    const project = (await db.project.findUnique({
+    const project = await db.project.findUnique({
       where: {
         slug,
       },
@@ -24,10 +24,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         userId: true,
         name: true,
         slug: true,
-        domain: true,
         links: true,
       },
-    })) as ProjectProps;
+    });
 
     return res.status(200).json(project);
   }

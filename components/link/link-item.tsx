@@ -7,10 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Icons } from "../icons";
 
 interface LinkItemProps {
-  link: Pick<
-    Link,
-    "id" | "title" | "domain" | "key" | "createdAt" | "url" | "clicks"
-  >;
+  link: Pick<Link, "id" | "title" | "key" | "createdAt" | "url" | "clicks">;
   slug: string;
 }
 
@@ -26,14 +23,23 @@ export function LinkItem({ slug, link }: LinkItemProps) {
         </NextLink>
         <div className="flex flex-row space-x-1">
           <Icons.chainlink />
-          <p>{link.url || "unknown"}</p>
+          <p>{link.url}</p>
         </div>
         <div className="flex flex-row space-x-3">
-          <div className="flex flex-row space-x-1">
-            <Icons.share />
-            <p>
-              {link.domain || "unknown"}/{link.key || "unknown"}
-            </p>
+          <div>
+            {link.domain && link.key ? (
+              <NextLink
+                className="flex flex-row space-x-1"
+                href={`http://${link.domain}/${link.key}`}
+              >
+                <Icons.share />
+                {link.domain}/{link.key}
+              </NextLink>
+            ) : (
+              <p className="flex flex-row space-x-1">
+                <Icons.share /> {link.domain}/{link.key}
+              </p>
+            )}
           </div>
 
           <div className="flex flex-row space-x-1">

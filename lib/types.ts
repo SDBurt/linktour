@@ -5,7 +5,7 @@ export interface SimpleLinkProps {
 
 export interface LinkProps {
   id?: string;
-  domain: string;
+  slug: string;
   key: string;
   url: string;
 
@@ -41,7 +41,6 @@ export interface ProjectProps {
   id: string;
   name: string;
   slug: string;
-  domain: string;
   userId: string;
   links?: { id: string }[];
 }

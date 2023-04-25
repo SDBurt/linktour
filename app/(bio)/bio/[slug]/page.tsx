@@ -1,8 +1,7 @@
 import { BioLinkItem } from "@/components/bio/link/bio-link-item";
 import { EmptyPlaceholder } from "@/components/empty-placeholder";
 import { db } from "@/lib/db";
-import { ProjectProps } from "@/lib/types";
-import { Project } from "@prisma/client";
+import { Link, Project } from "@prisma/client";
 import { notFound } from "next/navigation";
 import { cache } from "react";
 
@@ -41,7 +40,7 @@ export default async function BioPage({ params }) {
       <div className="flex flex-col items-center justify-center">
         {links?.length ? (
           <div className="divide-y divide-neutral-200 rounded-md border border-slate-200 w-full max-w-lg">
-            {links.map((link) => (
+            {links.map((link: Link) => (
               <BioLinkItem key={link.id} link={link} />
             ))}
           </div>

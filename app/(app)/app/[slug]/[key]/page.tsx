@@ -1,37 +1,30 @@
 import { cache } from "react";
 import { notFound, redirect } from "next/navigation";
-import { User, Link, Project } from "@prisma/client";
+import { Link, Project } from "@prisma/client";
 
 import { authOptions } from "@/lib/auth-options";
 import { db } from "@/lib/db";
-import { cn } from "@/lib/utils";
 import { DashboardHeader } from "@/components/header";
-import { LinkCreateButton } from "@/components/link/link-create-button";
 import { DashboardShell } from "@/components/layouts/shell";
-import { buttonVariants } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
 import Chart from "@/components/app/chart";
-import { ProjectProps } from "@/lib/types";
 
-const getLinkDetails = cache(
-  async (domain: Link["domain"], key: Link["key"]) => {
-    return await db.link.findUnique({
-      where: {
-        domain_key: {
-          domain,
-          key,
-        },
+const getLinkDetails = cache(async (slug: Link["slug"], key: Link["key"]) => {
+  return await db.link.findUnique({
+    where: {
+      slug_key: {
+        slug,
+        key,
       },
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        domain: true,
-        clicks: true,
-      },
-    });
-  }
-);
+    },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      clicks: true,
+    },
+  });
+});
 
 const getProject = cache(async (userId: string, slug: Project["slug"]) => {
   const project = await db.project.findUnique({
@@ -40,7 +33,6 @@ const getProject = cache(async (userId: string, slug: Project["slug"]) => {
     },
     select: {
       id: true,
-      domain: true,
       name: true,
       slug: true,
       userId: true,
@@ -54,7 +46,7 @@ const getProject = cache(async (userId: string, slug: Project["slug"]) => {
   return null;
 });
 
-const data = [
+const testdata = JSON.stringify([
   { start: "2023-04-23T17:00:00.000Z", clicks: 0 },
   { start: "2023-04-23T18:00:00.000Z", clicks: 0 },
   { start: "2023-04-23T19:00:00.000Z", clicks: 0 },
@@ -79,7 +71,7 @@ const data = [
   { start: "2023-04-24T14:00:00.000Z", clicks: 0 },
   { start: "2023-04-24T15:00:00.000Z", clicks: 0 },
   { start: "2023-04-24T16:00:00.000Z", clicks: 1 },
-];
+]);
 
 async function LinkPage({ params }) {
   const session = await getServerSession(authOptions);
@@ -100,9 +92,9 @@ async function LinkPage({ params }) {
     notFound();
   }
 
-  const { domain } = project;
+  const link = await getLinkDetails(slug, key);
 
-  const link = await getLinkDetails(domain, key);
+  const data = JSON.parse(testdata);
 
   return (
     <DashboardShell>

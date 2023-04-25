@@ -1,15 +1,12 @@
-import { getServerSession } from "next-auth";
+import { getServerSession, Session } from "next-auth";
 
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
-import { ProjectProps } from "@/lib/types";
 import { authOptions } from "./auth-options";
 import { db } from "@/lib/db";
 import * as z from "zod";
 
-export function withUserAuth(handler: NextApiHandler) {
+export function withUserAuth(handler) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
-    console.log("withUserAuth");
-
     const session = await getServerSession(req, res, authOptions);
 
     console.log("SESSION: ", session);
@@ -18,11 +15,12 @@ export function withUserAuth(handler: NextApiHandler) {
       return res.status(403).end();
     }
 
-    return handler(req, res);
+    return handler(req, res, session);
   };
 }
 
 export const linkSchema = z.object({
+  slug: z.string(),
   key: z.string(),
 });
 

@@ -4,9 +4,9 @@ import { REDIRECT_HEADERS } from "@/lib/constants";
 
 export default async function BioMiddleware(req: NextRequest) {
   const url = req.nextUrl.clone();
-  const { domain, path, key } = parse(req);
+  const { path, key } = parse(req);
 
-  if (!domain || !key) {
+  if (!key) {
     return NextResponse.rewrite(new URL(`/bio${path}`, req.url));
   }
 

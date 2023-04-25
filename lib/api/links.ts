@@ -21,15 +21,14 @@ export const getLinksForUser = async (userId: string) => {
  * Get All Links for project
  */
 export async function getLinksForProject({
-  domain,
   userId,
 }: {
-  domain: string;
+  slug: string;
   userId?: string;
 }): Promise<LinkProps[]> {
   return await db.link.findMany({
     where: {
-      domain,
+      slug,
       ...(userId && { userId }),
     },
     orderBy: {

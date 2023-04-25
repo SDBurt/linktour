@@ -17,18 +17,18 @@ const linkCreateSchema = z.object({
   url: z.string(),
 });
 
-// Foreign key constraint failed on the field: `domain`
-// Is there a domain called localhost created?
-const domain = "http://localhost:3000";
+export const linksSchema = z.object({
+  slug: z.string(),
+});
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions);
-
+  const { slug } = linksSchema.parse(req.query);
   const userId = session?.user.id as string;
 
   if (req.method === "GET") {
     try {
-      const posts = await db.link.findMany({
+      const links = await db.link.findMany({
         select: {
           id: true,
           title: true,
@@ -36,10 +36,11 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         },
         where: {
           userId: userId,
+          slug: slug,
         },
       });
 
-      return res.json(posts);
+      return res.json(links);
     } catch (error) {
       return res.status(500).end();
     }
@@ -68,20 +69,20 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       const payload = {
         ...body,
-        domain: domain,
+        slug: slug,
         userId: userId,
       };
 
       console.log(payload);
 
-      const post = await db.link.create({
+      const link = await db.link.create({
         data: payload,
         select: {
           id: true,
         },
       });
 
-      return res.json(post);
+      return res.json(link);
     } catch (error) {
       console.error(error);
       if (error instanceof z.ZodError) {

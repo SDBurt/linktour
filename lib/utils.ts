@@ -13,6 +13,34 @@ export const edgeConfig = createClient(
   `https://edge-config.vercel.com/ecfg_eh6zdvznm70adch6q0mqxshrt4ny?token=64aef40c-ea06-4aeb-b528-b94d924ec05a`
 );
 
+export function capitalize(str: string) {
+  if (!str || typeof str !== "string") return str;
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export const isValidUrl = (url: string) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export const getDomainWithoutWWW = (url: string | null) => {
+  if (!url) return null;
+  if (isValidUrl(url)) {
+    return new URL(url).hostname.replace(/^www\./, "");
+  }
+  try {
+    if (url.includes(".") && !url.includes(" ")) {
+      return new URL(`https://${url}`).hostname.replace(/^www\./, "");
+    }
+  } catch (e) {
+    return null;
+  }
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }

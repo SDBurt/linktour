@@ -15,14 +15,17 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const home = domain === "localhost:3000";
 
   if (domain === "app.localhost:3000") {
+    console.log("is app");
     return AppMiddleware(req);
   }
 
   if (domain === "api.localhost:3000") {
+    console.log("is api");
     return ApiMiddleware(req);
   }
 
   if (domain === "bio.localhost:3000") {
+    console.log("is bio");
     return BioMiddleware(req);
   }
 
@@ -31,11 +34,14 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   }
 
   if (key.length === 0) {
+    console.log("is root");
     return RootMiddleware(req, ev);
   }
 
   if (home) {
+    console.log("is home");
     if (DEFAULT_REDIRECTS[key]) {
+      console.log(`going to ${DEFAULT_REDIRECTS[key]}`);
       return NextResponse.redirect(DEFAULT_REDIRECTS[key]);
     }
     // TODO: Reserved
