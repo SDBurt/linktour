@@ -6,7 +6,7 @@ import { authOptions } from "@/lib/auth-options";
 import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
 import { EmptyPlaceholder } from "@/components/empty-placeholder";
-import { DashboardHeader } from "@/components/header";
+import { DashboardHeader } from "@/components/shared/page-header";
 import { LinkCreateButton } from "@/components/link/link-create-button";
 import { LinkItem } from "@/components/link/link-item";
 import { DashboardShell } from "@/components/layouts/shell";

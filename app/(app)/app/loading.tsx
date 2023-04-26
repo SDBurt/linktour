@@ -1,7 +1,7 @@
-import { DashboardHeader } from "@/components/header"
-import { LinkCreateButton } from "@/components/link/link-create-button"
-import { LinkItem } from "@/components/link/link-item"
-import { DashboardShell } from "@/components/layouts/shell"
+import { DashboardHeader } from "@/components/shared/page-header";
+import { LinkCreateButton } from "@/components/link/link-create-button";
+import { LinkItem } from "@/components/link/link-item";
+import { DashboardShell } from "@/components/layouts/shell";
 
 export default function DashboardLoading() {
   return (
@@ -17,5 +17,5 @@ export default function DashboardLoading() {
         <LinkItem.Skeleton />
       </div>
     </DashboardShell>
-  )
+  );
 }

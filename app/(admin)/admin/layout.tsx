@@ -7,13 +7,11 @@ import { UserAccountNav } from "@/components/nav/user-account-nav";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 
-interface DashboardLayoutProps {
+interface AdminLayoutProps {
   children?: React.ReactNode;
 }
 
-export default async function DashboardLayout({
-  children,
-}: DashboardLayoutProps) {
+export default async function AdminLayout({ children }: AdminLayoutProps) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {

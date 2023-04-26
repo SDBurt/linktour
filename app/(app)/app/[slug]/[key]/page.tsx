@@ -4,7 +4,7 @@ import { Link, Project } from "@prisma/client";
 
 import { authOptions } from "@/lib/auth-options";
 import { db } from "@/lib/db";
-import { DashboardHeader } from "@/components/header";
+import { DashboardHeader } from "@/components/shared/page-header";
 import { DashboardShell } from "@/components/layouts/shell";
 import { getServerSession } from "next-auth";
 import Chart from "@/components/app/chart";
