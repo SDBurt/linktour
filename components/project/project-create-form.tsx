@@ -11,7 +11,7 @@ import * as z from "zod";
 import { cn } from "@/lib/utils";
 import { projectCreateSchema } from "@/lib/validations/project";
 
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/shared/icons";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

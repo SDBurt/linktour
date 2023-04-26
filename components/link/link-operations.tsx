@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { Link } from "@prisma/client";
 
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/shared/icons";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,7 +45,7 @@ async function deleteLink(key: string) {
 }
 
 interface LinkOperationsProps {
-  link: Pick<Link, "id" | "title" | "key" | "url" | "clicks">;
+  link: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">;
 }
 
 export function LinkOperations({ link }: LinkOperationsProps) {

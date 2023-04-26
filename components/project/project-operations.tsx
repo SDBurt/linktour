@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { Project } from "@prisma/client";
 
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/shared/icons";
 import {
   AlertDialog,
   AlertDialogAction,

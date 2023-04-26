@@ -4,10 +4,13 @@ import { Link } from "@prisma/client";
 import { formatDate } from "@/lib/utils";
 import { LinkOperations } from "@/components/link/link-operations";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Icons } from "../icons";
+import { Icons } from "../shared/icons";
 
 interface LinkItemProps {
-  link: Pick<Link, "id" | "title" | "key" | "createdAt" | "url" | "clicks">;
+  link: Pick<
+    Link,
+    "id" | "title" | "slug" | "key" | "createdAt" | "url" | "clicks"
+  >;
   slug: string;
 }
 
@@ -27,17 +30,17 @@ export function LinkItem({ slug, link }: LinkItemProps) {
         </div>
         <div className="flex flex-row space-x-3">
           <div>
-            {link.domain && link.key ? (
+            {link.slug && link.key ? (
               <NextLink
                 className="flex flex-row space-x-1"
-                href={`http://${link.domain}/${link.key}`}
+                href={`http://${link.slug}/${link.key}`}
               >
                 <Icons.share />
-                {link.domain}/{link.key}
+                {link.slug}/{link.key}
               </NextLink>
             ) : (
               <p className="flex flex-row space-x-1">
-                <Icons.share /> {link.domain}/{link.key}
+                <Icons.share /> {link.slug}/{link.key}
               </p>
             )}
           </div>
@@ -54,7 +57,7 @@ export function LinkItem({ slug, link }: LinkItemProps) {
       <LinkOperations
         link={{
           id: link.id,
-          domain: link.domain,
+          slug: link.slug,
           key: link.key,
           url: link.url,
           clicks: link.clicks,

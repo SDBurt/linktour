@@ -11,15 +11,21 @@ import * as z from "zod";
 import { cn } from "@/lib/utils";
 import { linkPatchSchema } from "@/lib/validations/link";
 
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/shared/icons";
 import { buttonVariants } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useProject from "@/hooks/use-project";
 
 interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  link?: Pick<Link, "id" | "title" | "key" | "url" | "clicks">;
+  link?: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">;
   domain?: string;
 }
 
@@ -28,9 +34,7 @@ type FormData = z.infer<typeof linkPatchSchema>;
 export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
   const router = useRouter();
 
-  const { project: { domain } = {} } = useProject();
-
-  console.log(domain);
+  const { project: { slug } = {} } = useProject();
 
   const {
     handleSubmit,
@@ -86,10 +90,10 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
       {...props}
     >
       <Card>
-        <Card.Header>
-          <Card.Title>Create Link</Card.Title>
-        </Card.Header>
-        <Card.Content>
+        <CardHeader>
+          <CardTitle>Create Link</CardTitle>
+        </CardHeader>
+        <CardContent>
           <div className="grid gap-2">
             <Label htmlFor="title">Title</Label>
             <Input
@@ -111,7 +115,7 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
                 htmlFor="key"
                 className=" text-slate-600 h-10 items-center font-normal rounded-l-md border border-r-0 border-slate-300 bg-slate-50 py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
               >
-                {link?.domain || domain || "localhost:3000"}
+                {link?.slug || slug || "localhost:3000"}
               </Label>
               <Input
                 id="key"
@@ -137,8 +141,8 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
               <p className="px-1 text-xs text-red-600">{errors.url.message}</p>
             )}
           </div>
-        </Card.Content>
-        <Card.Footer>
+        </CardContent>
+        <CardFooter>
           <button
             type="submit"
             className={cn(buttonVariants(), className)}
@@ -149,7 +153,7 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
             )}
             <span>Save</span>
           </button>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </form>
   );
