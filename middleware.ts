@@ -14,40 +14,17 @@ export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
   const { domain, path, key } = parse(req);
   const home = domain === "localhost:3000";
 
-  if (domain === "app.localhost:3000") {
-    console.log("is app");
+  if (domain === "localhost:3000") {
     return AppMiddleware(req);
   }
 
-  if (domain === "api.localhost:3000") {
-    console.log("is api");
-    return ApiMiddleware(req);
-  }
-
-  if (domain === "bio.localhost:3000") {
-    console.log("is bio");
-    return BioMiddleware(req);
-  }
-
-  if (path.startsWith("/stats/")) {
-    return NextResponse.next();
-  }
-
-  if (key.length === 0) {
-    console.log("is root");
-    return RootMiddleware(req, ev);
-  }
-
   if (home) {
-    console.log("is home");
     if (DEFAULT_REDIRECTS[key]) {
-      console.log(`going to ${DEFAULT_REDIRECTS[key]}`);
       return NextResponse.redirect(DEFAULT_REDIRECTS[key]);
     }
-    // TODO: Reserved
   }
 
-  return LinkMiddleware(req, ev);
+  // return LinkMiddleware(req, ev);
 }
 
 export const config = {
