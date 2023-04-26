@@ -80,6 +80,11 @@ model Project {
     updatedAt DateTime @default(now())
     links     Link[]
 
+    // usage
+    usage              Int     @default(0)
+    ownerUsageLimit    Int     @default(1000)
+    ownerExceededUsage Boolean @default(false)
+
     // Creator
     userId String
     user   User   @relation(fields: [userId], references: [id])
