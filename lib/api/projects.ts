@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 /**
  * Get All Projects for the user
  */
-export const countProjects = async (userId: string) => {
+export const countProjectsForUser = async (userId: string) => {
   const count = await db.project.count({
     where: {
       userId,
@@ -17,7 +17,7 @@ export const countProjects = async (userId: string) => {
  * Get All Projects for the user
  */
 export const getProjectsForUser = async (userId: string) => {
-  const projects = await db.project.findMany({
+  const userProjects = await db.project.findMany({
     where: {
       userId: userId,
     },
@@ -34,7 +34,7 @@ export const getProjectsForUser = async (userId: string) => {
     },
   });
 
-  return projects;
+  return userProjects;
 };
 
 /**
@@ -56,4 +56,44 @@ export const getProject = async (slug: string) => {
   });
 
   return project;
+};
+
+/**
+ * Get Project User
+ */
+export const getProjectUser = async (slug: string) => {
+  const projectUser = await db.project.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+        },
+      },
+    },
+  });
+
+  return projectUser;
+};
+
+/**
+ * Get Project Usage
+ */
+export const getProjectUsage = async (slug: string) => {
+  const projectUsage = await db.project.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      usage: true,
+      ownerUsageLimit: true,
+      ownerExceededUsage: true,
+    },
+  });
+
+  return projectUsage;
 };

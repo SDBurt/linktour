@@ -9,9 +9,7 @@ export function withUserAuth(handler) {
   return async function (req: NextApiRequest, res: NextApiResponse) {
     const session = await getServerSession(req, res, authOptions);
 
-    console.log("SESSION: ", session);
     if (!session) {
-      console.log("No Session");
       return res.status(403).end();
     }
 

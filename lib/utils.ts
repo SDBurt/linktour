@@ -1,3 +1,4 @@
+import { customAlphabet } from "nanoid";
 import { createClient } from "@vercel/edge-config";
 
 import { ClassValue, clsx } from "clsx";
@@ -91,3 +92,8 @@ export async function fetcher<JSON = any>(
 
   return res.json();
 }
+
+export const nanoid = customAlphabet(
+  "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+  7
+); // 7-character random string

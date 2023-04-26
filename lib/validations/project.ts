@@ -14,6 +14,11 @@ export const projectCreateSchema = z.object({
   slug: z.string().min(3).max(128).trim(),
 });
 
+export const projectPatchSchema = z.object({
+  name: z.string().min(3).max(128).trim(),
+  slug: z.string().min(3).max(128).trim(),
+});
+
 export const projectEditSchema = z.object({
   name: z.string().min(3).max(128).trim(),
 });

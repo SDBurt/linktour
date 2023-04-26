@@ -64,16 +64,16 @@ export const DEFAULT_REDIRECTS = {
   login: "localhost:3000/login",
   register: "localhost:3000/register",
   signup: "localhost:3000/register",
-  app: "app.localhost:3000",
-  dashboard: "app.localhost:3000",
-  links: "app.localhost:3000/links",
-  settings: "app.localhost:3000/settings",
-  welcome: "app.localhost:3000/welcome",
+  app: "localhost:3000",
+  dashboard: "localhost:3000",
+  links: "localhost:3000/links",
+  settings: "localhost:3000/settings",
+  welcome: "localhost:3000/welcome",
 };
 
 export const REDIRECT_HEADERS = {
   headers: {
-    "x-powered-by": "Dub.sh - Link management for modern marketing teams",
+    "x-powered-by": "touring.sh - Link management for modern marketing teams",
   },
 };
 
