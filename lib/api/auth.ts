@@ -2,6 +2,12 @@ import { db } from "@/lib/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 
+export async function verifyCurrentUser() {
+  const session = await getServerSession(authOptions);
+
+  return session !== null;
+}
+
 export async function verifyCurrentUserHasAccessToProject(slug: string) {
   const session = await getServerSession(authOptions);
   const count = await db.project.count({

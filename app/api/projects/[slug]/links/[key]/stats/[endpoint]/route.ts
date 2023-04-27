@@ -22,6 +22,9 @@ export async function GET(
     // Validate the route params.
     const { params } = routeContextSchema.parse(context);
 
+    const { searchParams } = new URL(req.url);
+    const interval = searchParams.get("interval");
+
     // Check if the user has access to this link.
     if (!(await verifyCurrentUserHasAccessToLink(params.slug, params.key))) {
       return new Response(null, { status: 403 });
@@ -31,7 +34,7 @@ export async function GET(
       slug: params.slug,
       key: params.key,
       endpoint: params.endpoint,
-      interval: params.interval,
+      ...(interval && { interval }),
     });
 
     if (!stats) {

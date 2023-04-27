@@ -4,8 +4,6 @@ import {
   verifyCurrentUserHasAccessToProject,
 } from "@/lib/api/auth";
 import { getProject } from "@/lib/api/projects";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -26,7 +24,7 @@ export async function GET(
       return new Response(null, { status: 403 });
     }
 
-    // Get the project.
+    // Get the project usage.
     const project = await getProject(params.slug);
 
     if (!project) {

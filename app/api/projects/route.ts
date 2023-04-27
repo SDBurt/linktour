@@ -5,9 +5,16 @@ import { authOptions } from "@/lib/auth-options";
 import { db } from "@/lib/db";
 import { RequiresProPlanError } from "@/lib/exceptions";
 import { getUserSubscriptionPlan } from "@/lib/subscription";
-import { countProjectsForUser, getProjectsForUser } from "@/lib/api/projects";
+import {
+  countProjectsForUser,
+  getProject,
+  getProjectsForUser,
+} from "@/lib/api/projects";
 import { projectCreateSchema } from "@/lib/validations/project";
 
+/**
+ * Get a list of projects for the user
+ */
 export async function GET() {
   try {
     const session = await getServerSession(authOptions);
@@ -25,6 +32,9 @@ export async function GET() {
   }
 }
 
+/**
+ * Create a new project for the user
+ */
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
@@ -49,7 +59,15 @@ export async function POST(req: Request) {
     const json = await req.json();
     const body = projectCreateSchema.parse(json.body);
 
-    const project = await db.project.create({
+    const { slug } = body;
+
+    const project = await getProject(slug);
+
+    if (project) {
+      return new Response("Slug is already in use", { status: 422 });
+    }
+
+    const newProject = await db.project.create({
       data: {
         ...body,
         userId: session.user.id,
@@ -59,7 +77,7 @@ export async function POST(req: Request) {
       },
     });
 
-    return new Response(JSON.stringify(project));
+    return new Response(JSON.stringify(newProject));
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 });

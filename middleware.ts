@@ -1,43 +1,46 @@
-import { parse } from "@/lib/middleware/utils";
-import AppMiddleware from "@/lib/middleware/app";
-import LinkMiddleware from "./lib/middleware/link";
-import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
-import { DEFAULT_REDIRECTS } from "./lib/constants";
-import { isReservedKey } from "./lib/utils";
-import ApiMiddleware from "./lib/middleware/api";
-import RootMiddleware from "./lib/middleware/root";
-import BioMiddleware from "./lib/middleware/bio";
+import { NextResponse } from "next/server";
+import withAuth from "next-auth/middleware";
+import { getToken } from "next-auth/jwt";
 
-// export default withAuth(
-// async function middleware(req: NextRequest, ev: NextFetchEvent) {
-export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
-  const { domain, path, key } = parse(req);
-  const home = domain === "localhost:3000";
+export default withAuth(
+  async function middleware(req) {
+    const token = await getToken({ req });
+    const isAuth = !!token;
+    const isAuthPage =
+      req.nextUrl.pathname.startsWith("/login") ||
+      req.nextUrl.pathname.startsWith("/register");
 
-  if (domain === "localhost:3000") {
-    return AppMiddleware(req);
-  }
+    if (isAuthPage) {
+      if (isAuth) {
+        return NextResponse.redirect(new URL("/admin", req.url));
+      }
 
-  if (home) {
-    if (DEFAULT_REDIRECTS[key]) {
-      return NextResponse.redirect(DEFAULT_REDIRECTS[key]);
+      return null;
     }
-  }
 
-  // return LinkMiddleware(req, ev);
-}
+    if (!isAuth) {
+      let from = req.nextUrl.pathname;
+      if (req.nextUrl.search) {
+        from += req.nextUrl.search;
+      }
+
+      return NextResponse.redirect(
+        new URL(`/login?from=${encodeURIComponent(from)}`, req.url)
+      );
+    }
+  },
+  {
+    callbacks: {
+      async authorized() {
+        // This is a work-around for handling redirect on auth pages.
+        // We return true here so that the middleware function above
+        // is always called.
+        return true;
+      },
+    },
+  }
+);
 
 export const config = {
-  matcher: [
-    /*
-     * Match all paths except for:
-     * 1. /api/ routes
-     * 2. /_next/ (Next.js internals)
-     * 3. /_proxy/, /_auth/, /_root/ (special pages for OG tags proxying, password protection, and placeholder _root pages)
-     * 4. /_static (inside /public)
-     * 5. /_vercel (Vercel internals)
-     * 6. all root files inside /public (e.g. /favicon.ico)
-     */
-    "/((?!api/|_next/|_proxy/|_auth/|_root/|_static|_vercel|[\\w-]+\\.\\w+).*)",
-  ],
+  matcher: ["/admin/:path*", "/login", "/register"],
 };
