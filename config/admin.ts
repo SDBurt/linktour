@@ -10,7 +10,7 @@ export const adminConfig: AdminConfig = {
   sidebarNav: [
     {
       title: "Projects",
-      href: "/",
+      href: "/admin",
       icon: "post",
     },
     {

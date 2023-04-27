@@ -101,7 +101,7 @@ const VALID_TINYBIRD_ENDPOINTS = new Set([
   "browser",
   "os",
   "bot",
-  "referer",
+  "referrer",
 ]);
 
 export const getLinkStats = async ({
