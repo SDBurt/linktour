@@ -4,10 +4,10 @@ import { authOptions } from "@/lib/auth-options";
 import { cn } from "@/lib/utils";
 import { EmptyCardPlaceholder } from "@/components/shared/empty-card-placeholder";
 import { AppHeader } from "@/components/shared/page-header";
-import { ProjectCreateButton } from "@/components/project/project-create-button";
-import { AppShell } from "@/components/layouts/shell";
+import { ProjectCreateButton } from "@/components/admin/project/project-create-button";
+import { AppShell } from "@/components/admin/layouts/shell";
 import { buttonVariants } from "@/components/ui/button";
-import { ProjectItem } from "@/components/project/project-item";
+import { ProjectItem } from "@/components/admin/project/project-item";
 import { getProjectsForUser } from "@/lib/api/projects";
 import { getServerSession } from "next-auth";
 
@@ -27,7 +27,7 @@ async function AdminHomePage() {
   return (
     <AppShell>
       <AppHeader heading="Projects" text="Create and manage projects.">
-        {/* <ProjectCreateButton /> */}
+        <ProjectCreateButton />
       </AppHeader>
       <div>
         {projects?.length ? (

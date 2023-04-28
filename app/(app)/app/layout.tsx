@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 
 import { adminConfig } from "@/config/admin";
-import { MainNav } from "@/components/nav/main-nav";
-import { PrimaryNav } from "@/components/nav/nav";
-import { UserAccountNav } from "@/components/nav/user-account-nav";
+import { MainNav } from "@/components/admin/nav/main-nav";
+import { PrimaryNav } from "@/components/admin/nav/nav";
+import { UserAccountNav } from "@/components/admin/nav/user-account-nav";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth-options";
 

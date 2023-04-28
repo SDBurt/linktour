@@ -13,7 +13,13 @@ import { projectEditSchema } from "@/lib/validations/project";
 
 import { Icons } from "@/components/shared/icons";
 import { buttonVariants } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
@@ -79,10 +85,10 @@ export function ProjectEditForm({
       {...props}
     >
       <Card>
-        <Card.Header>
-          <Card.Title>Edit Project</Card.Title>
-        </Card.Header>
-        <Card.Content>
+        <CardHeader>
+          <CardTitle>Edit Project</CardTitle>
+        </CardHeader>
+        <CardContent>
           <div className="grid gap-2">
             <Label htmlFor="name">Name</Label>
             <Input id="name" size={32} {...register("name")} />
@@ -90,8 +96,8 @@ export function ProjectEditForm({
               <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
             )}
           </div>
-        </Card.Content>
-        <Card.Footer>
+        </CardContent>
+        <CardFooter>
           <button
             type="submit"
             className={cn(buttonVariants(), className)}
@@ -102,7 +108,7 @@ export function ProjectEditForm({
             )}
             <span>Save</span>
           </button>
-        </Card.Footer>
+        </CardFooter>
       </Card>
     </form>
   );

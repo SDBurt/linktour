@@ -22,19 +22,15 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useProject from "@/hooks/use-project";
 
 interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  link?: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">;
-  domain?: string;
+  link: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">;
 }
 
 type FormData = z.infer<typeof linkPatchSchema>;
 
-export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
+export function LinkEditForm({ link, className, ...props }: linkFormProps) {
   const router = useRouter();
-
-  const { project: { slug } = {} } = useProject();
 
   const {
     handleSubmit,
@@ -44,8 +40,8 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
     resolver: zodResolver(linkPatchSchema),
     defaultValues: {
       title: link?.title || "", // Name of the link
-      url: link?.url || "", // Destination of the link
-      key: link?.key || "", // key of the link, uses the domain
+      url: link.url || "", // Destination of the link
+      key: link.key || "", // key of the link, uses the domain
     },
   });
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
@@ -53,8 +49,8 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
   async function onSubmit(data: FormData) {
     setIsSaving(true);
 
-    const response = await fetch(`/api/links`, {
-      method: "POST",
+    const response = await fetch(`/api/links/${link.key}`, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -68,7 +64,7 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
     setIsSaving(false);
 
     if (!response?.ok) {
-      console.error(await response.json());
+      console.error(await response?.json());
       return toast({
         title: "Something went wrong.",
         description: "Your link was not updated. Please try again.",
@@ -91,18 +87,12 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
     >
       <Card>
         <CardHeader>
-          <CardTitle>Create Link</CardTitle>
+          <CardTitle>Edit Link</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid gap-2">
             <Label htmlFor="title">Title</Label>
-            <Input
-              id="title"
-              className="w-[400px]"
-              size={32}
-              placeholder="ex: Personal Github"
-              {...register("title")}
-            />
+            <Input id="title" size={32} {...register("title")} />
             {errors?.title && (
               <p className="px-1 text-xs text-red-600">
                 {errors.title.message}
@@ -115,7 +105,7 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
                 htmlFor="key"
                 className=" text-slate-600 h-10 items-center font-normal rounded-l-md border border-r-0 border-slate-300 bg-slate-50 py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
               >
-                {link?.slug || slug || "localhost:3000"}
+                {link?.slug || "undefined"}
               </Label>
               <Input
                 id="key"
@@ -129,14 +119,8 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
               <p className="px-1 text-xs text-red-600">{errors.key.message}</p>
             )}
 
-            <Label htmlFor="url">Destination URL</Label>
-            <Input
-              id="url"
-              className="w-[400px]"
-              size={32}
-              placeholder="ex: https://github.com"
-              {...register("url")}
-            />
+            <Label htmlFor="url">URL</Label>
+            <Input id="url" size={32} {...register("url")} />
             {errors?.url && (
               <p className="px-1 text-xs text-red-600">{errors.url.message}</p>
             )}

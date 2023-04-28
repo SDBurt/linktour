@@ -1,9 +1,9 @@
 import NextLink from "next/link";
 import { Project } from "@prisma/client";
 
-import { ProjectOperations } from "@/components/project/project-operations";
+import { ProjectOperations } from "@/components/admin/project/project-operations";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 
 interface ProjectItemProps {
   project: Pick<Project, "id" | "name" | "slug">;
@@ -15,12 +15,12 @@ export function ProjectItem({ project }: ProjectItemProps) {
       <div className="flex flex-row justify-between items-center">
         <div className="flex flex-col">
           <NextLink
-            href={`/${project.slug}`}
+            href={`/admin/${project.slug}`}
             className="font-semibold hover:underline cursor-pointer"
           >
             {project.name}
           </NextLink>
-          <div>api.sub.com/{project.slug}</div>
+          <div>localhost:3000/{project.slug}</div>
         </div>
         <ProjectOperations
           project={{

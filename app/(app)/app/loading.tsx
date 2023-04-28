@@ -1,14 +1,14 @@
-import { DashboardHeader } from "@/components/shared/page-header";
-import { LinkCreateButton } from "@/components/link/link-create-button";
-import { LinkItem } from "@/components/link/link-item";
-import { DashboardShell } from "@/components/layouts/shell";
+import { AppHeader } from "@/components/shared/page-header";
+import { LinkCreateButton } from "@/components/admin/link/link-create-button";
+import { LinkItem } from "@/components/admin/link/link-item";
+import { AppShell } from "@/components/admin/layouts/shell";
 
 export default function DashboardLoading() {
   return (
-    <DashboardShell>
-      <DashboardHeader heading="Links" text="Create and manage links.">
+    <AppShell>
+      <AppHeader heading="Links" text="Create and manage links.">
         <LinkCreateButton />
-      </DashboardHeader>
+      </AppHeader>
       <div className="divide-y divide-neutral-200 rounded-md border border-slate-200">
         <LinkItem.Skeleton />
         <LinkItem.Skeleton />
@@ -16,6 +16,6 @@ export default function DashboardLoading() {
         <LinkItem.Skeleton />
         <LinkItem.Skeleton />
       </div>
-    </DashboardShell>
+    </AppShell>
   );
 }

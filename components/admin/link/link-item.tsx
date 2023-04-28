@@ -2,14 +2,21 @@ import NextLink from "next/link";
 import { Link } from "@prisma/client";
 
 import { formatDate } from "@/lib/utils";
-import { LinkOperations } from "@/components/link/link-operations";
+import { LinkOperations } from "@/components/admin/link/link-operations";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Icons } from "../shared/icons";
+import { Icons } from "@/components/shared/icons";
 
 interface LinkItemProps {
   link: Pick<
     Link,
-    "id" | "title" | "slug" | "key" | "createdAt" | "url" | "clicks"
+    | "id"
+    | "title"
+    | "slug"
+    | "key"
+    | "createdAt"
+    | "url"
+    | "shareKey"
+    | "clicks"
   >;
   slug: string;
 }
@@ -19,7 +26,7 @@ export function LinkItem({ slug, link }: LinkItemProps) {
     <div className="flex items-center justify-between p-4">
       <div className="flex flex-col space-y-4 justify-between w-full px-2">
         <NextLink
-          href={`/${slug}/${link.key}`}
+          href={`/admin/${slug}/${link.key}`}
           className="font-semibold hover:underline"
         >
           {link.title}
@@ -30,17 +37,17 @@ export function LinkItem({ slug, link }: LinkItemProps) {
         </div>
         <div className="flex flex-row space-x-3">
           <div>
-            {link.slug && link.key ? (
+            {link.shareKey ? (
               <NextLink
                 className="flex flex-row space-x-1"
-                href={`http://${link.slug}/${link.key}`}
+                href={`/${link.slug}/${link.key}`}
               >
                 <Icons.share />
                 {link.slug}/{link.key}
               </NextLink>
             ) : (
               <p className="flex flex-row space-x-1">
-                <Icons.share /> {link.slug}/{link.key}
+                {link.slug}/{link.key}
               </p>
             )}
           </div>

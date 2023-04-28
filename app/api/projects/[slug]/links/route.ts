@@ -71,7 +71,7 @@ export async function POST(
     }
 
     const json = await req.json();
-    const body = linkCreateSchema.parse(json.body);
+    const body = linkCreateSchema.parse(json);
 
     const link = await db.link.create({
       data: {
@@ -86,6 +86,7 @@ export async function POST(
 
     return new Response(JSON.stringify(link));
   } catch (error) {
+    console.log(error);
     if (error instanceof z.ZodError) {
       return new Response(JSON.stringify(error.issues), { status: 422 });
     }

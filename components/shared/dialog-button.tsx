@@ -5,7 +5,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/shared/icons";
 import { buttonVariants } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 interface DialogButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   text: string;

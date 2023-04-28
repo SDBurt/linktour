@@ -13,20 +13,6 @@ import { AppShell } from "@/components/admin/layouts/shell";
 import { buttonVariants } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
 
-const getUserProjects = cache(async (userId: User["id"]) => {
-  return await db.project.findMany({
-    where: {
-      userId: userId,
-    },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      links: true,
-    },
-  });
-});
-
 const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
   return await db.project.findFirst({
     where: {

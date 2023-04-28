@@ -3,7 +3,7 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
-import { Project } from "@prisma/client";
+import { Link } from "@prisma/client";
 
 import { Icons } from "@/components/shared/icons";
 import {
@@ -24,19 +24,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { Dialog, DialogContent } from "../ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
-import { ProjectEditForm } from "./project-edit-form";
+import { LinkEditForm } from "@/components/admin/link/link-edit-form";
 
-async function deleteProject(slug: string) {
-  const response = await fetch(`/api/projects/${slug}`, {
+async function deleteLink(key: string) {
+  const response = await fetch(`/api/links/${key}`, {
     method: "DELETE",
   });
 
   if (!response?.ok) {
     toast({
       title: "Something went wrong.",
-      description: "Your project was not deleted. Please try again.",
+      description: "Your link was not deleted. Please try again.",
       variant: "destructive",
     });
   }
@@ -44,11 +44,11 @@ async function deleteProject(slug: string) {
   return true;
 }
 
-interface ProjectOperationsProps {
-  project: Pick<Project, "id" | "name" | "slug">;
+interface LinkOperationsProps {
+  link: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">;
 }
 
-export function ProjectOperations({ project }: ProjectOperationsProps) {
+export function LinkOperations({ link }: LinkOperationsProps) {
   const router = useRouter();
 
   const [showEditDialog, setShowEditDialog] = React.useState<boolean>(false);
@@ -82,7 +82,7 @@ export function ProjectOperations({ project }: ProjectOperationsProps) {
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Are you sure you want to delete this project?
+              Are you sure you want to delete this link?
             </AlertDialogTitle>
             <AlertDialogDescription>
               This action cannot be undone.
@@ -95,7 +95,7 @@ export function ProjectOperations({ project }: ProjectOperationsProps) {
                 event.preventDefault();
                 setIsDeleteLoading(true);
 
-                const deleted = await deleteProject(project.slug);
+                const deleted = await deleteLink(link.key);
 
                 if (deleted) {
                   setIsDeleteLoading(false);
@@ -117,7 +117,7 @@ export function ProjectOperations({ project }: ProjectOperationsProps) {
       </AlertDialog>
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
         <DialogContent className="p-0">
-          <ProjectEditForm project={project} />
+          <LinkEditForm link={link} />
         </DialogContent>
       </Dialog>
     </>

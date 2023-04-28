@@ -44,6 +44,7 @@ export async function POST(req: Request) {
     }
 
     const { user } = session;
+
     const subscriptionPlan = await getUserSubscriptionPlan(user.id);
 
     // If user is on a free plan.
@@ -57,7 +58,8 @@ export async function POST(req: Request) {
     }
 
     const json = await req.json();
-    const body = projectCreateSchema.parse(json.body);
+
+    const body = projectCreateSchema.parse(json);
 
     const { slug } = body;
 
@@ -67,11 +69,13 @@ export async function POST(req: Request) {
       return new Response("Slug is already in use", { status: 422 });
     }
 
+    const data = {
+      ...body,
+      userId: session.user.id,
+    };
+
     const newProject = await db.project.create({
-      data: {
-        ...body,
-        userId: session.user.id,
-      },
+      data,
       select: {
         id: true,
       },

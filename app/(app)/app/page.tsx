@@ -2,12 +2,12 @@ import { redirect } from "next/navigation";
 
 import { authOptions } from "@/lib/auth-options";
 import { cn } from "@/lib/utils";
-import { EmptyPlaceholder } from "@/components/shared/empty-placeholder";
-import { DashboardHeader } from "@/components/shared/page-header";
-import { ProjectCreateButton } from "@/components/project/project-create-button";
-import { DashboardShell } from "@/components/layouts/shell";
+import { EmptyCardPlaceholder } from "@/components/shared/empty-card-placeholder";
+import { AppHeader } from "@/components/shared/page-header";
+import { ProjectCreateButton } from "@/components/admin/project/project-create-button";
+import { AppShell } from "@/components/admin/layouts/shell";
 import { buttonVariants } from "@/components/ui/button";
-import { ProjectItem } from "@/components/project/project-item";
+import { ProjectItem } from "@/components/admin/project/project-item";
 import { getProjectsForUser } from "@/lib/api/projects";
 import { getServerSession } from "next-auth";
 
@@ -25,10 +25,10 @@ async function AppPage() {
   const projects = await getProjectsForUser(session.user.id);
 
   return (
-    <DashboardShell>
-      <DashboardHeader heading="Projects" text="Create and manage projects.">
+    <AppShell>
+      <AppHeader heading="Projects" text="Create and manage projects.">
         <ProjectCreateButton />
-      </DashboardHeader>
+      </AppHeader>
       <div>
         {projects?.length ? (
           <div className="space-y-1">
@@ -44,19 +44,21 @@ async function AppPage() {
             ))}
           </div>
         ) : (
-          <EmptyPlaceholder>
-            <EmptyPlaceholder.Icon name="post" />
-            <EmptyPlaceholder.Title>No projects created</EmptyPlaceholder.Title>
-            <EmptyPlaceholder.Description>
+          <EmptyCardPlaceholder>
+            <EmptyCardPlaceholder.Icon name="post" />
+            <EmptyCardPlaceholder.Title>
+              No projects created
+            </EmptyCardPlaceholder.Title>
+            <EmptyCardPlaceholder.Description>
               You don&apos;t have any projects yet. Start creating content.
-            </EmptyPlaceholder.Description>
+            </EmptyCardPlaceholder.Description>
             <ProjectCreateButton
               className={cn(buttonVariants({ variant: "outline" }))}
             />
-          </EmptyPlaceholder>
+          </EmptyCardPlaceholder>
         )}
       </div>
-    </DashboardShell>
+    </AppShell>
   );
 }
 
