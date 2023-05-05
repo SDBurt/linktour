@@ -63,7 +63,6 @@ export async function getClicksUsage({
   start?: string;
   end?: string;
 }) {
-  console.log("Get clicks usage");
   const response = await fetch(
     `https://api.us-east.tinybird.co/v0/pipes/usage.json?domain=${domain}${
       start ? `&start=${start}` : ""
@@ -80,8 +79,8 @@ export async function getClicksUsage({
   let clicks = 0;
   try {
     clicks = response[0]["count()"];
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    console.error(err);
   }
   return clicks;
 }

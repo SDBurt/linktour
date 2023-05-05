@@ -13,7 +13,7 @@ export function ProjectCreateButton({
   ...props
 }: ProjectCreateButtonProps) {
   return (
-    <DialogButton {...props} text="New Project">
+    <DialogButton {...props} className={className} text="New Project">
       <ProjectCreateForm />
     </DialogButton>
   );

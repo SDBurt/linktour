@@ -116,10 +116,12 @@ export const getLinkStats = async ({
   interval?: string;
 }) => {
   if (!process.env.TINYBIRD_API_KEY) {
+    console.error("No TINYBIRD API key");
     return null;
   }
 
   if (!VALID_TINYBIRD_ENDPOINTS.has(endpoint)) {
+    console.error("Not a valid endpoint");
     return null;
   }
 
@@ -141,6 +143,7 @@ export const getLinkStats = async ({
       new Date(Date.now()).toISOString().replace("T", " ").replace("Z", "")
     );
     url.searchParams.append("granularity", intervalData[interval].granularity);
+    console.log(url);
   }
 
   return await fetch(url, {
@@ -153,11 +156,16 @@ export const getLinkStats = async ({
       if (endpoint === "clicks") {
         try {
           const clicks = data[0]["count()"];
-          return clicks || "0";
-        } catch (e) {
-          console.log(e);
+          return clicks || 0;
+        } catch (err) {
+          console.error(err);
+          return null;
         }
       }
       return data;
+    })
+    .catch((err) => {
+      console.error(err);
+      return null;
     });
 };

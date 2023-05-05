@@ -6,7 +6,7 @@ import {
   verifyCurrentUserHasAccessToLink,
   verifyCurrentUserHasAccessToProject,
 } from "@/lib/api/auth";
-import { getLinkForProject, getRandomKey } from "@/lib/api/links";
+import { getRandomKey } from "@/lib/api/links";
 
 const routeContextSchema = z.object({
   params: z.object({

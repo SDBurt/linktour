@@ -1,7 +1,7 @@
 import * as z from "zod";
 
 import { db } from "@/lib/db";
-import { projectPatchSchema } from "@/lib/validations/project";
+import { projectEditSchema } from "@/lib/validations/project";
 import { verifyCurrentUserHasAccessToProject } from "@/lib/api/auth";
 import { getProject } from "@/lib/api/projects";
 
@@ -82,7 +82,7 @@ export async function PATCH(
 
     // Get the request body and validate it.
     const json = await req.json();
-    const body = projectPatchSchema.parse(json);
+    const body = projectEditSchema.parse(json);
 
     // Update the post.
     // TODO: Implement sanitization for content.

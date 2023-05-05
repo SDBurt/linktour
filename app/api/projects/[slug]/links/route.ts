@@ -85,13 +85,13 @@ export async function POST(
     });
 
     return new Response(JSON.stringify(link));
-  } catch (error) {
-    console.log(error);
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 });
+  } catch (err) {
+    console.error(err);
+    if (err instanceof z.ZodError) {
+      return new Response(JSON.stringify(err.issues), { status: 422 });
     }
 
-    if (error instanceof RequiresProPlanError) {
+    if (err instanceof RequiresProPlanError) {
       return new Response("Requires Pro Plan", { status: 402 });
     }
 

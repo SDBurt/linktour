@@ -8,9 +8,8 @@ import { Project } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn, fetcher } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { projectCreateSchema } from "@/lib/validations/project";
-import useSWR from "swr";
 import { Icons } from "@/components/shared/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {

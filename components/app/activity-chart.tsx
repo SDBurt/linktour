@@ -1,15 +1,16 @@
 "use client";
 
 import {
-  CartesianGrid,
+  Bar,
+  BarChart,
   Legend,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
+
+import { format } from "date-fns";
 
 export type ChartDataType = { start: string; clicks: number; end?: string };
 
@@ -17,7 +18,7 @@ interface ChartProps {
   data: ChartDataType[];
 }
 
-const Chart = ({ data }: ChartProps) => {
+const ActivityChart = ({ data }: ChartProps) => {
   const formatData = (data) => {
     if (!data || data.length === 0) {
       return [];
@@ -25,11 +26,13 @@ const Chart = ({ data }: ChartProps) => {
     return data.map((d: ChartDataType) => {
       return {
         ...d,
-        start: new Date(d.start).toLocaleTimeString("en-us", {
-          hour: "numeric",
-        }),
+        start: new Date(d.start),
       };
     });
+  };
+
+  const dateFormatter = (date) => {
+    return format(new Date(date), "dd/MMM");
   };
 
   return (
@@ -38,7 +41,7 @@ const Chart = ({ data }: ChartProps) => {
     <div className="flex w-full h-full">
       <div className="flex-1 w-0">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
+          <BarChart
             data={formatData(data)}
             margin={{
               top: 20,
@@ -47,22 +50,20 @@ const Chart = ({ data }: ChartProps) => {
               bottom: 20,
             }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="start" interval={4} />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line
-              type="monotone"
-              dataKey="clicks"
-              stroke="#8884d8"
-              activeDot={{ r: 8 }}
+            <XAxis
+              dataKey="start"
+              type="category"
+              tickFormatter={dateFormatter}
             />
-          </LineChart>
+            <YAxis type="number" />
+            <Tooltip labelFormatter={dateFormatter} />
+            <Legend />
+            <Bar dataKey="clicks" />
+          </BarChart>
         </ResponsiveContainer>
       </div>
     </div>
   );
 };
 
-export default Chart;
+export default ActivityChart;

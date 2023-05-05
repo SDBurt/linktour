@@ -17,7 +17,6 @@ export const metadata = {
 
 async function AppPage() {
   const session = await getServerSession(authOptions);
-  console.log(session);
   if (!session?.user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }

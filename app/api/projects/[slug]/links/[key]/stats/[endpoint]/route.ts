@@ -7,7 +7,6 @@ const routeContextSchema = z.object({
     slug: z.string(),
     key: z.string(),
     endpoint: z.string(),
-    interval: z.string(),
   }),
 });
 
@@ -23,6 +22,7 @@ export async function GET(
     const { params } = routeContextSchema.parse(context);
 
     const { searchParams } = new URL(req.url);
+
     const interval = searchParams.get("interval");
 
     // Check if the user has access to this link.
@@ -37,7 +37,7 @@ export async function GET(
       ...(interval && { interval }),
     });
 
-    if (!stats) {
+    if (stats === null) {
       return new Response(null, { status: 405 });
     }
 

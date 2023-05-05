@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@prisma/client";
@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import useProject from "@/hooks/use-project";
 
 interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
   link: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">;
@@ -46,10 +47,16 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
   });
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
 
+  const params = useParams();
+
+  const { slug } = params as {
+    slug: string;
+  };
+
   async function onSubmit(data: FormData) {
     setIsSaving(true);
 
-    const response = await fetch(`/api/links/${link.key}`, {
+    const response = await fetch(`/api/projects/${slug}/links/${link.key}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

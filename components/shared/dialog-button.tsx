@@ -26,7 +26,13 @@ export function DialogButton({
 
   return (
     <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-      <DialogTrigger className={cn(buttonVariants(), className)} {...props}>
+      <DialogTrigger
+        className={cn(
+          "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background",
+          className
+        )}
+        {...props}
+      >
         <Icons.add className="mr-2 h-4 w-4" />
         {text}
       </DialogTrigger>

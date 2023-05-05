@@ -9,14 +9,7 @@ import { Icons } from "@/components/shared/icons";
 interface LinkItemProps {
   link: Pick<
     Link,
-    | "id"
-    | "title"
-    | "slug"
-    | "key"
-    | "createdAt"
-    | "url"
-    | "shareKey"
-    | "clicks"
+    "id" | "title" | "slug" | "key" | "createdAt" | "url" | "clicks"
   >;
   slug: string;
 }
@@ -37,19 +30,9 @@ export function LinkItem({ slug, link }: LinkItemProps) {
         </div>
         <div className="flex flex-row space-x-3">
           <div>
-            {link.shareKey ? (
-              <NextLink
-                className="flex flex-row space-x-1"
-                href={`/${link.slug}/${link.key}`}
-              >
-                <Icons.share />
-                {link.slug}/{link.key}
-              </NextLink>
-            ) : (
-              <p className="flex flex-row space-x-1">
-                {link.slug}/{link.key}
-              </p>
-            )}
+            <p className="flex flex-row space-x-1">
+              {link.slug}/{link.key}
+            </p>
           </div>
 
           <div className="flex flex-row space-x-1">

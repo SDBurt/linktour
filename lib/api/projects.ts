@@ -38,6 +38,26 @@ export const getProjectsForUser = async (userId: string) => {
 };
 
 /**
+ * Get All Projects for the user
+ */
+export const getProjectsForUserNav = async (userId: string) => {
+  const userProjects = await db.project.findMany({
+    where: {
+      userId: userId,
+    },
+    select: {
+      name: true,
+      slug: true,
+    },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+
+  return userProjects;
+};
+
+/**
  * Get Project
  */
 export const getProject = async (slug: string) => {
@@ -51,6 +71,7 @@ export const getProject = async (slug: string) => {
       slug: true,
       verified: true,
       links: true,
+      user: true,
       createdAt: true,
     },
   });

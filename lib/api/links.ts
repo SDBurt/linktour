@@ -48,14 +48,10 @@ export const getLinksForUser = async (userId: string) => {
 /**
  * Get All Links for project
  */
-export async function getLinksForProject(
-  slug: string,
-  userId?: string
-): Promise<LinkProps[]> {
+export async function getLinksForProject(slug: string): Promise<LinkProps[]> {
   return await db.link.findMany({
     where: {
       slug,
-      ...(userId && { userId }),
     },
     orderBy: {
       createdAt: "desc",

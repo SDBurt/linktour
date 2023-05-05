@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@prisma/client";
@@ -34,7 +34,11 @@ type FormData = z.infer<typeof linkPatchSchema>;
 export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
   const router = useRouter();
 
-  const { project: { slug } = {} } = useProject();
+  const params = useParams();
+
+  const { slug } = params as {
+    slug: string;
+  };
 
   const {
     handleSubmit,

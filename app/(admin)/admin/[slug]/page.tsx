@@ -5,13 +5,13 @@ import { User, Project } from "@prisma/client";
 import { authOptions } from "@/lib/auth-options";
 import { db } from "@/lib/db";
 import { cn } from "@/lib/utils";
-import { EmptyCardPlaceholder } from "@/components/shared/empty-card-placeholder";
 import { AppHeader } from "@/components/shared/page-header";
 import { LinkCreateButton } from "@/components/admin/link/link-create-button";
-import { LinkItem } from "@/components/admin/link/link-item";
 import { AppShell } from "@/components/admin/layouts/shell";
 import { buttonVariants } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { LinkList } from "@/components/admin/link/link-list";
 
 const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
   return await db.project.findFirst({
@@ -51,6 +51,7 @@ async function ProjectPage({ params }) {
 
   return (
     <AppShell>
+      {/* <Breadcrumb /> */}
       <AppHeader
         heading={project?.name || "Untitled Project"}
         text="Create and manage short links."
@@ -59,31 +60,26 @@ async function ProjectPage({ params }) {
           className={cn(buttonVariants({ variant: "default" }), "mt-1")}
         />
       </AppHeader>
-      <div>
-        {links?.length ? (
-          <div className="divide-y divide-neutral-200 rounded-md border border-slate-200">
-            {links.map((link) => (
-              <LinkItem key={link.id} slug={project.slug} link={link} />
-            ))}
-          </div>
-        ) : (
-          <EmptyCardPlaceholder>
-            <EmptyCardPlaceholder.Icon name="post" />
-            <EmptyCardPlaceholder.Title>
-              No links created
-            </EmptyCardPlaceholder.Title>
-            <EmptyCardPlaceholder.Description>
-              You don&apos;t have any short links yet. Start creating content.
-            </EmptyCardPlaceholder.Description>
-            <LinkCreateButton
-              className={cn(
-                buttonVariants({ variant: "outline" }),
-                "text-slate-900"
-              )}
-            />
-          </EmptyCardPlaceholder>
-        )}
-      </div>
+      <Tabs defaultValue="links" className="w-full">
+        <TabsList>
+          <TabsTrigger value="links">Links</TabsTrigger>
+          <TabsTrigger disabled value="appearance">
+            Appearance
+          </TabsTrigger>
+          <TabsTrigger disabled value="analytics">
+            Analytics
+          </TabsTrigger>
+          <TabsTrigger disabled value="settings">
+            Settings
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="links">
+          <LinkList links={links} />
+        </TabsContent>
+        <TabsContent value="settings">
+          <p>To be implemented</p>
+        </TabsContent>
+      </Tabs>
     </AppShell>
   );
 }

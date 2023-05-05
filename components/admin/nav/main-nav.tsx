@@ -9,24 +9,28 @@ import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/shared/icons";
 import { MobileNav } from "@/components/admin/nav/mobile-nav";
+import { ProjectDropdownNav } from "./project-drodown-nav";
+import { Project } from "@prisma/client";
 
 interface MainNavProps {
   items?: MainNavItem[];
+  projects?: Pick<Project, "name" | "slug">[];
   children?: React.ReactNode;
 }
 
-export function MainNav({ items, children }: MainNavProps) {
+export function MainNav({ items, projects, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
   return (
     <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="hidden items-center space-x-2 md:flex">
+      {/* <Link href="/" className="hidden items-center space-x-2 md:flex">
         <Icons.logo />
         <span className="hidden font-bold sm:inline-block">
           {siteConfig.name}
         </span>
-      </Link>
+      </Link> */}
+      <ProjectDropdownNav projects={projects ? projects : []} />
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) => (

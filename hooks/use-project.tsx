@@ -20,9 +20,6 @@ export default function useProject() {
     }
   );
 
-  console.log(project);
-  console.log(error);
-
   return {
     project,
     error,
