@@ -61,37 +61,6 @@ const getProject = cache(async (userId: string, slug: Project["slug"]) => {
   return null;
 });
 
-const getLinkTimeseriesData = cache(
-  async (slug: Project["slug"], key: Link["key"], interval: IntervalProps) => {
-    const timeseriesData = await getLinkStats({
-      slug: slug,
-      key: key,
-      endpoint: "timeseries",
-      interval,
-    });
-
-    console.log(timeseriesData);
-
-    return timeseriesData;
-  }
-);
-
-const activityTestData = JSON.stringify([
-  { start: "2023-04-12T16:00:00.000Z", clicks: 1 },
-  { start: "2023-04-13T16:00:00.000Z", clicks: 2 },
-  { start: "2023-04-14T16:00:00.000Z", clicks: 10 },
-  { start: "2023-04-15T16:00:00.000Z", clicks: 100 },
-  { start: "2023-04-16T16:00:00.000Z", clicks: 10 },
-  { start: "2023-04-17T16:00:00.000Z", clicks: 100 },
-  { start: "2023-04-18T16:00:00.000Z", clicks: 90 },
-  { start: "2023-04-19T16:00:00.000Z", clicks: 80 },
-  { start: "2023-04-20T16:00:00.000Z", clicks: 110 },
-  { start: "2023-04-21T16:00:00.000Z", clicks: 80 },
-  { start: "2023-04-22T16:00:00.000Z", clicks: 90 },
-  { start: "2023-04-23T16:00:00.000Z", clicks: 200 },
-  { start: "2023-04-24T16:00:00.000Z", clicks: 300 },
-]);
-
 const deviceTestData = JSON.stringify([
   { device: "Desktop", clicks: 2 },
   { device: "Mobile", clicks: 10 },
@@ -103,9 +72,9 @@ const locationTestData = JSON.stringify([
   { location: "Canada", clicks: 200 },
 ]);
 
-const referrerTestData = JSON.stringify([
-  { referrer: "(direct)", clicks: 7 },
-  { referrer: "sdburt.com", clicks: 4 },
+const refererTestData = JSON.stringify([
+  { referer: "(direct)", clicks: 7 },
+  { referer: "sdburt.com", clicks: 4 },
 ]);
 
 async function LinkPage({ params }) {
@@ -129,12 +98,9 @@ async function LinkPage({ params }) {
 
   const link = await getLinkDetails(slug, key);
 
-  const timeseriesData = await getLinkTimeseriesData(slug, key, "24h");
-
-  const activityData = timeseriesData;
   const deviceData = JSON.parse(deviceTestData);
   const locationData = JSON.parse(locationTestData);
-  const referrerData = JSON.parse(referrerTestData);
+  const refererData = JSON.parse(refererTestData);
 
   return (
     <AppShell>
@@ -187,7 +153,7 @@ async function LinkPage({ params }) {
                 <CardTitle>Clicks</CardTitle>
               </CardHeader>
               <CardContent className="w-full h-96">
-                <ActivityChart data={activityData} />
+                <ActivityChart />
               </CardContent>
             </Card>
             <Card>
@@ -209,10 +175,10 @@ async function LinkPage({ params }) {
             </Card>
             <Card>
               <CardHeader>
-                <CardTitle>Referrer</CardTitle>
+                <CardTitle>referer</CardTitle>
               </CardHeader>
               <CardContent className="w-full h-96">
-                <HorizontalChart dataKey="referrer" data={referrerData} />
+                <HorizontalChart dataKey="referer" data={refererData} />
               </CardContent>
             </Card>
           </div>

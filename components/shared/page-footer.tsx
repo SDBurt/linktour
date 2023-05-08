@@ -12,7 +12,7 @@ export function SiteFooter() {
             <a
               href={siteConfig.links.twitter}
               target="_blank"
-              rel="noreferrer"
+              rel="noreferer"
               className="font-medium underline underline-offset-4"
             >
               shadcn
@@ -21,7 +21,7 @@ export function SiteFooter() {
             <a
               href="https://vercel.com"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferer"
               className="font-medium underline underline-offset-4"
             >
               Vercel
@@ -30,7 +30,7 @@ export function SiteFooter() {
             <a
               href="https://popsy.co"
               target="_blank"
-              rel="noreferrer"
+              rel="noreferer"
               className="font-medium underline underline-offset-4"
             >
               Popsy
@@ -43,7 +43,7 @@ export function SiteFooter() {
           <a
             href={siteConfig.links.github}
             target="_blank"
-            rel="noreferrer"
+            rel="noreferer"
             className="font-medium underline underline-offset-4"
           >
             GitHub

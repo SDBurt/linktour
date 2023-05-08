@@ -1,5 +1,7 @@
 "use client";
 
+import useSWR from "swr";
+
 import {
   Bar,
   BarChart,
@@ -11,14 +13,25 @@ import {
 } from "recharts";
 
 import { format } from "date-fns";
+import { useParams, useSearchParams } from "next/navigation";
+import { fetcher } from "@/lib/utils";
+import { useCallback } from "react";
 
 export type ChartDataType = { start: string; clicks: number; end?: string };
 
-interface ChartProps {
-  data: ChartDataType[];
-}
+const ActivityChart = () => {
+  const params = useParams();
+  const searchParams = useSearchParams();
 
-const ActivityChart = ({ data }: ChartProps) => {
+  const interval = searchParams?.get("interval");
+
+  const { data } = useSWR<number>(
+    `/api/projects/${params?.slug}/links/${params?.key}/stats/timeseries${
+      interval ? "?" + `interval=${interval}` : null
+    }`,
+    fetcher
+  );
+
   const formatData = (data) => {
     if (!data || data.length === 0) {
       return [];
@@ -32,7 +45,7 @@ const ActivityChart = ({ data }: ChartProps) => {
   };
 
   const dateFormatter = (date) => {
-    return format(new Date(date), "dd/MMM");
+    return format(new Date(date), "MMM dd hh:mm");
   };
 
   return (

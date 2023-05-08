@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback } from "react";
 
 import { INTERVALS } from "@/lib/constants";
 
@@ -15,17 +15,20 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function TimeframeSelect() {
   const pathname = usePathname();
-  const searchParams = useSearchParams()!;
   const router = useRouter();
-  const interval = searchParams?.get("interval");
 
-  const [value, setValue] = React.useState<string>("24h");
+  const searchParams = useSearchParams();
+  const interval = searchParams?.get("interval") || "24h";
+
+  // const [value, setValue] = React.useState<string>(interval);
+
+  console.log(interval);
 
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
   const createQueryString = useCallback(
     (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams);
+      const params = new URLSearchParams(searchParams || {});
       params.set(name, value);
 
       return params.toString();
@@ -33,21 +36,27 @@ export function TimeframeSelect() {
     [searchParams]
   );
 
-  const selectedInterval = useMemo(() => {
+  const selectedInterval = useCallback(() => {
     return INTERVALS.find((s) => s.slug === interval) || INTERVALS[1];
   }, [interval]);
 
-  const selectValueChangeHandler = (value: string) => {
-    console.log(value);
+  const selectValueChangeHandler = useCallback(
+    (value: string) => {
+      console.log("selectValueChangeHandler", value);
 
-    router.push(pathname + "?" + createQueryString("interval", value));
+      router.push(pathname + "?" + createQueryString("interval", value));
 
-    setValue(value);
-  };
+      // setValue(value);
+    },
+    [interval]
+  );
 
   return (
     <div className="p-1">
-      <Select value={value} onValueChange={(v) => selectValueChangeHandler(v)}>
+      <Select
+        value={selectedInterval().slug}
+        onValueChange={(v) => selectValueChangeHandler(v)}
+      >
         <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Theme" />
         </SelectTrigger>
