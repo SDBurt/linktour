@@ -1,7 +1,5 @@
-import NextLink from "next/link";
-import { Link, Project } from "@prisma/client";
+import { Link } from "@prisma/client";
 
-import { LinkOperations } from "@/components/admin/link/link-operations";
 import { Skeleton } from "@/components/ui/skeleton";
 import { EmptyCardPlaceholder } from "@/components/shared/empty-card-placeholder";
 import { buttonVariants } from "@/components/ui/button";

@@ -1,10 +1,9 @@
 "use client";
 
-import useSWR from "swr";
-
 import {
   Bar,
-  BarChart,
+  BarChart as ReBarChart,
+  CartesianGrid,
   Legend,
   ResponsiveContainer,
   Tooltip,
@@ -13,37 +12,10 @@ import {
 } from "recharts";
 
 import { format } from "date-fns";
-import { useParams, useSearchParams } from "next/navigation";
-import { fetcher } from "@/lib/utils";
-import { useCallback } from "react";
 
 export type ChartDataType = { start: string; clicks: number; end?: string };
 
-const ActivityChart = () => {
-  const params = useParams();
-  const searchParams = useSearchParams();
-
-  const interval = searchParams?.get("interval");
-
-  const { data } = useSWR<number>(
-    `/api/projects/${params?.slug}/links/${params?.key}/stats/timeseries${
-      interval ? "?" + `interval=${interval}` : null
-    }`,
-    fetcher
-  );
-
-  const formatData = (data) => {
-    if (!data || data.length === 0) {
-      return [];
-    }
-    return data.map((d: ChartDataType) => {
-      return {
-        ...d,
-        start: new Date(d.start),
-      };
-    });
-  };
-
+const BarChart = ({ data }: { data: ChartDataType[] }) => {
   const dateFormatter = (date) => {
     return format(new Date(date), "MMM dd hh:mm");
   };
@@ -54,8 +26,8 @@ const ActivityChart = () => {
     <div className="flex w-full h-full">
       <div className="flex-1 w-0">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={formatData(data)}
+          <ReBarChart
+            data={data}
             margin={{
               top: 20,
               right: 20,
@@ -71,12 +43,13 @@ const ActivityChart = () => {
             <YAxis type="number" />
             <Tooltip labelFormatter={dateFormatter} />
             <Legend />
-            <Bar dataKey="clicks" />
-          </BarChart>
+            <CartesianGrid horizontal={true} vertical={false} />
+            <Bar dataKey="clicks" fill="#00FF00" />
+          </ReBarChart>
         </ResponsiveContainer>
       </div>
     </div>
   );
 };
 
-export default ActivityChart;
+export default BarChart;

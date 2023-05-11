@@ -7,7 +7,7 @@ import { db } from "@/lib/db";
 import { AppHeader } from "@/components/shared/page-header";
 import { AppShell } from "@/components/admin/layouts/shell";
 import { getServerSession } from "next-auth";
-import Chart from "@/components/app/chart";
+import Chart from "@/components/admin/stats/activity-chart";
 
 const getLinkDetails = cache(async (slug: Link["slug"], key: Link["key"]) => {
   return await db.link.findUnique({

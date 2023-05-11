@@ -3,6 +3,7 @@
 import {
   Bar,
   BarChart,
+  CartesianGrid,
   Legend,
   ResponsiveContainer,
   Tooltip,
@@ -10,15 +11,15 @@ import {
   YAxis,
 } from "recharts";
 
-interface ChartProps {
+export interface ChartProps {
   dataKey: string;
   data: {
-    [key: string]: number;
-    clicks: number;
+    [key: string]: string | number;
   }[];
+  fill: string;
 }
 
-const HorizontalChart = ({ dataKey, data }: ChartProps) => {
+const HorizontalChart = ({ dataKey, data, fill = "#00FF00" }: ChartProps) => {
   return (
     // flex hack for resizing widow from larger to smaller
     // https://github.com/recharts/recharts/issues/172
@@ -39,7 +40,8 @@ const HorizontalChart = ({ dataKey, data }: ChartProps) => {
             <YAxis dataKey={dataKey} type="category" />
             <Tooltip />
             <Legend />
-            <Bar barSize={20} dataKey="clicks" />
+            <CartesianGrid horizontal={false} vertical={true} />
+            <Bar barSize={20} dataKey="clicks" fill={fill} />
           </BarChart>
         </ResponsiveContainer>
       </div>

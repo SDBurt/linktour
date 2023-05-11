@@ -9,10 +9,10 @@ import { fetcher } from "@/lib/utils";
 export default function Clicks() {
   const params = useParams();
   const searchParams = useSearchParams();
-
+  const interval = searchParams?.get("interval");
   const { data } = useSWR<number>(
     `/api/projects/${params?.slug}/links/${params?.key}/stats/clicks${
-      searchParams ? "?" + searchParams?.toString() : null
+      interval ? `?interval=${interval}` : "?interval=24hr"
     }`,
     fetcher
   );

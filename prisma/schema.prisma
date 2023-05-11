@@ -88,6 +88,8 @@ model Project {
     // Creator
     userId String
     user   User   @relation(fields: [userId], references: [id])
+
+    theme Theme?
 }
 
 model Link {
@@ -116,4 +118,46 @@ model Link {
 
     @@unique([slug, key])
     @@index([userId])
+}
+
+model Theme {
+    id String @id @default(cuid())
+
+    project     Project      @relation(fields: [projectSlug], references: [slug])
+    projectSlug String       @unique
+    background  Background?
+    buttonStyle ButtonStyle?
+}
+
+model Background {
+    id    String @id @default(cuid())
+    color String
+    style String
+    type  String
+
+    key       String
+    luminance String
+
+    // social icon settings
+    socialStyleColor String
+
+    // typeface settings
+    typefaceColor  String
+    typefaceFamily String
+
+    // parent theme
+    theme   Theme  @relation(fields: [themeId], references: [id])
+    themeId String @unique
+}
+
+model ButtonStyle {
+    id              String @id @default(cuid())
+    backgroundColor String
+    shadowColor     String
+    textColor       String
+    type            String
+
+    // parent theme
+    theme   Theme  @relation(fields: [themeId], references: [id])
+    themeId String @unique
 }

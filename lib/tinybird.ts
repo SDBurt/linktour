@@ -11,7 +11,7 @@ export async function recordClick(
   req: NextRequest,
   key?: string
 ) {
-  console.log("Recording clicks with geo, ua, referer and timestamp data");
+  // console.log("Recording clicks with geo, ua, referer and timestamp data");
   const geo = process.env.VERCEL === "1" ? req.geo : LOCALHOST_GEO_DATA;
   const ua = userAgent(req);
   const referer = req.headers.get("referer");

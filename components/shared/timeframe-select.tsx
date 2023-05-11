@@ -20,10 +20,6 @@ export function TimeframeSelect() {
   const searchParams = useSearchParams();
   const interval = searchParams?.get("interval") || "24h";
 
-  // const [value, setValue] = React.useState<string>(interval);
-
-  console.log(interval);
-
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
   const createQueryString = useCallback(
@@ -42,11 +38,7 @@ export function TimeframeSelect() {
 
   const selectValueChangeHandler = useCallback(
     (value: string) => {
-      console.log("selectValueChangeHandler", value);
-
       router.push(pathname + "?" + createQueryString("interval", value));
-
-      // setValue(value);
     },
     [interval]
   );

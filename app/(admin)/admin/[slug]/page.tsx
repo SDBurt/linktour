@@ -12,6 +12,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { getServerSession } from "next-auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LinkList } from "@/components/admin/link/link-list";
+import { Appearance } from "./appearance";
 
 const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
   return await db.project.findFirst({
@@ -63,9 +64,7 @@ async function ProjectPage({ params }) {
       <Tabs defaultValue="links" className="w-full">
         <TabsList>
           <TabsTrigger value="links">Links</TabsTrigger>
-          <TabsTrigger disabled value="appearance">
-            Appearance
-          </TabsTrigger>
+          <TabsTrigger value="appearance">Appearance</TabsTrigger>
           <TabsTrigger disabled value="analytics">
             Analytics
           </TabsTrigger>
@@ -75,6 +74,12 @@ async function ProjectPage({ params }) {
         </TabsList>
         <TabsContent value="links">
           <LinkList links={links} />
+        </TabsContent>
+        <TabsContent value="appearance">
+          <Appearance />
+        </TabsContent>
+        <TabsContent value="analytics">
+          <p>To be implemented</p>
         </TabsContent>
         <TabsContent value="settings">
           <p>To be implemented</p>

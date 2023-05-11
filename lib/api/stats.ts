@@ -97,7 +97,7 @@ const VALID_TINYBIRD_ENDPOINTS = new Set([
   "clicks",
   "country",
   "city",
-  "device",
+  "devices",
   "browser",
   "os",
   "bot",
@@ -144,7 +144,7 @@ export const getLinkStats = async ({
       new Date(Date.now()).toISOString().replace("T", " ").replace("Z", "")
     );
     url.searchParams.append("granularity", intervalData[interval].granularity);
-    console.log({ pathname: url.pathname, searchParams: url.searchParams });
+    // console.log({ pathname: url.pathname, searchParams: url.searchParams });
   }
 
   return await fetch(url, {
@@ -156,7 +156,7 @@ export const getLinkStats = async ({
     .then(({ data }) => {
       if (endpoint === "clicks") {
         try {
-          const clicks = data.length > 0 ? data[0]["clicks"] : 0;
+          const clicks = data[0]["clicks"];
           return clicks || 0;
         } catch (err) {
           console.error(err);
