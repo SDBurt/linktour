@@ -21,10 +21,9 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getProject } from "@/lib/api/projects";
 
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  project?: Pick<Project, "id" | "name" | "slug">;
+  project?: Pick<Project, "id" | "name" | "slug" | "description">;
 }
 
 type FormData = z.infer<typeof projectCreateSchema>;
@@ -48,6 +47,7 @@ export function ProjectCreateForm({
     defaultValues: {
       name: project?.name || "",
       slug: project?.slug || "",
+      description: project?.description || "",
     },
   });
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
@@ -106,6 +106,7 @@ export function ProjectCreateForm({
       body: JSON.stringify({
         name: data.name,
         slug: data.slug,
+        description: data.description,
       }),
     });
 
@@ -185,6 +186,19 @@ export function ProjectCreateForm({
             )}
             {errors?.slug && (
               <p className="px-1 text-xs text-red-600">{errors.slug.message}</p>
+            )}
+            <Label htmlFor="description">Description</Label>
+            <Input
+              id="description"
+              className="w-full"
+              size={32}
+              placeholder="ex: dub"
+              {...register("description")}
+            />
+            {errors?.description && (
+              <p className="px-1 text-xs text-red-600">
+                {errors.description.message}
+              </p>
             )}
           </div>
         </CardContent>

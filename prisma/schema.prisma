@@ -76,6 +76,9 @@ model Project {
     slug     String  @unique
     verified Boolean @default(false)
 
+    description String? @db.VarChar(280)
+    image       String?
+
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now())
     links     Link[]
@@ -137,7 +140,6 @@ model Theme {
     // typeface settings
     typefaceColor  String
     typefaceFamily String
-
 }
 
 model Background {

@@ -44,6 +44,7 @@ export function ProjectEditForm({
     resolver: zodResolver(projectEditSchema),
     defaultValues: {
       name: project?.name || "",
+      description: project?.description || "",
     },
   });
   const [isSaving, setIsSaving] = React.useState<boolean>(false);
@@ -58,6 +59,7 @@ export function ProjectEditForm({
       },
       body: JSON.stringify({
         name: data.name,
+        description: data.description,
       }),
     });
 
@@ -94,6 +96,19 @@ export function ProjectEditForm({
             <Input id="name" size={32} {...register("name")} />
             {errors?.name && (
               <p className="px-1 text-xs text-red-600">{errors.name.message}</p>
+            )}
+            <Label htmlFor="description">Description</Label>
+            <Input
+              id="description"
+              className="w-full"
+              size={32}
+              placeholder="ex: dub"
+              {...register("description")}
+            />
+            {errors?.description && (
+              <p className="px-1 text-xs text-red-600">
+                {errors.description.message}
+              </p>
             )}
           </div>
         </CardContent>
