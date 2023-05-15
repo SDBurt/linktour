@@ -56,7 +56,7 @@ model User {
     stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
     stripePriceId          String?   @map(name: "stripe_price_id")
     stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
-    Project                Project[]
+    project                Project[]
 
     @@map(name: "users")
 }
@@ -127,13 +127,6 @@ model Theme {
     projectSlug String       @unique
     background  Background?
     buttonStyle ButtonStyle?
-}
-
-model Background {
-    id    String @id @default(cuid())
-    color String
-    style String
-    type  String
 
     key       String
     luminance String
@@ -144,6 +137,14 @@ model Background {
     // typeface settings
     typefaceColor  String
     typefaceFamily String
+
+}
+
+model Background {
+    id    String @id @default(cuid())
+    color String
+    style String
+    type  String
 
     // parent theme
     theme   Theme  @relation(fields: [themeId], references: [id])

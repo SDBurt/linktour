@@ -79,3 +79,22 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+
+@layer components {
+  .soft-shadow {
+    box-shadow: theme('boxShadow.xl');
+  }
+  .hard-shadow {
+    box-shadow: 0 5px 0 -3px rgb(0 0 0 / 0.5), 0 4px 0 -4px rgb(0 0 0 / 0.5);
+  }
+  .rounded-1 {
+    border-radius: theme('borderRadius.sm');
+  }
+  .rounded-2 {
+    border-radius: theme('borderRadius.md');
+  }
+  .rounded-3 {
+    border-radius: theme('borderRadius.lg');
+  }
+}
