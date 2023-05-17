@@ -126,10 +126,17 @@ model Link {
 model Theme {
     id String @id @default(cuid())
 
-    project     Project      @relation(fields: [projectSlug], references: [slug])
-    projectSlug String       @unique
-    background  Background?
-    buttonStyle ButtonStyle?
+    project     Project @relation(fields: [projectSlug], references: [slug])
+    projectSlug String  @unique
+
+    backgroundColor String
+    backgroundStyle String
+    backgroundType  String
+
+    buttonBackgroundColor String
+    buttonShadowColor     String
+    buttonTextColor       String
+    buttonType            String
 
     key       String
     luminance String
@@ -140,27 +147,4 @@ model Theme {
     // typeface settings
     typefaceColor  String
     typefaceFamily String
-}
-
-model Background {
-    id    String @id @default(cuid())
-    color String
-    style String
-    type  String
-
-    // parent theme
-    theme   Theme  @relation(fields: [themeId], references: [id])
-    themeId String @unique
-}
-
-model ButtonStyle {
-    id              String @id @default(cuid())
-    backgroundColor String
-    shadowColor     String
-    textColor       String
-    type            String
-
-    // parent theme
-    theme   Theme  @relation(fields: [themeId], references: [id])
-    themeId String @unique
 }
