@@ -1,31 +1,35 @@
-"use client";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { useEffect, useState } from "react";
+import { ThemeBackgroundStyleProps, ThemeProps } from "@/lib/types";
 import { HexColorPicker } from "react-colorful";
 
 const options = {
   background: {
-    type: [
-      { label: "Flat Colour", name: "flat" },
-      { label: "Gradient", name: "gradient" },
-    ],
-    direction: [
-      { label: "Gradient Up", name: "gradientUp" },
-      { label: "Gradient Down", name: "gradientDown" },
+    style: [
+      { label: "Flat Colour", name: "FLAT" },
+      { label: "Gradient Up", name: "COLORUP" },
+      { label: "Gradient Down", name: "COLORDOWN" },
     ],
     color: "#02A291",
   },
 };
 
-export function BackgroundCard() {
-  const [type, setType] = useState("gradient");
-  const [direction, setDirection] = useState("gradientUp");
-  const [backgroundColour, setBackgroundColour] = useState("#02a291");
+interface BackgroundCardProps {
+  theme: ThemeProps;
+  setTheme: (theme: ThemeProps) => void;
+}
+
+export function BackgroundCard({ theme, setTheme }: BackgroundCardProps) {
+  const styleChangedHandler = (value: ThemeBackgroundStyleProps) => {
+    setTheme({ ...theme, backgroundStyle: value });
+  };
+
+  const colorChangedHandler = (value: string) => {
+    setTheme({ ...theme, backgroundColor: value });
+  };
 
   return (
     <Card>
@@ -34,41 +38,20 @@ export function BackgroundCard() {
       </CardHeader>
       <CardContent>
         <form className="flex flex-col space-y-4">
-          <Label>Type</Label>
+          <Label>Style</Label>
           <RadioGroup
-            defaultValue={type}
+            defaultValue={theme.backgroundStyle}
             orientation="vertical"
-            value={type}
-            onValueChange={setType}
+            value={theme.backgroundStyle}
+            onValueChange={styleChangedHandler}
           >
-            {options.background.type.map((option) => (
+            {options.background.style.map((option) => (
               <div key={option.name} className="flex items-center space-x-2">
                 <RadioGroupItem value={option.name} id={option.name} />
                 <Label htmlFor={option.name}>{option.label}</Label>
               </div>
             ))}
           </RadioGroup>
-          {type === "gradient" ? (
-            <>
-              <Label>Gradient Direction</Label>
-              <RadioGroup
-                orientation="horizontal"
-                defaultValue={direction}
-                value={direction}
-                onValueChange={setDirection}
-              >
-                {options.background.direction.map((option) => (
-                  <div
-                    key={option.name}
-                    className="flex items-center space-x-2"
-                  >
-                    <RadioGroupItem value={option.name} id={option.name} />
-                    <Label htmlFor={option.name}>{option.label}</Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </>
-          ) : null}
 
           <Label htmlFor="background-colour">Background Colour</Label>
 
@@ -77,20 +60,20 @@ export function BackgroundCard() {
               <DialogTrigger>
                 <div
                   className={"h-10 w-10 rounded"}
-                  style={{ backgroundColor: backgroundColour }}
+                  style={{ backgroundColor: theme.backgroundColor }}
                 ></div>
               </DialogTrigger>
               <DialogContent className="w-62 p-8">
                 <HexColorPicker
-                  color={backgroundColour}
-                  onChange={setBackgroundColour}
+                  color={theme.backgroundColor}
+                  onChange={colorChangedHandler}
                 />
               </DialogContent>
             </Dialog>
             <Input
               id="background-colour"
-              value={backgroundColour}
-              onChange={(e) => setBackgroundColour(e.target.value)}
+              value={theme.backgroundColor}
+              onChange={(e) => colorChangedHandler(e.target.value)}
             />
           </div>
         </form>

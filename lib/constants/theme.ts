@@ -1,19 +1,21 @@
-const THEME = {
+import { ThemeProps } from "../types";
+
+const THEME: ThemeProps = {
   // General
   key: "custom",
-  luminance: "",
+  luminance: "DARK",
   socialStyleColor: "",
 
   // Background
-  backgroundColor: "#4FC3F7",
-  backgroundStyle: "COLORUP",
+  backgroundColor: "#02a291",
+  backgroundStyle: "FLAT", // COLORUP, COLORDOWN, FLAT
   backgroundType: "COLOR",
 
   // Button
-  buttonBackgroundColor: "#EEEEEE",
-  buttonShadowColor: "#EEEEEE",
-  buttonTextColor: "#424242",
-  buttonType: "SOFTSHADOW_ROUNDED",
+  buttonBackgroundColor: "#ffffff",
+  buttonShadowColor: "#000000",
+  buttonTextColor: "#888888",
+  buttonType: "SOFTSHADOW_CIRCULAR",
 
   // Typeface
   typefaceColor: "#f5f5f5",

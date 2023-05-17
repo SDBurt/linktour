@@ -1,46 +1,62 @@
-"use client";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import THEME from "@/lib/constants/theme";
+import { ThemeButtonStyleTypeProps, ThemeProps } from "@/lib/types";
 import { useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
 const options = {
   button: {
     fill: [
-      { label: "None", name: "fill-none" },
-      { label: "Small", name: "fill-small" },
-      { label: "Large", name: "fill-large" },
+      { label: "None", name: "FILL" },
+      { label: "Small", name: "FILL_ROUNDED" },
+      { label: "Large", name: "FILL_CIRCULAR" },
     ],
     outline: [
-      { label: "None", name: "outline-none" },
-      { label: "Small", name: "outline-small" },
-      { label: "Large", name: "outline-large" },
+      { label: "None", name: "OUTLINE" },
+      { label: "Small", name: "OUTLINE_ROUNDED" },
+      { label: "Large", name: "OUTLINE_CIRCULAR" },
     ],
     softShadow: [
-      { label: "None", name: "softShadow-none" },
-      { label: "Small", name: "softShadow-small" },
-      { label: "Large", name: "softShadow-large" },
+      { label: "None", name: "SOFTSHADOW" },
+      { label: "Small", name: "SOFTSHADOW_ROUNDED" },
+      { label: "Large", name: "SOFTSHADOW_CIRCULAR" },
     ],
     hardShadow: [
-      { label: "None", name: "hardShadow-none" },
-      { label: "Small", name: "hardShadow-small" },
-      { label: "Large", name: "hardShadow-large" },
+      { label: "None", name: "HARDSHADOW" },
+      { label: "Small", name: "HARDSHADOW_ROUNDED" },
+      { label: "Large", name: "HARDSHADOW_CIRCULAR" },
     ],
-    buttonColour: "#02A291",
-    buttonFontColour: "#02A291",
-    shadowColour: "#02A291",
+    buttonColour: THEME.buttonBackgroundColor,
+    buttonFontColour: THEME.buttonTextColor,
+    shadowColour: THEME.buttonShadowColor,
   },
 };
 
-export function ButtonsCard() {
-  const [type, setType] = useState("fill-none");
-  const [buttonColour, setButtonColour] = useState("#02a291");
-  const [buttonFontColour, setButtonFontColour] = useState("#02a291");
-  const [shadowColour, setShadowColour] = useState("#02a291");
+interface ButtonsCardProps {
+  theme: ThemeProps;
+  setTheme: (theme: ThemeProps) => void;
+}
+
+export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
+  const typeChangedHandler = (value: ThemeButtonStyleTypeProps) => {
+    setTheme({ ...theme, buttonType: value });
+  };
+
+  const backgroundColorChangedHandler = (value: string) => {
+    setTheme({ ...theme, buttonBackgroundColor: value });
+  };
+
+  const textColorChangedHandler = (value: string) => {
+    setTheme({ ...theme, buttonTextColor: value });
+  };
+
+  const shadowColorChangedHandler = (value: string) => {
+    setTheme({ ...theme, buttonShadowColor: value });
+  };
 
   return (
     <Card>
@@ -51,10 +67,10 @@ export function ButtonsCard() {
         <form className="flex flex-col space-y-4">
           <Label>Type</Label>
           <RadioGroup
-            defaultValue={type}
+            defaultValue={theme.buttonType}
             orientation="vertical"
-            value={type}
-            onValueChange={setType}
+            value={theme.buttonType}
+            onValueChange={typeChangedHandler}
           >
             <Label>Fill</Label>
             {options.button.fill.map((option) => (
@@ -85,27 +101,27 @@ export function ButtonsCard() {
               </div>
             ))}
           </RadioGroup>
-          <Label>Button Colour</Label>
 
+          <Label>Button Colour</Label>
           <div className="flex flex-row space-x-2">
             <Dialog>
               <DialogTrigger>
                 <div
                   className={"h-10 w-10 rounded"}
-                  style={{ backgroundColor: buttonColour }}
+                  style={{ backgroundColor: theme.typefaceColor }}
                 ></div>
               </DialogTrigger>
               <DialogContent className="w-62 p-8">
                 <HexColorPicker
-                  color={buttonColour}
-                  onChange={setButtonColour}
+                  color={theme.typefaceColor}
+                  onChange={backgroundColorChangedHandler}
                 />
               </DialogContent>
             </Dialog>
             <Input
               id="background-colour"
-              value={buttonColour}
-              onChange={(e) => setButtonColour(e.target.value)}
+              value={theme.typefaceColor}
+              onChange={(e) => backgroundColorChangedHandler(e.target.value)}
             />
           </div>
 
@@ -115,20 +131,20 @@ export function ButtonsCard() {
               <DialogTrigger>
                 <div
                   className={"h-10 w-10 rounded"}
-                  style={{ backgroundColor: buttonFontColour }}
+                  style={{ backgroundColor: theme.typefaceColor }}
                 ></div>
               </DialogTrigger>
               <DialogContent className="w-62 p-8">
                 <HexColorPicker
-                  color={buttonFontColour}
-                  onChange={setButtonFontColour}
+                  color={theme.typefaceColor}
+                  onChange={textColorChangedHandler}
                 />
               </DialogContent>
             </Dialog>
             <Input
               id="background-colour"
-              value={buttonFontColour}
-              onChange={(e) => setButtonFontColour(e.target.value)}
+              value={theme.typefaceColor}
+              onChange={(e) => textColorChangedHandler(e.target.value)}
             />
           </div>
 
@@ -138,20 +154,20 @@ export function ButtonsCard() {
               <DialogTrigger>
                 <div
                   className={"h-10 w-10 rounded"}
-                  style={{ backgroundColor: shadowColour }}
+                  style={{ backgroundColor: theme.buttonShadowColor }}
                 ></div>
               </DialogTrigger>
               <DialogContent className="w-62 p-8">
                 <HexColorPicker
-                  color={shadowColour}
-                  onChange={setShadowColour}
+                  color={theme.buttonShadowColor}
+                  onChange={shadowColorChangedHandler}
                 />
               </DialogContent>
             </Dialog>
             <Input
               id="background-colour"
-              value={shadowColour}
-              onChange={(e) => setShadowColour(e.target.value)}
+              value={theme.buttonShadowColor}
+              onChange={(e) => shadowColorChangedHandler(e.target.value)}
             />
           </div>
         </form>

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { ProjectItem } from "./project-item";
 
 interface ProjectListProps {
-  projects: Pick<Project, "id" | "name" | "slug">[];
+  projects: Pick<Project, "id" | "name" | "slug" | "description">[];
 }
 
 export function ProjectList({ projects }: ProjectListProps) {
@@ -23,6 +23,7 @@ export function ProjectList({ projects }: ProjectListProps) {
                 id: project.id,
                 name: project.name,
                 slug: project.slug,
+                description: project.description,
               }}
             />
           ))}

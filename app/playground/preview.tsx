@@ -1,4 +1,5 @@
 import { UserAvatar } from "@/components/user/user-avatar";
+import { ThemeButtonStyleTypeProps, ThemeProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Link, Project, Theme, User } from "@prisma/client";
 import NextLink from "next/link";
@@ -7,28 +8,14 @@ import React from "react";
 interface PreviewProps {
   user: Pick<User, "image" | "name">;
   project: Pick<Project, "name" | "image" | "description">;
-  theme: Pick<
-    Theme,
-    | "backgroundColor"
-    | "backgroundStyle"
-    | "backgroundType"
-    | "buttonBackgroundColor"
-    | "buttonShadowColor"
-    | "buttonTextColor"
-    | "buttonType"
-    | "key"
-    | "luminance"
-    | "socialStyleColor"
-    | "typefaceColor"
-    | "typefaceFamily"
-  >;
+  theme: ThemeProps;
   links: Pick<Link, "title" | "url">[];
 }
 
 const customStyles = {
-  SOFTSHADOW: "shadow",
-  SOFTSHADOW_ROUNDED: "shadow rounded-lg",
-  SOFTSHADOW_CIRCULAR: "shadow rounded-full",
+  SOFTSHADOW: "drop-shadow",
+  SOFTSHADOW_ROUNDED: "drop-shadow rounded-lg",
+  SOFTSHADOW_CIRCULAR: "drop-shadow rounded-full",
 
   HARDSHADOW: "hard-shadow",
   HARDSHADOW_ROUNDED: "hard-shadow rounded-lg",
@@ -46,10 +33,10 @@ const Preview = ({ user, project, theme, links }: PreviewProps) => {
       className="w-full h-full flex flex-col justify-center items-center py-8"
       style={{ backgroundColor: theme.backgroundColor }}
     >
-      <div className="max-w-2xl w-full px-2 py-4 space-y-8 mb-auto">
+      <div className="max-w-2xl w-full p-4 space-y-8 mb-auto">
         <div className="w-full flex justify-center items-center">
           <UserAvatar
-            className="h-24 w-24 border"
+            className="h-24 w-24"
             user={{ name: user.name, image: user.image }}
           />
         </div>

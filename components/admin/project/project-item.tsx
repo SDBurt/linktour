@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Card } from "@/components/ui/card";
 
 interface ProjectItemProps {
-  project: Pick<Project, "id" | "name" | "slug">;
+  project: Pick<Project, "id" | "name" | "slug" | "description">;
 }
 
 export function ProjectItem({ project }: ProjectItemProps) {
@@ -27,6 +27,7 @@ export function ProjectItem({ project }: ProjectItemProps) {
             id: project.id,
             name: project.name,
             slug: project.slug,
+            description: project.description,
           }}
         />
       </div>

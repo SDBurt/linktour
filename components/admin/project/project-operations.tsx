@@ -45,7 +45,7 @@ async function deleteProject(slug: string) {
 }
 
 interface ProjectOperationsProps {
-  project: Pick<Project, "id" | "name" | "slug">;
+  project: Pick<Project, "id" | "name" | "slug" | "description">;
 }
 
 export function ProjectOperations({ project }: ProjectOperationsProps) {

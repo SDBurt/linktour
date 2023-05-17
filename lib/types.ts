@@ -75,3 +75,36 @@ export interface RootDomainProps {
   target: string;
   rewrite?: boolean;
 }
+
+export type ThemeBackgroundStyleProps = "COLORUP" | "COLORDOWN" | "FLAT";
+export type ThemeBackgroundTypeProps = "COLOR" | "IMAGE";
+export type ThemeButtonStyleTypeProps =
+  | "SOFTSHADOW_CIRCULAR"
+  | "SOFTSHADOW_ROUNDED"
+  | "SOFTSHADOW"
+  | "HARDSHADOW_CIRCULAR"
+  | "HARDSHADOW_ROUNDED"
+  | "HARDSHADOW"
+  | "OUTLINE_CIRCULAR"
+  | "OUTLINE_ROUNDED"
+  | "OUTLINE"
+  | "FILL_CIRCULAR"
+  | "FILL_ROUNDED"
+  | "FILL";
+
+export type ThemeLuminanceProps = "LIGHT" | "DARK";
+
+export interface ThemeProps {
+  key: string;
+  luminance: ThemeLuminanceProps;
+  socialStyleColor: string;
+  backgroundColor: string;
+  backgroundStyle: ThemeBackgroundStyleProps;
+  backgroundType: ThemeBackgroundTypeProps;
+  buttonBackgroundColor: string;
+  buttonShadowColor: string;
+  buttonTextColor: string;
+  buttonType: ThemeButtonStyleTypeProps;
+  typefaceColor: string;
+  typefaceFamily: string;
+}

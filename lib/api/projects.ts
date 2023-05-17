@@ -27,6 +27,7 @@ export const getProjectsForUser = async (userId: string) => {
       slug: true,
       verified: true,
       links: true,
+      description: true,
       createdAt: true,
     },
     orderBy: {
@@ -119,4 +120,20 @@ export const getProjectUsage = async (slug: string) => {
   });
 
   return projectUsage;
+};
+
+/**
+ * Get Project Theme
+ */
+export const getProjectTheme = async (slug: string) => {
+  const projectTheme = await db.project.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      theme: true,
+    },
+  });
+
+  return projectTheme;
 };

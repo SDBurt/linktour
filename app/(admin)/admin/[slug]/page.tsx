@@ -13,7 +13,7 @@ import { getServerSession } from "next-auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LinkList } from "@/components/admin/link/link-list";
 import { Appearance } from "./appearance";
-import THEME from "@/lib/constants/theme";
+import { ThemeProps } from "@/lib/types";
 
 const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
   return await db.project.findFirst({
@@ -53,9 +53,7 @@ async function ProjectPage({ params }) {
   }
 
   const links = project?.links;
-  const theme = project?.theme ?? THEME;
-
-  console.log({ links, theme });
+  const theme = project?.theme as ThemeProps;
 
   return (
     <AppShell>

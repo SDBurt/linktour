@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  project: Pick<Project, "id" | "name" | "slug">;
+  project: Pick<Project, "id" | "name" | "slug" | "description">;
 }
 
 type FormData = z.infer<typeof projectEditSchema>;
@@ -102,7 +102,7 @@ export function ProjectEditForm({
               id="description"
               className="w-full"
               size={32}
-              placeholder="ex: dub"
+              placeholder="ex: Check out my socials!"
               {...register("description")}
             />
             {errors?.description && (

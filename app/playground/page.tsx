@@ -1,3 +1,4 @@
+import { ThemeProps } from "@/lib/types";
 import { Link, Project, Theme, User } from "@prisma/client";
 import Preview from "./preview";
 
@@ -12,24 +13,10 @@ const testLinks: Pick<Link, "title" | "url">[] = [
   },
 ];
 
-const testTheme: Pick<
-  Theme,
-  | "backgroundColor"
-  | "backgroundStyle"
-  | "backgroundType"
-  | "buttonBackgroundColor"
-  | "buttonShadowColor"
-  | "buttonTextColor"
-  | "buttonType"
-  | "key"
-  | "luminance"
-  | "socialStyleColor"
-  | "typefaceColor"
-  | "typefaceFamily"
-> = {
+const testTheme: ThemeProps = {
   // General
   key: "custom",
-  luminance: "",
+  luminance: "DARK",
   socialStyleColor: "",
 
   // Background
