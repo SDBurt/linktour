@@ -31,11 +31,11 @@ export const metadata = {
   ],
   authors: [
     {
-      name: "shadcn",
-      url: "https://shadcn.com",
+      name: "sdburt",
+      url: "https://sdburt.com",
     },
   ],
-  creator: "shadcn",
+  creator: "sdburt",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },

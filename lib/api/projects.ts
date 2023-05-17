@@ -68,6 +68,8 @@ export const getProject = async (slug: string) => {
     select: {
       id: true,
       name: true,
+      image: true,
+      description: true,
       slug: true,
       verified: true,
       links: true,

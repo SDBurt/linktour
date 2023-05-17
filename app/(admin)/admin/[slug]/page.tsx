@@ -13,6 +13,7 @@ import { getServerSession } from "next-auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LinkList } from "@/components/admin/link/link-list";
 import { Appearance } from "./appearance";
+import THEME from "@/lib/constants/theme";
 
 const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
   return await db.project.findFirst({
@@ -25,6 +26,9 @@ const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
       name: true,
       slug: true,
       links: true,
+      description: true,
+      image: true,
+      theme: true,
     },
   });
 });
@@ -37,8 +41,8 @@ async function ProjectPage({ params }) {
   }
 
   const session = await getServerSession(authOptions);
-
-  if (!session?.user) {
+  const user = session?.user;
+  if (!user) {
     redirect(authOptions?.pages?.signIn || "/login");
   }
 
@@ -49,6 +53,9 @@ async function ProjectPage({ params }) {
   }
 
   const links = project?.links;
+  const theme = project?.theme ?? THEME;
+
+  console.log({ links, theme });
 
   return (
     <AppShell>
@@ -76,7 +83,15 @@ async function ProjectPage({ params }) {
           <LinkList links={links} />
         </TabsContent>
         <TabsContent value="appearance">
-          <Appearance />
+          <Appearance
+            project={project}
+            links={links}
+            user={{
+              name: user?.name || "",
+              image: user?.image || "",
+            }}
+            theme={theme}
+          />
         </TabsContent>
         <TabsContent value="analytics">
           <p>To be implemented</p>

@@ -1,74 +1,70 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { Background, ButtonStyle } from "@prisma/client";
-import Link from "next/link";
+import { Link, Project, Theme, User } from "@prisma/client";
 import Preview from "./preview";
 
-type TestDataType = {
-  theme: {
-    background: Background;
-    buttonStyle: ButtonStyle;
-    key: string;
-  };
-};
-
-const testLinks = [
+const testLinks: Pick<Link, "title" | "url">[] = [
   {
-    id: "1",
     url: "https://sdburt.com",
     title: "Portfolio Site",
   },
   {
-    id: "2",
     url: "https://github.com/sdburt/sdburt.com",
     title: "Github",
   },
 ];
 
-const testData: TestDataType = {
-  theme: {
-    background: {
-      id: "",
-      color: "#4FC3F7",
-      style: "COLORUP",
-      type: "COLOR",
-      themeId: "",
-    },
-    buttonStyle: {
-      id: "",
-      backgroundColor: "#EEEEEE",
-      shadowColor: "#EEEEEE",
-      textColor: "#424242",
-      type: "SOFTSHADOW_ROUNDED",
-      themeId: "",
-    },
-    key: "custom",
-    luminance: "",
-    socialStyleColor: "",
-    typefaceColor: "#f5f5f5",
-    typefaceFamily: "dm sans",
-  },
+const testTheme: Pick<
+  Theme,
+  | "backgroundColor"
+  | "backgroundStyle"
+  | "backgroundType"
+  | "buttonBackgroundColor"
+  | "buttonShadowColor"
+  | "buttonTextColor"
+  | "buttonType"
+  | "key"
+  | "luminance"
+  | "socialStyleColor"
+  | "typefaceColor"
+  | "typefaceFamily"
+> = {
+  // General
+  key: "custom",
+  luminance: "",
+  socialStyleColor: "",
+
+  // Background
+  backgroundColor: "#4FC3F7",
+  backgroundStyle: "COLORUP",
+  backgroundType: "COLOR",
+
+  // Button
+  buttonBackgroundColor: "#EEEEEE",
+  buttonShadowColor: "#EEEEEE",
+  buttonTextColor: "#424242",
+  buttonType: "SOFTSHADOW_ROUNDED",
+
+  // Typeface
+  typefaceColor: "#f5f5f5",
+  typefaceFamily: "dm sans",
 };
 
-const testUser = {
+const testUser: Pick<User, "image" | "name"> = {
   name: "Sean Burt",
   image: "https://avatars.githubusercontent.com/u/14956845?v=4",
 };
 
-const testProject = {
+const testProject: Pick<Project, "name" | "image" | "description"> = {
   name: "Sean Burt",
+  image: "https://avatars.githubusercontent.com/u/14956845?v=4",
   description: "A test project containing a portfolio site and a github repo",
-  image: "https://avatars.githubusercontent.com/u/14956845?v=4",
 };
 
 export default async function PlaygroundPage() {
-  const theme = testData.theme;
-
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center bg-green-100">
       <div className="w-full h-full p-2 bg-green-300 flex justify-center">
         <Preview
-          theme={theme}
+          theme={testTheme}
           project={testProject}
           links={testLinks}
           user={testUser}

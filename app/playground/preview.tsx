@@ -1,14 +1,28 @@
 import { UserAvatar } from "@/components/user/user-avatar";
 import { cn } from "@/lib/utils";
-import { Link, Project, User } from "@prisma/client";
+import { Link, Project, Theme, User } from "@prisma/client";
 import NextLink from "next/link";
 import React from "react";
 
 interface PreviewProps {
   user: Pick<User, "image" | "name">;
   project: Pick<Project, "name" | "image" | "description">;
-  theme: object;
-  links: Pick<Link, "id" | "title" | "url">[];
+  theme: Pick<
+    Theme,
+    | "backgroundColor"
+    | "backgroundStyle"
+    | "backgroundType"
+    | "buttonBackgroundColor"
+    | "buttonShadowColor"
+    | "buttonTextColor"
+    | "buttonType"
+    | "key"
+    | "luminance"
+    | "socialStyleColor"
+    | "typefaceColor"
+    | "typefaceFamily"
+  >;
+  links: Pick<Link, "title" | "url">[];
 }
 
 const customStyles = {
@@ -24,17 +38,20 @@ const customStyles = {
 const Preview = ({ user, project, theme, links }: PreviewProps) => {
   const buttonStyle = cn(
     "p-4 flex justify-center items-center w-full h-full font-medium",
-    `${customStyles[theme.buttonStyle.type]}`
+    `${customStyles[theme?.buttonType]}`
   );
 
   return (
     <div
       className="w-full h-full flex flex-col justify-center items-center py-8"
-      style={{ backgroundColor: theme.background.color }}
+      style={{ backgroundColor: theme.backgroundColor }}
     >
       <div className="max-w-2xl w-full px-2 py-4 space-y-8 mb-auto">
         <div className="w-full flex justify-center items-center">
-          <UserAvatar className="h-24 w-24 border" user={user} />
+          <UserAvatar
+            className="h-24 w-24 border"
+            user={{ name: user.name, image: user.image }}
+          />
         </div>
         <div
           className="w-full text-center"
@@ -48,14 +65,14 @@ const Preview = ({ user, project, theme, links }: PreviewProps) => {
         </div>
 
         <div className="flex flex-col space-y-4">
-          {links.map((link) => (
+          {links.map((link, index) => (
             <NextLink
-              key={link.id}
+              key={`${link.title.trim()}-${index}`}
               href={link.url}
               className={buttonStyle}
               style={{
-                backgroundColor: theme.buttonStyle.backgroundColor,
-                color: theme.buttonStyle.textColor,
+                backgroundColor: theme.buttonBackgroundColor,
+                color: theme.buttonTextColor,
               }}
             >
               <div>
