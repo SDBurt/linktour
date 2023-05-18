@@ -75,6 +75,7 @@ export const getProject = async (slug: string) => {
       verified: true,
       links: true,
       user: true,
+      theme: true,
       createdAt: true,
     },
   });
