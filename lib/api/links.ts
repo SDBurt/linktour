@@ -80,3 +80,34 @@ export async function getRandomKey(slug: string): Promise<string> {
     return key;
   }
 }
+
+export async function IncrementClick(slug: string, key: string) {
+  console.log("IncrementClick");
+  const link = await db.link.findUnique({
+    where: {
+      slug_key: {
+        slug,
+        key,
+      },
+    },
+    select: {
+      clicks: true,
+    },
+  });
+
+  if (!link) {
+    return null;
+  }
+
+  return await db.link.update({
+    where: {
+      slug_key: {
+        slug: slug,
+        key: key,
+      },
+    },
+    data: {
+      clicks: link?.clicks ? link?.clicks + 1 : 1,
+    },
+  });
+}

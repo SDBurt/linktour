@@ -2,32 +2,18 @@ import { UserAvatar } from "@/components/user/user-avatar";
 import { ThemeButtonStyleTypeProps, ThemeProps } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Link, Project, Theme, User } from "@prisma/client";
-import NextLink from "next/link";
+
 import React from "react";
+import CustomButton from "./customButton";
 
 interface PreviewProps {
   user: Pick<User, "image" | "name">;
   project: Pick<Project, "name" | "image" | "description">;
   theme: ThemeProps;
-  links: Pick<Link, "title" | "url">[];
+  links: Pick<Link, "title" | "url" | "slug" | "key">[];
 }
 
-const customStyles = {
-  SOFTSHADOW: "drop-shadow",
-  SOFTSHADOW_ROUNDED: "drop-shadow rounded-lg",
-  SOFTSHADOW_CIRCULAR: "drop-shadow rounded-full",
-
-  HARDSHADOW: "hard-shadow",
-  HARDSHADOW_ROUNDED: "hard-shadow rounded-lg",
-  HARDSHADOW_CIRCULAR: "hard-shadow rounded-full",
-};
-
 const Preview = ({ user, project, theme, links }: PreviewProps) => {
-  const buttonStyle = cn(
-    "p-4 flex justify-center items-center w-full h-full font-medium",
-    `${customStyles[theme?.buttonType]}`
-  );
-
   return (
     <div
       className="w-full h-full flex flex-col justify-center items-center py-8"
@@ -53,19 +39,11 @@ const Preview = ({ user, project, theme, links }: PreviewProps) => {
 
         <div className="flex flex-col space-y-4">
           {links.map((link, index) => (
-            <NextLink
+            <CustomButton
               key={`${link.title.trim()}-${index}`}
-              href={link.url}
-              className={buttonStyle}
-              style={{
-                backgroundColor: theme.buttonBackgroundColor,
-                color: theme.buttonTextColor,
-              }}
-            >
-              <div>
-                <h1>{link.title}</h1>
-              </div>
-            </NextLink>
+              link={link}
+              theme={theme}
+            />
           ))}
         </div>
       </div>

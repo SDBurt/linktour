@@ -1,6 +1,7 @@
 import * as z from "zod";
 import { recordClick } from "@/lib/tinybird";
 import { NextRequest } from "next/server";
+import { IncrementClick } from "@/lib/api/links";
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -18,8 +19,12 @@ export async function GET(
     const { params } = routeContextSchema.parse(context);
 
     // cookies, geo, ip
-    const res = await recordClick(params.slug, req, params.key);
+    // tinybird
+    await recordClick(params.slug, req, params.key);
 
+    // db total clicks
+    const res = await IncrementClick(params.slug, params.key);
+    console.log(res);
     return new Response(JSON.stringify(res), { status: 200 });
   } catch (error) {
     if (error instanceof z.ZodError) {

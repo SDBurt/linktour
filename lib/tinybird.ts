@@ -11,7 +11,9 @@ export async function recordClick(
   req: NextRequest,
   key?: string
 ) {
-  // console.log("Recording clicks with geo, ua, referer and timestamp data");
+  console.log(
+    "Recording clicks to tinybird with geo, ua, referer and timestamp data"
+  );
   const geo = process.env.VERCEL === "1" ? req.geo : LOCALHOST_GEO_DATA;
   const ua = userAgent(req);
   const referer = req.headers.get("referer");
@@ -49,7 +51,9 @@ export async function recordClick(
           Authorization: `Bearer ${process.env.TINYBIRD_API_KEY}`,
         },
       }
-    ).then((res) => res.json()),
+    ).then((res) => {
+      return res.json();
+    }),
     // Update clicks
   ]);
 }

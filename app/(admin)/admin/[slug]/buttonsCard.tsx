@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import THEME from "@/lib/constants/theme";
 import { ThemeButtonStyleTypeProps, ThemeProps } from "@/lib/types";
-import { useState } from "react";
+import { useCallback } from "react";
 import { HexColorPicker } from "react-colorful";
 
 const options = {
@@ -32,7 +32,6 @@ const options = {
     ],
     buttonColour: THEME.buttonBackgroundColor,
     buttonFontColour: THEME.buttonTextColor,
-    shadowColour: THEME.buttonShadowColor,
   },
 };
 
@@ -42,21 +41,33 @@ interface ButtonsCardProps {
 }
 
 export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
-  const typeChangedHandler = (value: ThemeButtonStyleTypeProps) => {
-    setTheme({ ...theme, buttonType: value });
-  };
+  const typeChangedHandler = useCallback(
+    (value: ThemeButtonStyleTypeProps) => {
+      return setTheme({ ...theme, buttonType: value });
+    },
+    [theme]
+  );
 
-  const backgroundColorChangedHandler = (value: string) => {
-    setTheme({ ...theme, buttonBackgroundColor: value });
-  };
+  const backgroundColorChangedHandler = useCallback(
+    (value: string) => {
+      setTheme({ ...theme, buttonBackgroundColor: value });
+    },
+    [theme]
+  );
 
-  const textColorChangedHandler = (value: string) => {
-    setTheme({ ...theme, buttonTextColor: value });
-  };
+  const textColorChangedHandler = useCallback(
+    (value: string) => {
+      setTheme({ ...theme, buttonTextColor: value });
+    },
+    [theme]
+  );
 
-  const shadowColorChangedHandler = (value: string) => {
-    setTheme({ ...theme, buttonShadowColor: value });
-  };
+  const shadowColorChangedHandler = useCallback(
+    (value: string) => {
+      setTheme({ ...theme, buttonShadowColor: value });
+    },
+    [theme]
+  );
 
   return (
     <Card>
@@ -107,20 +118,28 @@ export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
             <Dialog>
               <DialogTrigger>
                 <div
-                  className={"h-10 w-10 rounded"}
-                  style={{ backgroundColor: theme.typefaceColor }}
+                  className={"h-10 w-10 border rounded"}
+                  style={{ backgroundColor: theme.buttonBackgroundColor }}
                 ></div>
               </DialogTrigger>
               <DialogContent className="w-62 p-8">
+                <h1>Button Background Color</h1>
                 <HexColorPicker
-                  color={theme.typefaceColor}
+                  color={theme.buttonBackgroundColor}
                   onChange={backgroundColorChangedHandler}
+                />
+                <Input
+                  id="background-colour"
+                  value={theme.buttonBackgroundColor}
+                  onChange={(e) =>
+                    backgroundColorChangedHandler(e.target.value)
+                  }
                 />
               </DialogContent>
             </Dialog>
             <Input
               id="background-colour"
-              value={theme.typefaceColor}
+              value={theme.buttonBackgroundColor}
               onChange={(e) => backgroundColorChangedHandler(e.target.value)}
             />
           </div>
@@ -130,44 +149,27 @@ export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
             <Dialog>
               <DialogTrigger>
                 <div
-                  className={"h-10 w-10 rounded"}
-                  style={{ backgroundColor: theme.typefaceColor }}
+                  className={"h-10 w-10 border rounded"}
+                  style={{ backgroundColor: theme.buttonTextColor }}
                 ></div>
               </DialogTrigger>
               <DialogContent className="w-62 p-8">
+                <h1>Button Text Color</h1>
                 <HexColorPicker
-                  color={theme.typefaceColor}
+                  color={theme.buttonTextColor}
                   onChange={textColorChangedHandler}
                 />
-              </DialogContent>
-            </Dialog>
-            <Input
-              id="background-colour"
-              value={theme.typefaceColor}
-              onChange={(e) => textColorChangedHandler(e.target.value)}
-            />
-          </div>
-
-          <Label>Shadow Colour</Label>
-          <div className="flex flex-row space-x-2">
-            <Dialog>
-              <DialogTrigger>
-                <div
-                  className={"h-10 w-10 rounded"}
-                  style={{ backgroundColor: theme.buttonShadowColor }}
-                ></div>
-              </DialogTrigger>
-              <DialogContent className="w-62 p-8">
-                <HexColorPicker
-                  color={theme.buttonShadowColor}
-                  onChange={shadowColorChangedHandler}
+                <Input
+                  id="background-colour"
+                  value={theme.buttonTextColor}
+                  onChange={(e) => textColorChangedHandler(e.target.value)}
                 />
               </DialogContent>
             </Dialog>
             <Input
               id="background-colour"
-              value={theme.buttonShadowColor}
-              onChange={(e) => shadowColorChangedHandler(e.target.value)}
+              value={theme.buttonTextColor}
+              onChange={(e) => textColorChangedHandler(e.target.value)}
             />
           </div>
         </form>

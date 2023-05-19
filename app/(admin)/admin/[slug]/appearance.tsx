@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "@/hooks/use-toast";
 import Preview from "@/app/playground/preview";
 import { ThemeProps } from "@/lib/types";
@@ -26,6 +26,10 @@ export function Appearance({ project, links, theme, user }: AppearanceProps) {
     method = "POST";
   }
   const [themePreview, setThemePreview] = useState<ThemeProps>(theme ?? THEME);
+
+  useEffect(() => {
+    console.log(themePreview);
+  }, [themePreview]);
 
   const onSubmitClicked = async (e) => {
     e.preventDefault();
