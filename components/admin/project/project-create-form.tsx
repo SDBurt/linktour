@@ -58,7 +58,7 @@ export function ProjectCreateForm({
     const res = await fetch(`/api/projects/${slug}/exists`);
     const exists = await res.json();
 
-    return exists;
+    return exists === 1;
   }
 
   async function checkSlugButtonHandler(e) {
@@ -74,7 +74,7 @@ export function ProjectCreateForm({
 
     const exists = await checkSlug(slug);
 
-    if (exists === 0) {
+    if (exists) {
       setSlugValid(true);
     } else {
       setSlugValid(false);
@@ -88,7 +88,7 @@ export function ProjectCreateForm({
 
     if (checkSlug === null) {
       const exists = await checkSlug(data.slug);
-      if (exists === 1) {
+      if (exists) {
         setIsSaving(false);
         return toast({
           title: "Something went wrong.",

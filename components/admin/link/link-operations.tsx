@@ -58,11 +58,11 @@ export function LinkOperations({ link }: LinkOperationsProps) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-slate-50">
+        <DropdownMenuTrigger className="flex h-9 w-9 items-center justify-center rounded-md border transition-colors hover:bg-slate-50">
           <Icons.ellipsis className="h-4 w-4" />
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="center">
           <DropdownMenuItem
             className="flex cursor-pointer items-center focus:bg-red-50"
             onSelect={() => setShowEditDialog(true)}

@@ -5,7 +5,7 @@ import { EmptyCardPlaceholder } from "@/components/shared/empty-card-placeholder
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { LinkCreateButton } from "./link-create-button";
-import { LinkItem } from "@/components/app/link/link-item";
+import { LinkItem } from "@/components/admin/link/link-item";
 
 interface LinkListProps {
   links: Pick<

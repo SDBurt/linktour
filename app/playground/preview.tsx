@@ -1,6 +1,5 @@
 import { UserAvatar } from "@/components/user/user-avatar";
-import { ThemeButtonStyleTypeProps, ThemeProps } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { ThemeProps } from "@/lib/types";
 import { Link, Project, Theme, User } from "@prisma/client";
 
 import React from "react";

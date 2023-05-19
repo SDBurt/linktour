@@ -3,7 +3,22 @@ import { Project } from "@prisma/client";
 
 import { ProjectOperations } from "@/components/admin/project/project-operations";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Card } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Icons } from "@/components/shared/icons";
 
 interface ProjectItemProps {
   project: Pick<Project, "id" | "name" | "slug" | "description">;
@@ -11,26 +26,49 @@ interface ProjectItemProps {
 
 export function ProjectItem({ project }: ProjectItemProps) {
   return (
-    <Card key={project.id} className="p-4">
-      <div className="flex flex-row justify-between items-center">
-        <div className="flex flex-col">
+    <Card key={project.id}>
+      <CardHeader>
+        <CardTitle>
           <NextLink
             href={`/admin/${project.slug}`}
             className="font-semibold hover:underline cursor-pointer"
           >
             {project.name}
           </NextLink>
-          <div>localhost:3000/{project.slug}</div>
+        </CardTitle>
+        <CardDescription>{project.description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="flex space-x-2">
+          <TooltipProvider>
+            <Tooltip>
+              <NextLink href={project.slug} target="_blank">
+                <TooltipTrigger
+                  className={cn(
+                    buttonVariants({
+                      size: "sm",
+                      variant: "outline",
+                    })
+                  )}
+                >
+                  <Icons.external />
+                </TooltipTrigger>
+              </NextLink>
+              <TooltipContent>
+                <p>View project page</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <ProjectOperations
+            project={{
+              id: project.id,
+              name: project.name,
+              slug: project.slug,
+              description: project.description,
+            }}
+          />
         </div>
-        <ProjectOperations
-          project={{
-            id: project.id,
-            name: project.name,
-            slug: project.slug,
-            description: project.description,
-          }}
-        />
-      </div>
+      </CardContent>
     </Card>
   );
 }

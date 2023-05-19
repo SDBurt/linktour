@@ -26,7 +26,7 @@ import {
 
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 
-import { ProjectEditForm } from "./project-edit-form";
+import { ProjectForm } from "./project-form";
 
 async function deleteProject(slug: string) {
   const response = await fetch(`/api/projects/${slug}`, {
@@ -58,11 +58,11 @@ export function ProjectOperations({ project }: ProjectOperationsProps) {
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-slate-50">
+        <DropdownMenuTrigger className="flex h-9 w-9 items-center justify-center rounded-md border transition-colors hover:bg-slate-50">
           <Icons.ellipsis className="h-4 w-4" />
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent align="center">
           <DropdownMenuItem
             className="flex cursor-pointer items-center focus:bg-red-50"
             onSelect={() => setShowEditDialog(true)}
@@ -117,7 +117,7 @@ export function ProjectOperations({ project }: ProjectOperationsProps) {
       </AlertDialog>
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
         <DialogContent className="p-0">
-          <ProjectEditForm project={project} />
+          <ProjectForm project={project} />
         </DialogContent>
       </Dialog>
     </>

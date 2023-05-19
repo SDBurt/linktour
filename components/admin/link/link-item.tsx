@@ -1,61 +1,96 @@
 import NextLink from "next/link";
 import { Link } from "@prisma/client";
 
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { LinkOperations } from "@/components/admin/link/link-operations";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icons } from "@/components/shared/icons";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { buttonVariants } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface LinkItemProps {
   link: Pick<
     Link,
     "id" | "title" | "slug" | "key" | "createdAt" | "url" | "clicks"
   >;
-  slug: string;
 }
 
-export function LinkItem({ slug, link }: LinkItemProps) {
+export function LinkItem({ link }: LinkItemProps) {
   return (
-    <div className="flex items-center justify-between p-4">
-      <div className="flex flex-col space-y-4 justify-between w-full px-2">
-        <NextLink
-          href={`/admin/${slug}/${link.key}`}
-          className="font-semibold hover:underline"
-        >
-          {link.title}
-        </NextLink>
-        <div className="flex flex-row space-x-1">
-          <Icons.chainlink />
-          <p>{link.url}</p>
-        </div>
-        <div className="flex flex-row space-x-3">
-          <div>
-            <p className="flex flex-row space-x-1">
-              {link.slug}/{link.key}
-            </p>
-          </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>{link.title}</CardTitle>
+        <CardDescription>
+          {formatDate(link.createdAt?.toDateString())}
+        </CardDescription>
+      </CardHeader>
 
-          <div className="flex flex-row space-x-1">
-            <Icons.bars />
-            <p>{link.clicks}</p>
-          </div>
-          <p className="text-slate-600">
-            {formatDate(link.createdAt?.toDateString())}
-          </p>
+      <CardContent>
+        <div className="flex space-x-2">
+          <TooltipProvider>
+            <Tooltip>
+              <NextLink href={`/admin/${link.slug}/${link.key}`}>
+                <TooltipTrigger
+                  className={cn(
+                    buttonVariants({
+                      size: "sm",
+                      variant: "outline",
+                    })
+                  )}
+                >
+                  <Icons.bars />
+                  <p>{link.clicks}</p>
+                </TooltipTrigger>
+              </NextLink>
+              <TooltipContent>
+                <p>View stats</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <NextLink href={link.url} target="_blank">
+                <TooltipTrigger
+                  className={cn(
+                    buttonVariants({
+                      size: "sm",
+                      variant: "outline",
+                    })
+                  )}
+                >
+                  <Icons.external />
+                </TooltipTrigger>
+              </NextLink>
+              <TooltipContent>
+                <p>{link.url}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <LinkOperations
+            link={{
+              id: link.id,
+              slug: link.slug,
+              key: link.key,
+              url: link.url,
+              clicks: link.clicks,
+              title: link.title,
+            }}
+          />
         </div>
-      </div>
-      <LinkOperations
-        link={{
-          id: link.id,
-          slug: link.slug,
-          key: link.key,
-          url: link.url,
-          clicks: link.clicks,
-          title: link.title,
-        }}
-      />
-      {/* <PostDeleteButton post={{ id: post.id, title: post.title }} /> */}
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 
