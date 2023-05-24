@@ -1,10 +1,11 @@
-import Link from "next/link";
+import Link from "next/link"
 
-import { env } from "@/env.mjs";
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import FeatureCard from "./feature-card";
+import { env } from "@/env.mjs"
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+
+import FeatureCard from "./feature-card"
 
 async function getGitHubStars(): Promise<string | null> {
   try {
@@ -19,22 +20,22 @@ async function getGitHubStars(): Promise<string | null> {
           revalidate: 60,
         },
       }
-    );
+    )
 
     if (!response?.ok) {
-      return null;
+      return null
     }
 
-    const json = await response.json();
+    const json = await response.json()
 
-    return parseInt(json["stargazers_count"]).toLocaleString();
+    return parseInt(json["stargazers_count"]).toLocaleString()
   } catch (error) {
-    return null;
+    return null
   }
 }
 
 export default async function IndexPage() {
-  const stars = await getGitHubStars();
+  const stars = await getGitHubStars()
 
   return (
     <>
@@ -187,5 +188,5 @@ export default async function IndexPage() {
         </div>
       </section>
     </>
-  );
+  )
 }

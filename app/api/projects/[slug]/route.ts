@@ -1,15 +1,15 @@
-import * as z from "zod";
+import * as z from "zod"
 
-import { db } from "@/lib/db";
-import { projectSchema } from "@/lib/validations/project";
-import { verifyCurrentUserHasAccessToProject } from "@/lib/api/auth";
-import { getProject } from "@/lib/api/projects";
+import { verifyCurrentUserHasAccessToProject } from "@/lib/api/auth"
+import { getProject } from "@/lib/api/projects"
+import { db } from "@/lib/db"
+import { projectSchema } from "@/lib/validations/project"
 
 const routeContextSchema = z.object({
   params: z.object({
     slug: z.string(),
   }),
-});
+})
 
 export async function GET(
   req: Request,
@@ -17,23 +17,23 @@ export async function GET(
 ) {
   try {
     // Validate the route params.
-    const { params } = routeContextSchema.parse(context);
+    const { params } = routeContextSchema.parse(context)
 
     // Check if the user has access to this post.
     if (!(await verifyCurrentUserHasAccessToProject(params.slug))) {
-      return new Response(null, { status: 403 });
+      return new Response(null, { status: 403 })
     }
 
     // Get the project.
-    const project = await getProject(params.slug);
+    const project = await getProject(params.slug)
 
-    return new Response(JSON.stringify(project), { status: 200 });
+    return new Response(JSON.stringify(project), { status: 200 })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 });
+      return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
-    return new Response(null, { status: 500 });
+    return new Response(null, { status: 500 })
   }
 }
 
@@ -43,11 +43,11 @@ export async function DELETE(
 ) {
   try {
     // Validate the route params.
-    const { params } = routeContextSchema.parse(context);
+    const { params } = routeContextSchema.parse(context)
 
     // Check if the user has access to this post.
     if (!(await verifyCurrentUserHasAccessToProject(params.slug))) {
-      return new Response(null, { status: 403 });
+      return new Response(null, { status: 403 })
     }
 
     // Delete the project.
@@ -55,15 +55,15 @@ export async function DELETE(
       where: {
         slug: params.slug as string,
       },
-    });
+    })
 
-    return new Response(null, { status: 204 });
+    return new Response(null, { status: 204 })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 });
+      return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
-    return new Response(null, { status: 500 });
+    return new Response(null, { status: 500 })
   }
 }
 
@@ -73,16 +73,16 @@ export async function PATCH(
 ) {
   try {
     // Validate route params.
-    const { params } = routeContextSchema.parse(context);
+    const { params } = routeContextSchema.parse(context)
 
     // Check if the user has access to this project.
     if (!(await verifyCurrentUserHasAccessToProject(params.slug))) {
-      return new Response(null, { status: 403 });
+      return new Response(null, { status: 403 })
     }
 
     // Get the request body and validate it.
-    const json = await req.json();
-    const body = projectSchema.parse(json);
+    const json = await req.json()
+    const body = projectSchema.parse(json)
 
     // Update the post.
     // TODO: Implement sanitization for content.
@@ -93,14 +93,14 @@ export async function PATCH(
       data: {
         ...body,
       },
-    });
+    })
 
-    return new Response(null, { status: 200 });
+    return new Response(null, { status: 200 })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 });
+      return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
-    return new Response(null, { status: 500 });
+    return new Response(null, { status: 500 })
   }
 }

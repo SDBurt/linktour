@@ -1,19 +1,27 @@
-import { Inter as FontSans } from "next/font/google";
+import { Inter as FontSans } from "next/font/google"
+import localFont from "next/font/local"
 
-import "@/styles/globals.css";
-import { siteConfig } from "@/config/site";
-import { absoluteUrl, cn } from "@/lib/utils";
-import { Analytics } from "@/components/shared/analytics";
-import { TailwindIndicator } from "@/components/shared/tailwind-indicator";
-import { Toaster } from "@/components/ui/toaster";
+import "@/styles/globals.css"
+import { siteConfig } from "@/config/site"
+import { absoluteUrl, cn } from "@/lib/utils"
+import { Toaster } from "@/components/ui/toaster"
+import { Analytics } from "@/components/shared/analytics"
+import { TailwindIndicator } from "@/components/shared/tailwind-indicator"
+import { ThemeProvider } from "@/components/shared/theme-provider"
 
 const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
-});
+})
+
+// Font files can be colocated inside of `pages`
+const fontHeading = localFont({
+  src: "../assets/fonts/CalSans-SemiBold.woff2",
+  variable: "--font-heading",
+})
 
 interface RootLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export const metadata = {
@@ -28,6 +36,7 @@ export const metadata = {
     "Tailwind CSS",
     "Server Components",
     "Radix UI",
+    "Shadcn UI",
   ],
   authors: [
     {
@@ -61,32 +70,34 @@ export const metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [`${siteConfig.url}/og.jpg`],
-    creator: "@shadcn",
+    creator: "@seanburt8",
   },
   icons: {
     icon: "/favicon.ico",
-    // shortcut: "/favicon-16x16.png",
-    // apple: "/apple-touch-icon.png",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
   },
-  // manifest: `${siteConfig.url}/site.webmanifest`,
-};
+  manifest: `${siteConfig.url}/site.webmanifest`,
+}
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html
-      lang="en"
-      className={cn(
-        "bg-white font-sans text-slate-900 antialiased",
-        fontSans.variable
-      )}
-    >
+    <html lang="en" suppressHydrationWarning>
       <head />
-      <body className="min-h-screen">
-        {children}
-        <Analytics />
-        <Toaster />
-        <TailwindIndicator />
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable,
+          fontHeading.variable
+        )}
+      >
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+          {children}
+          <Analytics />
+          <Toaster />
+          <TailwindIndicator />
+        </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

@@ -1,40 +1,41 @@
-import { redirect } from "next/navigation";
+import { redirect } from "next/navigation"
+import { getServerSession } from "next-auth"
 
-import { authOptions } from "@/lib/auth-options";
-import { stripe } from "@/lib/stripe";
-import { AppHeader } from "@/components/shared/page-header";
-import { ProjectCreateButton } from "@/components/admin/project/project-create-button";
-import { AppShell } from "@/components/admin/layouts/shell";
-import { getProjectsForUser } from "@/lib/api/projects";
-import { getServerSession } from "next-auth";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ProjectList } from "@/components/admin/project/project-list";
-import { Billing } from "./billing";
-import { getUserSubscriptionPlan } from "@/lib/subscription";
+import { getProjectsForUser } from "@/lib/api/projects"
+import { authOptions } from "@/lib/auth-options"
+import { stripe } from "@/lib/stripe"
+import { getUserSubscriptionPlan } from "@/lib/subscription"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AppShell } from "@/components/admin/layouts/shell"
+import { ProjectCreateButton } from "@/components/admin/project/project-create-button"
+import { ProjectList } from "@/components/admin/project/project-list"
+import { AppHeader } from "@/components/shared/page-header"
+
+import { Billing } from "./billing"
 
 export const metadata = {
   title: "Admin",
-};
+}
 
 async function AdminHomePage() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
   if (!session?.user) {
-    redirect(authOptions?.pages?.signIn || "/login");
+    redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const subscriptionPlan = await getUserSubscriptionPlan(session.user.id);
+  const subscriptionPlan = await getUserSubscriptionPlan(session.user.id)
 
   // If user has a pro plan, check cancel status on Stripe.
-  let isCanceled = false;
+  let isCanceled = false
   if (subscriptionPlan.isPro && subscriptionPlan.stripeSubscriptionId) {
     const stripePlan = await stripe.subscriptions.retrieve(
       subscriptionPlan.stripeSubscriptionId
-    );
-    isCanceled = stripePlan.cancel_at_period_end;
+    )
+    isCanceled = stripePlan.cancel_at_period_end
   }
 
-  const projects = await getProjectsForUser(session.user.id);
+  const projects = await getProjectsForUser(session.user.id)
 
   return (
     <AppShell>
@@ -71,7 +72,7 @@ async function AdminHomePage() {
         </TabsContent>
       </Tabs>
     </AppShell>
-  );
+  )
 }
 
-export default AdminHomePage;
+export default AdminHomePage

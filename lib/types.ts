@@ -1,26 +1,26 @@
 export interface SimpleLinkProps {
-  key: string;
-  url: string;
+  key: string
+  url: string
 }
 
 export interface LinkProps {
-  id?: string;
-  slug: string;
-  key: string;
-  url: string;
+  id?: string
+  slug: string
+  key: string
+  url: string
 
-  title: string | null;
-  description: string | null;
+  title: string | null
+  description: string | null
 
-  clicks: number;
+  clicks: number
 
-  public: boolean;
-  publicStats: boolean;
+  public: boolean
+  publicStats: boolean
 
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date
+  updatedAt: Date
 
-  userId: string;
+  userId: string
 }
 
 // export interface ProjectProps {
@@ -38,30 +38,30 @@ export interface LinkProps {
 // }
 
 export interface ProjectProps {
-  id: string;
-  name: string;
-  slug: string;
-  userId: string;
-  links?: { id: string }[];
+  id: string
+  name: string
+  slug: string
+  userId: string
+  links?: { id: string }[]
 }
 
 export interface UsageProps {
-  usage: number;
-  usageLimit: number;
-  projectCount?: number;
-  billingCycleStart?: number;
-  ownerUsageLimit?: number;
-  ownerExceededUsage?: boolean;
+  usage: number
+  usageLimit: number
+  projectCount?: number
+  billingCycleStart?: number
+  ownerUsageLimit?: number
+  ownerExceededUsage?: boolean
 }
 
 export interface UserProps {
-  id: string;
-  name: string;
-  email: string;
-  stripeId: string;
-  usageLimit: number;
-  joinedAt?: Date;
-  projects?: { projectId: string }[];
+  id: string
+  name: string
+  email: string
+  stripeId: string
+  usageLimit: number
+  joinedAt?: Date
+  projects?: { projectId: string }[]
 }
 
 export type DomainVerificationStatusProps =
@@ -69,15 +69,15 @@ export type DomainVerificationStatusProps =
   | "Invalid Configuration"
   | "Pending Verification"
   | "Domain Not Found"
-  | "Unknown Error";
+  | "Unknown Error"
 
 export interface RootDomainProps {
-  target: string;
-  rewrite?: boolean;
+  target: string
+  rewrite?: boolean
 }
 
-export type ThemeBackgroundStyleProps = "COLORUP" | "COLORDOWN" | "FLAT";
-export type ThemeBackgroundTypeProps = "COLOR" | "IMAGE";
+export type ThemeBackgroundStyleProps = "COLORUP" | "COLORDOWN" | "FLAT"
+export type ThemeBackgroundTypeProps = "COLOR" | "IMAGE"
 export type ThemeButtonStyleTypeProps =
   | "SOFTSHADOW_CIRCULAR"
   | "SOFTSHADOW_ROUNDED"
@@ -90,21 +90,22 @@ export type ThemeButtonStyleTypeProps =
   | "OUTLINE"
   | "FILL_CIRCULAR"
   | "FILL_ROUNDED"
-  | "FILL";
+  | "FILL"
 
-export type ThemeLuminanceProps = "LIGHT" | "DARK";
+export type ThemeLuminanceProps = "LIGHT" | "DARK"
 
 export interface ThemeProps {
-  key: string;
-  luminance: ThemeLuminanceProps;
-  socialStyleColor: string;
-  backgroundColor: string;
-  backgroundStyle: ThemeBackgroundStyleProps;
-  backgroundType: ThemeBackgroundTypeProps;
-  buttonBackgroundColor: string;
-  buttonShadowColor: string;
-  buttonTextColor: string;
-  buttonType: ThemeButtonStyleTypeProps;
-  typefaceColor: string;
-  typefaceFamily: string;
+  key: string
+  luminance: ThemeLuminanceProps
+  socialStyleColor: string
+  backgroundColor: string
+  gradientColor: string
+  backgroundStyle: ThemeBackgroundStyleProps
+  backgroundType: ThemeBackgroundTypeProps
+  buttonBackgroundColor: string
+  buttonShadowColor: string
+  buttonTextColor: string
+  buttonType: ThemeButtonStyleTypeProps
+  typefaceColor: string
+  typefaceFamily: string
 }

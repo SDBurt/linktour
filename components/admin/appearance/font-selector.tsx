@@ -1,25 +1,26 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
+import { useState } from "react"
+import { PopoverTrigger } from "@radix-ui/react-popover"
+import { Check, ChevronsUpDown } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command";
-import { Popover, PopoverContent } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { PopoverTrigger } from "@radix-ui/react-popover";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { useState } from "react";
+} from "@/components/ui/command"
+import { Popover, PopoverContent } from "@/components/ui/popover"
 
-type FontItemType = { label: string; name: string };
+type FontItemType = { label: string; name: string }
 
 interface FontSelectorProps {
-  fonts: FontItemType[];
-  currentFont: string;
-  setCurrentFont: any;
+  fonts: FontItemType[]
+  currentFont: string
+  setCurrentFont: any
 }
 
 export default function FontSelector({
@@ -27,7 +28,7 @@ export default function FontSelector({
   currentFont,
   setCurrentFont,
 }: FontSelectorProps) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,8 +54,8 @@ export default function FontSelector({
               <CommandItem
                 key={font.name}
                 onSelect={(currentValue) => {
-                  setOpen(false);
-                  setCurrentFont(currentValue);
+                  setOpen(false)
+                  setCurrentFont(currentValue)
                 }}
               >
                 <Check
@@ -72,5 +73,5 @@ export default function FontSelector({
         </Command>
       </PopoverContent>
     </Popover>
-  );
+  )
 }

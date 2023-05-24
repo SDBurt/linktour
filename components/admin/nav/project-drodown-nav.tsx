@@ -1,8 +1,10 @@
-import React from "react";
+import React from "react"
+import { useParams, useRouter } from "next/navigation"
+import { Project } from "@prisma/client"
+import { Check, ChevronsUpDown } from "lucide-react"
 
-import { Project } from "@prisma/client";
-import { useParams, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import {
   Command,
   CommandEmpty,
@@ -10,26 +12,25 @@ import {
   CommandInput,
   CommandItem,
   CommandSeparator,
-} from "@/components/ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
+} from "@/components/ui/command"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { ProjectCreateButton } from "../project/project-create-button";
+} from "@/components/ui/popover"
+
+import { ProjectCreateButton } from "../project/project-create-button"
 
 interface ProjectDropdownNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  projects: Pick<Project, "name" | "slug">[];
+  projects: Pick<Project, "name" | "slug">[]
 }
 
 export function ProjectDropdownNav({ projects }: ProjectDropdownNavProps) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
-  const router = useRouter();
-  const params = useParams();
-  const currentProject = projects?.find((p) => p.slug === params?.slug);
+  const router = useRouter()
+  const params = useParams()
+  const currentProject = projects?.find((p) => p.slug === params?.slug)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -53,8 +54,8 @@ export function ProjectDropdownNav({ projects }: ProjectDropdownNavProps) {
               <CommandItem
                 key={project.slug}
                 onSelect={(currentValue) => {
-                  setOpen(false);
-                  router.push(`/admin/${project.slug}`);
+                  setOpen(false)
+                  router.push(`/admin/${project.slug}`)
                 }}
               >
                 <Check
@@ -78,5 +79,5 @@ export function ProjectDropdownNav({ projects }: ProjectDropdownNavProps) {
         </Command>
       </PopoverContent>
     </Popover>
-  );
+  )
 }

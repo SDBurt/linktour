@@ -1,9 +1,10 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
 
-import { DialogButton } from "@/components/shared/dialog-button";
-import { ProjectForm } from "./project-form";
+import { DialogButton } from "@/components/shared/dialog-button"
+
+import { ProjectForm } from "./project-form"
 
 interface ProjectCreateButtonProps
   extends React.HTMLAttributes<HTMLButtonElement> {}
@@ -16,5 +17,5 @@ export function ProjectCreateButton({
     <DialogButton {...props} className={className} text="New Project">
       <ProjectForm />
     </DialogButton>
-  );
+  )
 }

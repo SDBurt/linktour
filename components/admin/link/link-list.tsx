@@ -1,17 +1,18 @@
-import { Link } from "@prisma/client";
+import { Link } from "@prisma/client"
 
-import { Skeleton } from "@/components/ui/skeleton";
-import { EmptyCardPlaceholder } from "@/components/shared/empty-card-placeholder";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { LinkCreateButton } from "./link-create-button";
-import { LinkItem } from "@/components/admin/link/link-item";
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
+import { LinkItem } from "@/components/admin/link/link-item"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+
+import { LinkCreateButton } from "./link-create-button"
 
 interface LinkListProps {
   links: Pick<
     Link,
     "id" | "title" | "slug" | "key" | "createdAt" | "url" | "clicks"
-  >[];
+  >[]
 }
 
 export function LinkList({ links }: LinkListProps) {
@@ -24,33 +25,31 @@ export function LinkList({ links }: LinkListProps) {
           ))}
         </div>
       ) : (
-        <EmptyCardPlaceholder>
-          <EmptyCardPlaceholder.Icon name="post" />
-          <EmptyCardPlaceholder.Title>
-            No links created
-          </EmptyCardPlaceholder.Title>
-          <EmptyCardPlaceholder.Description>
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="post" />
+          <EmptyPlaceholder.Title>No links created</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
             You don&apos;t have any links yet. Start creating content.
-          </EmptyCardPlaceholder.Description>
+          </EmptyPlaceholder.Description>
           <LinkCreateButton
             className={cn(buttonVariants({ variant: "outline" }))}
           />
-        </EmptyCardPlaceholder>
+        </EmptyPlaceholder>
       )}
     </div>
-  );
+  )
 }
 
 LinkList.Skeleton = function LinkListSkeleton() {
   return (
-    <EmptyCardPlaceholder>
-      <EmptyCardPlaceholder.Icon name="post" />
-      <EmptyCardPlaceholder.Title>
+    <EmptyPlaceholder>
+      <EmptyPlaceholder.Icon name="post" />
+      <EmptyPlaceholder.Title>
         <Skeleton className="h-5 w-4/5" />
-      </EmptyCardPlaceholder.Title>
-      <EmptyCardPlaceholder.Description>
+      </EmptyPlaceholder.Title>
+      <EmptyPlaceholder.Description>
         <Skeleton className="h-5 w-full" />
-      </EmptyCardPlaceholder.Description>
-    </EmptyCardPlaceholder>
-  );
-};
+      </EmptyPlaceholder.Description>
+    </EmptyPlaceholder>
+  )
+}

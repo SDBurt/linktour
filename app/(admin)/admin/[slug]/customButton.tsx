@@ -1,13 +1,14 @@
-"use client";
+"use client"
 
-import NextLink from "next/link";
-import { ThemeProps } from "@/lib/types";
-import { Link } from "@prisma/client";
-import { cn } from "@/lib/utils";
+import NextLink from "next/link"
+import { Link } from "@prisma/client"
+
+import { ThemeProps } from "@/lib/types"
+import { cn } from "@/lib/utils"
 
 interface CustomButtonProps {
-  link: Pick<Link, "title" | "url" | "slug" | "key">;
-  theme: ThemeProps;
+  link: Pick<Link, "title" | "url" | "slug" | "key">
+  theme: ThemeProps
 }
 
 const makeGeneralStyle = (buttonType: string) => {
@@ -24,24 +25,24 @@ const makeGeneralStyle = (buttonType: string) => {
     HARDSHADOW: "hard-shadow",
     HARDSHADOW_ROUNDED: "hard-shadow rounded-lg",
     HARDSHADOW_CIRCULAR: "hard-shadow rounded-full",
-  };
+  }
 
-  return `${customStyles[buttonType]}`;
-};
+  return `${customStyles[buttonType]}`
+}
 
 const isOutline = (buttonType: string) => {
   return (
     buttonType === "OUTLINE" ||
     buttonType === "OUTLINE_ROUNDED" ||
     buttonType === "OUTLINE_CIRCULAR"
-  );
-};
+  )
+}
 
 export default function CustomButton({ link, theme }: CustomButtonProps) {
   const buttonCls = cn(
-    "p-4 flex justify-center items-center w-full h-full font-medium",
+    "flex h-full w-full items-center justify-center p-4 font-medium",
     makeGeneralStyle(theme?.buttonType)
-  );
+  )
 
   const buttonStyle = {
     backgroundColor: isOutline(theme?.buttonType)
@@ -51,10 +52,10 @@ export default function CustomButton({ link, theme }: CustomButtonProps) {
       ? theme.buttonBackgroundColor
       : undefined,
     color: theme.buttonTextColor,
-  };
+  }
 
   async function buttonClickedHandler(link) {
-    await fetch(`/api/projects/${link.slug}/links/${link.key}/click`);
+    await fetch(`/api/projects/${link.slug}/links/${link.key}/click`)
   }
 
   return (
@@ -70,5 +71,5 @@ export default function CustomButton({ link, theme }: CustomButtonProps) {
         </div>
       </NextLink>
     </div>
-  );
+  )
 }

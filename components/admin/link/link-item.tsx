@@ -1,30 +1,30 @@
-import NextLink from "next/link";
-import { Link } from "@prisma/client";
+import NextLink from "next/link"
+import { Link } from "@prisma/client"
 
-import { cn, formatDate } from "@/lib/utils";
-import { LinkOperations } from "@/components/admin/link/link-operations";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Icons } from "@/components/shared/icons";
+import { cn, formatDate } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { buttonVariants } from "@/components/ui/button";
+} from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from "@/components/ui/tooltip"
+import { LinkOperations } from "@/components/admin/link/link-operations"
+import { Icons } from "@/components/shared/icons"
 
 interface LinkItemProps {
   link: Pick<
     Link,
     "id" | "title" | "slug" | "key" | "createdAt" | "url" | "clicks"
-  >;
+  >
 }
 
 export function LinkItem({ link }: LinkItemProps) {
@@ -91,7 +91,7 @@ export function LinkItem({ link }: LinkItemProps) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 LinkItem.Skeleton = function LinkItemSkeleton() {
@@ -105,5 +105,5 @@ LinkItem.Skeleton = function LinkItemSkeleton() {
         <Skeleton className="h-5 w-1/5" />
       </div>
     </div>
-  );
-};
+  )
+}

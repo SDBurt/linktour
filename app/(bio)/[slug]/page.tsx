@@ -1,37 +1,37 @@
-import Preview from "@/app/playground/preview";
-import { getProject } from "@/lib/api/projects";
-import THEME from "@/lib/constants/theme";
-import { ThemeProps } from "@/lib/types";
-import { notFound } from "next/navigation";
+import { notFound } from "next/navigation"
+
+import { getProject } from "@/lib/api/projects"
+import THEME from "@/lib/constants/theme"
+import { ThemeProps } from "@/lib/types"
 
 // Dynamic metadata
 export async function generateMetadata({ params, searchParams }) {
-  const project = await getProject(params.slug);
-  return { title: project?.name, description: project?.description };
+  const project = await getProject(params.slug)
+  return { title: project?.name, description: project?.description }
 }
 
 export default async function BioPage({ params }) {
-  const slug = params.slug;
+  const slug = params.slug
 
   if (!slug) {
-    notFound();
+    notFound()
   }
 
-  const project = await getProject(slug);
+  const project = await getProject(slug)
 
   if (!project) {
-    notFound();
+    notFound()
   }
 
-  const { name, links, user, image, description, theme } = project;
+  const { name, links, user, image, description, theme } = project
 
   if (!project) {
-    notFound();
+    notFound()
   }
 
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center ">
-      <div className="w-full h-full flex justify-center">
+    <div className="flex h-screen w-full flex-col items-center justify-center ">
+      <div className="flex h-full w-full justify-center">
         <Preview
           theme={(theme as ThemeProps) || THEME}
           project={{ name: name, image: image, description: description }}
@@ -40,5 +40,5 @@ export default async function BioPage({ params }) {
         />
       </div>
     </div>
-  );
+  )
 }

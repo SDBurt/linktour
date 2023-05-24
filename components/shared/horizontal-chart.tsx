@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import {
   Bar,
@@ -9,22 +9,22 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from "recharts";
+} from "recharts"
 
 export interface ChartProps {
-  dataKey: string;
+  dataKey: string
   data: {
-    [key: string]: string | number;
-  }[];
-  fill: string;
+    [key: string]: string | number
+  }[]
+  fill: string
 }
 
 const HorizontalChart = ({ dataKey, data, fill = "#00FF00" }: ChartProps) => {
   return (
     // flex hack for resizing widow from larger to smaller
     // https://github.com/recharts/recharts/issues/172
-    <div className="flex w-full h-full">
-      <div className="flex-1 w-0">
+    <div className="flex h-full w-full">
+      <div className="w-0 flex-1">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}
@@ -46,7 +46,7 @@ const HorizontalChart = ({ dataKey, data, fill = "#00FF00" }: ChartProps) => {
         </ResponsiveContainer>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default HorizontalChart;
+export default HorizontalChart

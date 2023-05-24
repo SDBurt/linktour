@@ -1,34 +1,34 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
-import { SidebarNavItem } from "types";
-import { cn } from "@/lib/utils";
-import { Icons } from "@/components/shared/icons";
+import { SidebarNavItem } from "types"
+import { cn } from "@/lib/utils"
+import { Icons } from "@/components/shared/icons"
 
 interface PrimaryNavProps {
-  items: SidebarNavItem[];
+  items: SidebarNavItem[]
 }
 
 export function PrimaryNav({ items }: PrimaryNavProps) {
-  const path = usePathname();
+  const path = usePathname()
 
   if (!items?.length) {
-    return null;
+    return null
   }
 
   return (
     <nav className="grid items-start gap-2">
       {items.map((item, index) => {
-        const Icon = Icons[item.icon || "arrowRight"];
+        const Icon = Icons[item.icon || "arrowRight"]
         return (
           item.href && (
             <Link key={index} href={item.disabled ? "/" : item.href}>
               <span
                 className={cn(
-                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium text-slate-800 hover:bg-slate-100",
-                  path === item.href ? "bg-slate-200" : "transparent",
+                  "group flex items-center rounded-md px-3 py-2 text-sm font-medium hover:bg-accent hover:text-accent-foreground",
+                  path === item.href ? "bg-accent" : "transparent",
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
               >
@@ -37,8 +37,8 @@ export function PrimaryNav({ items }: PrimaryNavProps) {
               </span>
             </Link>
           )
-        );
+        )
       })}
     </nav>
-  );
+  )
 }

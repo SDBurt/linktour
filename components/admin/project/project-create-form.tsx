@@ -1,39 +1,39 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Project } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Project } from "@prisma/client"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 
-import { cn } from "@/lib/utils";
-import { projectCreateSchema } from "@/lib/validations/project";
-import { Icons } from "@/components/shared/icons";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils"
+import { projectSchema } from "@/lib/validations/project"
+import { toast } from "@/hooks/use-toast"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Icons } from "@/components/shared/icons"
 
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  project?: Pick<Project, "id" | "name" | "slug" | "description">;
+  project?: Pick<Project, "id" | "name" | "slug" | "description">
 }
 
-type FormData = z.infer<typeof projectCreateSchema>;
+type FormData = z.infer<typeof projectSchema>
 
 export function ProjectCreateForm({
   project,
   className,
   ...props
 }: ProjectFormProps) {
-  const router = useRouter();
+  const router = useRouter()
 
   const {
     handleSubmit,
@@ -43,58 +43,58 @@ export function ProjectCreateForm({
     getFieldState,
     getValues,
   } = useForm<FormData>({
-    resolver: zodResolver(projectCreateSchema),
+    resolver: zodResolver(projectSchema),
     defaultValues: {
       name: project?.name || "",
       slug: project?.slug || "",
       description: project?.description || "",
     },
-  });
-  const [isSaving, setIsSaving] = React.useState<boolean>(false);
-  const [isCheckingSlug, setIsCheckingSlug] = React.useState<boolean>(false);
-  const [slugValid, setSlugValid] = React.useState<boolean | null>(null);
+  })
+  const [isSaving, setIsSaving] = React.useState<boolean>(false)
+  const [isCheckingSlug, setIsCheckingSlug] = React.useState<boolean>(false)
+  const [slugValid, setSlugValid] = React.useState<boolean | null>(null)
 
   async function checkSlug(slug: string) {
-    const res = await fetch(`/api/projects/${slug}/exists`);
-    const exists = await res.json();
+    const res = await fetch(`/api/projects/${slug}/exists`)
+    const exists = await res.json()
 
-    return exists === 1;
+    return exists === 1
   }
 
   async function checkSlugButtonHandler(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    setIsCheckingSlug(true);
-    const { error, isDirty, invalid } = getFieldState("slug", formState);
+    setIsCheckingSlug(true)
+    const { error, isDirty, invalid } = getFieldState("slug", formState)
 
     if (error || isDirty || invalid) {
-      return;
+      return
     }
-    const slug = getValues("slug");
+    const slug = getValues("slug")
 
-    const exists = await checkSlug(slug);
+    const exists = await checkSlug(slug)
 
     if (exists) {
-      setSlugValid(true);
+      setSlugValid(true)
     } else {
-      setSlugValid(false);
+      setSlugValid(false)
     }
 
-    setIsCheckingSlug(false);
+    setIsCheckingSlug(false)
   }
 
   async function onSubmit(data: FormData) {
-    setIsSaving(true);
+    setIsSaving(true)
 
     if (checkSlug === null) {
-      const exists = await checkSlug(data.slug);
+      const exists = await checkSlug(data.slug)
       if (exists) {
-        setIsSaving(false);
+        setIsSaving(false)
         return toast({
           title: "Something went wrong.",
           description: "Your Project slug is already taken. Please try again.",
           variant: "destructive",
-        });
+        })
       }
     }
 
@@ -108,24 +108,24 @@ export function ProjectCreateForm({
         slug: data.slug,
         description: data.description,
       }),
-    });
+    })
 
-    setIsSaving(false);
+    setIsSaving(false)
 
     if (!response?.ok) {
-      console.error(await response.json());
+      console.error(await response.json())
       return toast({
         title: "Something went wrong.",
         description: "Your project was not created. Please try again.",
         variant: "destructive",
-      });
+      })
     }
 
     toast({
       description: "Your project has been created.",
-    });
+    })
 
-    router.refresh();
+    router.refresh()
   }
 
   return (
@@ -139,7 +139,7 @@ export function ProjectCreateForm({
           <CardTitle>Create Project</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-2 w-full">
+          <div className="grid w-full gap-2">
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
@@ -155,13 +155,13 @@ export function ProjectCreateForm({
             <div className="flex w-full items-center">
               <Label
                 htmlFor="slug"
-                className=" text-slate-600 h-10 items-center font-normal rounded-l-md border border-r-0 border-slate-300 bg-slate-50 py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
+                className="placeholder:text-muted-foreground0 h-10 items-center rounded-l-md border border-r-0 px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
               >
                 localhost:3000/
               </Label>
               <Input
                 id="slug"
-                className="w-full border rounded-none"
+                className="w-full rounded-none border"
                 size={32}
                 placeholder="Your project slug"
                 {...register("slug")}
@@ -216,5 +216,5 @@ export function ProjectCreateForm({
         </CardFooter>
       </Card>
     </form>
-  );
+  )
 }

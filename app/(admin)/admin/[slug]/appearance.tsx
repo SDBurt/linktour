@@ -1,48 +1,50 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { toast } from "@/hooks/use-toast";
-import Preview from "@/app/playground/preview";
-import { ThemeProps } from "@/lib/types";
-import { Link, Project, User } from "@prisma/client";
-import { BackgroundCard } from "./backgroundCard";
-import { ButtonsCard } from "./buttonsCard";
-import { FontsCard } from "./fontsCard";
-import { Button } from "@/components/ui/button";
-import THEME from "@/lib/constants/theme";
+import { useState } from "react"
+import { Link, Project, User } from "@prisma/client"
+
+import THEME from "@/lib/constants/theme"
+import { ThemeProps } from "@/lib/types"
+import { toast } from "@/hooks/use-toast"
+import { Button } from "@/components/ui/button"
+
+import { BackgroundCard } from "./backgroundCard"
+import { ButtonsCard } from "./buttonsCard"
+import { FontsCard } from "./fontsCard"
+import Preview from "./preview"
 
 interface AppearanceProps {
-  project: Pick<Project, "name" | "description" | "image" | "slug">;
-  links: Pick<Link, "title" | "url">[];
-  theme: ThemeProps;
-  user: Pick<User, "image" | "name">;
+  project: Pick<Project, "name" | "description" | "image" | "slug">
+  links: Pick<Link, "title" | "url" | "slug" | "key">[]
+  theme: ThemeProps
+  user: Pick<User, "image" | "name">
 }
 
 export function Appearance({ project, links, theme, user }: AppearanceProps) {
-  let method = "PATCH";
+  let method = "PATCH"
   if (!theme) {
-    console.log({ project, links, theme, user });
-    theme = THEME;
-    method = "POST";
+    theme = THEME
+    method = "POST"
   }
-  const [themePreview, setThemePreview] = useState<ThemeProps>(theme ?? THEME);
+
+  const [themePreview, setThemePreview] = useState<ThemeProps>(theme ?? THEME)
 
   const onSubmitClicked = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     const response = await fetch(`/api/projects/${project.slug}/theme`, {
       method,
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(themePreview),
-    });
+    })
 
     if (!response?.ok) {
       return toast({
         title: "Something went wrong.",
         description: "Your theme was not created/updated. Please try again.",
         variant: "destructive",
-      });
+      })
     }
 
     toast({
@@ -50,12 +52,12 @@ export function Appearance({ project, links, theme, user }: AppearanceProps) {
         method === "PATCH"
           ? "Your theme has been updated."
           : "Your theme has been created.",
-    });
-  };
+    })
+  }
 
   return (
     <div className="grid grid-cols-3 py-2 ">
-      <div className="flex flex-col col-span-2 space-y-2 overflow-y-scroll px-2 max-h-[700px]">
+      <div className="col-span-2 flex max-h-[700px] flex-col space-y-2 overflow-y-scroll px-2">
         <BackgroundCard theme={themePreview} setTheme={setThemePreview} />
         <ButtonsCard theme={themePreview} setTheme={setThemePreview} />
         <FontsCard theme={themePreview} setTheme={setThemePreview} />
@@ -63,8 +65,8 @@ export function Appearance({ project, links, theme, user }: AppearanceProps) {
           {method === "PATCH" ? "Update" : "Create"}
         </Button>
       </div>
-      <div className="flex col-span-1 w-full overflow-hidden justify-center items-center">
-        <div className="h-[700px] w-[341px] border p-2 bg-black rounded-lg">
+      <div className="col-span-1 flex w-full items-center justify-center overflow-hidden">
+        <div className="h-[700px] w-[341px] rounded-lg border bg-black p-2">
           <Preview
             theme={themePreview}
             project={project}
@@ -74,5 +76,5 @@ export function Appearance({ project, links, theme, user }: AppearanceProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

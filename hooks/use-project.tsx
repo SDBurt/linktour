@@ -1,16 +1,17 @@
-"use client";
+"use client"
 
-import { useParams } from "next/navigation";
-import useSWR from "swr";
-import { ProjectProps } from "@/lib/types";
-import { fetcher } from "@/lib/utils";
+import { useParams } from "next/navigation"
+import useSWR from "swr"
+
+import { ProjectProps } from "@/lib/types"
+import { fetcher } from "@/lib/utils"
 
 export default function useProject() {
-  const params = useParams();
+  const params = useParams()
 
   const { slug } = params as {
-    slug: string;
-  };
+    slug: string
+  }
 
   const { data: project, error } = useSWR<ProjectProps>(
     slug && `/api/projects/${slug}`,
@@ -18,10 +19,10 @@ export default function useProject() {
     {
       dedupingInterval: 30000,
     }
-  );
+  )
 
   return {
     project,
     error,
-  };
+  }
 }

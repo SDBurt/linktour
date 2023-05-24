@@ -1,4 +1,4 @@
-import * as z from "zod";
+import * as z from "zod"
 
 export const themeEditSchema = z.object({
   key: z.string(),
@@ -13,4 +13,4 @@ export const themeEditSchema = z.object({
   buttonType: z.string(),
   typefaceColor: z.string(),
   typefaceFamily: z.string(),
-});
+})

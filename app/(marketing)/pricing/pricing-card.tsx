@@ -1,13 +1,14 @@
-import { Icons } from "@/components/shared/icons";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import React from "react";
+import React from "react"
+import Link from "next/link"
+
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { Icons } from "@/components/shared/icons"
 
 interface PricingCardProps {
-  name: string;
-  features: string[];
-  cost: number;
+  name: string
+  features: string[]
+  cost: number
 }
 
 export default function PricingCard({
@@ -42,5 +43,5 @@ export default function PricingCard({
         </Link>
       </div>
     </div>
-  );
+  )
 }

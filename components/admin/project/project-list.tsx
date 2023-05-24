@@ -1,14 +1,15 @@
-import { Project } from "@prisma/client";
+import { Project } from "@prisma/client"
 
-import { Skeleton } from "@/components/ui/skeleton";
-import { EmptyCardPlaceholder } from "@/components/shared/empty-card-placeholder";
-import { ProjectCreateButton } from "./project-create-button";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { ProjectItem } from "./project-item";
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { Skeleton } from "@/components/ui/skeleton"
+import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
+
+import { ProjectCreateButton } from "./project-create-button"
+import { ProjectItem } from "./project-item"
 
 interface ProjectListProps {
-  projects: Pick<Project, "id" | "name" | "slug" | "description">[];
+  projects: Pick<Project, "id" | "name" | "slug" | "description">[]
 }
 
 export function ProjectList({ projects }: ProjectListProps) {
@@ -29,33 +30,31 @@ export function ProjectList({ projects }: ProjectListProps) {
           ))}
         </div>
       ) : (
-        <EmptyCardPlaceholder>
-          <EmptyCardPlaceholder.Icon name="post" />
-          <EmptyCardPlaceholder.Title>
-            No projects created
-          </EmptyCardPlaceholder.Title>
-          <EmptyCardPlaceholder.Description>
+        <EmptyPlaceholder>
+          <EmptyPlaceholder.Icon name="post" />
+          <EmptyPlaceholder.Title>No projects created</EmptyPlaceholder.Title>
+          <EmptyPlaceholder.Description>
             You don&apos;t have any projects yet. Start creating content.
-          </EmptyCardPlaceholder.Description>
+          </EmptyPlaceholder.Description>
           <ProjectCreateButton
             className={cn(buttonVariants({ variant: "outline" }))}
           />
-        </EmptyCardPlaceholder>
+        </EmptyPlaceholder>
       )}
     </div>
-  );
+  )
 }
 
 ProjectList.Skeleton = function ProjectListSkeleton() {
   return (
-    <EmptyCardPlaceholder>
-      <EmptyCardPlaceholder.Icon name="post" />
-      <EmptyCardPlaceholder.Title>
+    <EmptyPlaceholder>
+      <EmptyPlaceholder.Icon name="post" />
+      <EmptyPlaceholder.Title>
         <Skeleton className="h-5 w-4/5" />
-      </EmptyCardPlaceholder.Title>
-      <EmptyCardPlaceholder.Description>
+      </EmptyPlaceholder.Title>
+      <EmptyPlaceholder.Description>
         <Skeleton className="h-5 w-full" />
-      </EmptyCardPlaceholder.Description>
-    </EmptyCardPlaceholder>
-  );
-};
+      </EmptyPlaceholder.Description>
+    </EmptyPlaceholder>
+  )
+}

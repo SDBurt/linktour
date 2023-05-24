@@ -1,19 +1,19 @@
-import * as z from "zod";
+import * as z from "zod"
 
-import { db } from "@/lib/db";
-import { linkPatchSchema } from "@/lib/validations/link";
 import {
   verifyCurrentUserHasAccessToLink,
   verifyCurrentUserHasAccessToProject,
-} from "@/lib/api/auth";
-import { getRandomKey } from "@/lib/api/links";
+} from "@/lib/api/auth"
+import { getRandomKey } from "@/lib/api/links"
+import { db } from "@/lib/db"
+import { linkPatchSchema } from "@/lib/validations/link"
 
 const routeContextSchema = z.object({
   params: z.object({
     slug: z.string(),
     key: z.string(),
   }),
-});
+})
 
 /**
  * Get Single Link for Project
@@ -24,22 +24,22 @@ export async function GET(
 ) {
   try {
     // Validate the route params.
-    const { params } = routeContextSchema.parse(context);
+    const { params } = routeContextSchema.parse(context)
 
     // Check if the user has access to this link.
     if (!(await verifyCurrentUserHasAccessToProject(params.slug))) {
-      return new Response(null, { status: 403 });
+      return new Response(null, { status: 403 })
     }
 
-    const key = await getRandomKey(params.slug);
+    const key = await getRandomKey(params.slug)
 
-    return new Response(JSON.stringify(key));
+    return new Response(JSON.stringify(key))
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 });
+      return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
-    return new Response(null, { status: 500 });
+    return new Response(null, { status: 500 })
   }
 }
 
@@ -52,16 +52,16 @@ export async function PATCH(
 ) {
   try {
     // Validate route params.
-    const { params } = routeContextSchema.parse(context);
+    const { params } = routeContextSchema.parse(context)
 
     // Check if the user has access to this link.
     if (!(await verifyCurrentUserHasAccessToLink(params.slug, params.key))) {
-      return new Response(null, { status: 403 });
+      return new Response(null, { status: 403 })
     }
 
     // Get the request body and validate it.
-    const json = await req.json();
-    const body = linkPatchSchema.parse(json);
+    const json = await req.json()
+    const body = linkPatchSchema.parse(json)
 
     // Update the link.
     // TODO: Implement sanitization for content.
@@ -75,15 +75,15 @@ export async function PATCH(
       data: {
         ...body,
       },
-    });
+    })
 
-    return new Response(null, { status: 200 });
+    return new Response(null, { status: 200 })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 });
+      return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
-    return new Response(null, { status: 500 });
+    return new Response(null, { status: 500 })
   }
 }
 
@@ -93,11 +93,11 @@ export async function DELETE(
 ) {
   try {
     // Validate the route params.
-    const { params } = routeContextSchema.parse(context);
+    const { params } = routeContextSchema.parse(context)
 
     // Check if the user has access to this post.
     if (!(await verifyCurrentUserHasAccessToLink(params.slug, params.key))) {
-      return new Response(null, { status: 403 });
+      return new Response(null, { status: 403 })
     }
 
     // Delete the link.
@@ -108,14 +108,14 @@ export async function DELETE(
           key: params.key,
         },
       },
-    });
+    })
 
-    return new Response(null, { status: 204 });
+    return new Response(null, { status: 204 })
   } catch (error) {
     if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 });
+      return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
-    return new Response(null, { status: 500 });
+    return new Response(null, { status: 500 })
   }
 }

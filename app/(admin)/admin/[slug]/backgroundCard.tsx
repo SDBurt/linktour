@@ -1,10 +1,12 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { ThemeBackgroundStyleProps, ThemeProps } from "@/lib/types";
-import { HexColorPicker } from "react-colorful";
+import { Dispatch, SetStateAction } from "react"
+import { HexColorPicker } from "react-colorful"
+
+import { ThemeBackgroundStyleProps, ThemeProps } from "@/lib/types"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 const options = {
   background: {
@@ -14,22 +16,27 @@ const options = {
       { label: "Gradient Down", name: "COLORDOWN" },
     ],
     color: "#02A291",
+    gradient: "#02A291",
   },
-};
+}
 
 interface BackgroundCardProps {
-  theme: ThemeProps;
-  setTheme: (theme: ThemeProps) => void;
+  theme: ThemeProps
+  setTheme: Dispatch<SetStateAction<ThemeProps>>
 }
 
 export function BackgroundCard({ theme, setTheme }: BackgroundCardProps) {
   const styleChangedHandler = (value: ThemeBackgroundStyleProps) => {
-    setTheme({ ...theme, backgroundStyle: value });
-  };
+    setTheme((prev) => ({ ...prev, backgroundStyle: value }))
+  }
 
   const colorChangedHandler = (value: string) => {
-    setTheme({ ...theme, backgroundColor: value });
-  };
+    setTheme((prev) => ({ ...prev, backgroundColor: value }))
+  }
+
+  const gradientChangedHandler = (value: string) => {
+    setTheme((prev) => ({ ...prev, gradientColor: value }))
+  }
 
   return (
     <Card>
@@ -76,8 +83,34 @@ export function BackgroundCard({ theme, setTheme }: BackgroundCardProps) {
               onChange={(e) => colorChangedHandler(e.target.value)}
             />
           </div>
+          {theme.backgroundStyle !== "FLAT" && (
+            <>
+              <Label htmlFor="gradient-colour">Gradient Colour</Label>
+              <div className="flex flex-row space-x-2">
+                <Dialog>
+                  <DialogTrigger>
+                    <div
+                      className={"h-10 w-10 rounded"}
+                      style={{ backgroundColor: theme.gradientColor }}
+                    ></div>
+                  </DialogTrigger>
+                  <DialogContent className="w-62 p-8">
+                    <HexColorPicker
+                      color={theme.gradientColor}
+                      onChange={gradientChangedHandler}
+                    />
+                  </DialogContent>
+                </Dialog>
+                <Input
+                  id="gradient-colour"
+                  value={theme.gradientColor}
+                  onChange={(e) => gradientChangedHandler(e.target.value)}
+                />
+              </div>
+            </>
+          )}
         </form>
       </CardContent>
     </Card>
-  );
+  )
 }

@@ -1,27 +1,24 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Project } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Project } from "@prisma/client"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 
-import { cn } from "@/lib/utils";
-import { projectSchema } from "@/lib/validations/project";
-
-import { Icons } from "@/components/shared/icons";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { freePlanValues } from "@/config/subscriptions"
+import { cn } from "@/lib/utils"
+import { projectSchema } from "@/lib/validations/project"
+import { toast } from "@/hooks/use-toast"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-
+} from "@/components/ui/card"
 import {
   Form,
   FormControl,
@@ -29,23 +26,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { freePlanValues } from "@/config/subscriptions";
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Icons } from "@/components/shared/icons"
 
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  project?: Pick<Project, "id" | "name" | "slug" | "description">;
+  project?: Pick<Project, "id" | "name" | "slug" | "description">
 }
 
-type FormData = z.infer<typeof projectSchema>;
+type FormData = z.infer<typeof projectSchema>
 
 export function ProjectForm({
   project,
   className,
   ...props
 }: ProjectFormProps) {
-  const router = useRouter();
+  const router = useRouter()
 
   // 1. Define your form.
   const form = useForm<FormData>({
@@ -55,47 +53,47 @@ export function ProjectForm({
       description: project?.description || "",
       slug: project?.slug || undefined,
     },
-  });
-  const [isSaving, setIsSaving] = React.useState<boolean>(false);
-  const [isCheckingSlug, setIsCheckingSlug] = React.useState<boolean>(false);
-  const [slugValid, setSlugValid] = React.useState<boolean | null>(null);
+  })
+  const [isSaving, setIsSaving] = React.useState<boolean>(false)
+  const [isCheckingSlug, setIsCheckingSlug] = React.useState<boolean>(false)
+  const [slugValid, setSlugValid] = React.useState<boolean | null>(null)
 
   const endpoint = React.useMemo(() => {
     if (project) {
       return {
         method: "PATCH",
         url: `/api/projects/${encodeURIComponent(project.slug)}`,
-      };
+      }
     } else {
       return {
         method: "POST",
         url: `/api/projects`,
-      };
+      }
     }
-  }, [project?.slug]);
+  }, [project])
 
   async function checkSlug(slug: string) {
-    const res = await fetch(`/api/projects/${slug}/exists`);
-    const exists = await res.json();
+    const res = await fetch(`/api/projects/${slug}/exists`)
+    const exists = await res.json()
 
-    return exists === 1;
+    return exists === 1
   }
 
   async function checkSlugButtonHandler(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    setIsCheckingSlug(true);
+    setIsCheckingSlug(true)
 
-    form.clearErrors("slug");
-    const slug = form.getValues("slug");
+    form.clearErrors("slug")
+    const slug = form.getValues("slug")
 
-    const exists = await checkSlug(slug);
+    const exists = await checkSlug(slug)
 
     if (!exists) {
-      setSlugValid(true);
-      form.clearErrors(["slug"]);
+      setSlugValid(true)
+      form.clearErrors(["slug"])
     } else {
-      setSlugValid(false);
+      setSlugValid(false)
       form.setError(
         "slug",
         {
@@ -103,24 +101,24 @@ export function ProjectForm({
           message: "This slug is already taken",
         },
         { shouldFocus: true }
-      );
+      )
     }
 
-    setIsCheckingSlug(false);
+    setIsCheckingSlug(false)
   }
 
   async function onSubmit(data: FormData) {
-    setIsSaving(true);
+    setIsSaving(true)
 
     if (checkSlug === null) {
-      const exists = await checkSlug(data.slug);
+      const exists = await checkSlug(data.slug)
       if (exists) {
-        setIsSaving(false);
+        setIsSaving(false)
         return toast({
           title: "Something went wrong.",
           description: "Your Project slug is already taken. Please try again.",
           variant: "destructive",
-        });
+        })
       }
     }
 
@@ -134,9 +132,9 @@ export function ProjectForm({
         slug: data.slug,
         description: data.description,
       }),
-    });
+    })
 
-    setIsSaving(false);
+    setIsSaving(false)
 
     if (!response?.ok) {
       if (response.status === 402) {
@@ -144,7 +142,7 @@ export function ProjectForm({
           title: `Limit of ${freePlanValues.project.count} posts reached.`,
           description: "Please upgrade your plan.",
           variant: "destructive",
-        });
+        })
       }
 
       return toast({
@@ -154,14 +152,14 @@ export function ProjectForm({
           (project ? "edited" : "created") +
           ". Please try again.",
         variant: "destructive",
-      });
+      })
     }
 
     toast({
       description: "Your project has been " + (project ? "edited" : "created"),
-    });
+    })
 
-    router.refresh();
+    router.refresh()
   }
 
   return (
@@ -200,7 +198,7 @@ export function ProjectForm({
                   <FormLabel>Slug</FormLabel>
                   <FormControl>
                     <div className="flex w-full items-center">
-                      <Label className=" text-slate-600 h-10 items-center font-normal rounded-l-md border border-r-0 border-slate-300 bg-slate-50 py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900">
+                      <Label className="placeholder:text-muted-foreground0 h-10 items-center rounded-l-md border border-r-0 px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900">
                         localhost:3000/
                       </Label>
                       <Input
@@ -269,5 +267,5 @@ export function ProjectForm({
         </Card>
       </form>
     </Form>
-  );
+  )
 }

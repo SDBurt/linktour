@@ -1,11 +1,10 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
-import { Link } from "@prisma/client";
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { Link } from "@prisma/client"
 
-import { Icons } from "@/components/shared/icons";
+import { toast } from "@/hooks/use-toast"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,50 +14,49 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from "@/components/ui/alert-dialog"
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-import { Dialog, DialogContent } from "@/components/ui/dialog";
-
-import { LinkEditForm } from "@/components/admin/link/link-edit-form";
+} from "@/components/ui/dropdown-menu"
+import { LinkEditForm } from "@/components/admin/link/link-edit-form"
+import { Icons } from "@/components/shared/icons"
 
 async function deleteLink(key: string) {
   const response = await fetch(`/api/links/${key}`, {
     method: "DELETE",
-  });
+  })
 
   if (!response?.ok) {
     toast({
       title: "Something went wrong.",
       description: "Your link was not deleted. Please try again.",
       variant: "destructive",
-    });
+    })
   }
 
-  return true;
+  return true
 }
 
 interface LinkOperationsProps {
-  link: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">;
+  link: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">
 }
 
 export function LinkOperations({ link }: LinkOperationsProps) {
-  const router = useRouter();
+  const router = useRouter()
 
-  const [showEditDialog, setShowEditDialog] = React.useState<boolean>(false);
-  const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false);
-  const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false);
+  const [showEditDialog, setShowEditDialog] = React.useState<boolean>(false)
+  const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
+  const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
 
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex h-9 w-9 items-center justify-center rounded-md border transition-colors hover:bg-slate-50">
+        <DropdownMenuTrigger className="flex h-9 w-9 items-center justify-center rounded-md border transition-colors">
           <Icons.ellipsis className="h-4 w-4" />
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
@@ -92,15 +90,15 @@ export function LinkOperations({ link }: LinkOperationsProps) {
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={async (event) => {
-                event.preventDefault();
-                setIsDeleteLoading(true);
+                event.preventDefault()
+                setIsDeleteLoading(true)
 
-                const deleted = await deleteLink(link.key);
+                const deleted = await deleteLink(link.key)
 
                 if (deleted) {
-                  setIsDeleteLoading(false);
-                  setShowDeleteAlert(false);
-                  router.refresh();
+                  setIsDeleteLoading(false)
+                  setShowDeleteAlert(false)
+                  router.refresh()
                 }
               }}
               className="bg-red-600 focus:ring-red-600"
@@ -121,5 +119,5 @@ export function LinkOperations({ link }: LinkOperationsProps) {
         </DialogContent>
       </Dialog>
     </>
-  );
+  )
 }

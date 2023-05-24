@@ -1,22 +1,23 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
+import * as React from "react"
+import Link from "next/link"
+import { useSelectedLayoutSegment } from "next/navigation"
+import { Project } from "@prisma/client"
 
-import { MainNavItem } from "types";
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { Icons } from "@/components/shared/icons";
-import { MobileNav } from "@/components/admin/nav/mobile-nav";
-import { ProjectDropdownNav } from "./project-drodown-nav";
-import { Project } from "@prisma/client";
+import { MainNavItem } from "types"
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { MobileNav } from "@/components/admin/nav/mobile-nav"
+import { Icons } from "@/components/shared/icons"
+
+import { ProjectDropdownNav } from "./project-drodown-nav"
 
 interface MainNavProps {
-  showSiteName?: boolean;
-  items?: MainNavItem[];
-  projects?: Pick<Project, "name" | "slug">[];
-  children?: React.ReactNode;
+  showSiteName?: boolean
+  items?: MainNavItem[]
+  projects?: Pick<Project, "name" | "slug">[]
+  children?: React.ReactNode
 }
 
 export function MainNav({
@@ -25,8 +26,8 @@ export function MainNav({
   showSiteName = false,
   children,
 }: MainNavProps) {
-  const segment = useSelectedLayoutSegment();
-  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
+  const segment = useSelectedLayoutSegment()
+  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
 
   return (
     <div className="flex gap-6 md:gap-10">
@@ -48,8 +49,8 @@ export function MainNav({
               key={index}
               href={item.disabled ? "#" : item.href}
               className={cn(
-                "flex items-center text-lg font-semibold text-slate-600 sm:text-sm",
-                item.href.startsWith(`/${segment}`) && "text-slate-900",
+                "flex items-center text-lg font-medium text-foreground/60 transition-colors hover:text-foreground/80 sm:text-sm",
+                item.href.startsWith(`/${segment}`) && "text-foreground",
                 item.disabled && "cursor-not-allowed opacity-80"
               )}
             >
@@ -69,5 +70,5 @@ export function MainNav({
         <MobileNav items={items}>{children}</MobileNav>
       )}
     </div>
-  );
+  )
 }

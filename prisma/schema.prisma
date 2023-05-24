@@ -129,22 +129,23 @@ model Theme {
     project     Project @relation(fields: [projectSlug], references: [slug])
     projectSlug String  @unique
 
-    backgroundColor String
-    backgroundStyle String
-    backgroundType  String
+    backgroundColor String @default("#3d7ad5")
+    gradientColor   String @default("#02a291")
+    backgroundStyle String @default("COLORUP")
+    backgroundType  String @default("COLOR")
 
-    buttonBackgroundColor String
-    buttonShadowColor     String
-    buttonTextColor       String
-    buttonType            String
+    buttonBackgroundColor String @default("#ffffff")
+    buttonShadowColor     String @default("#000000")
+    buttonTextColor       String @default("#888888")
+    buttonType            String @default("SOFTSHADOW_CIRCULAR")
 
     key       String
-    luminance String
+    luminance String @default("DARK")
 
     // social icon settings
     socialStyleColor String
 
     // typeface settings
-    typefaceColor  String
-    typefaceFamily String
+    typefaceColor  String @default("#f5f5f5")
+    typefaceFamily String @default("dm sans")
 }

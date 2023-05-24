@@ -1,3 +1,5 @@
+import "./env.mjs"
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -6,9 +8,11 @@ const nextConfig = {
   },
   experimental: {
     appDir: true,
-    serverActions: true,
+    // serverActions: true,
     serverComponentsExternalPackages: ["@prisma/client"]
   },
 }
 
-module.exports = nextConfig
+// module.exports = nextConfig
+
+export default nextConfig

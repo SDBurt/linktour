@@ -1,19 +1,20 @@
-import { cache } from "react";
-import { notFound, redirect } from "next/navigation";
-import { User, Project } from "@prisma/client";
+import { cache } from "react"
+import { notFound, redirect } from "next/navigation"
+import { Project, User } from "@prisma/client"
+import { getServerSession } from "next-auth"
 
-import { authOptions } from "@/lib/auth-options";
-import { db } from "@/lib/db";
-import { cn } from "@/lib/utils";
-import { AppHeader } from "@/components/shared/page-header";
-import { LinkCreateButton } from "@/components/admin/link/link-create-button";
-import { AppShell } from "@/components/admin/layouts/shell";
-import { buttonVariants } from "@/components/ui/button";
-import { getServerSession } from "next-auth";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LinkList } from "@/components/admin/link/link-list";
-import { Appearance } from "./appearance";
-import { ThemeProps } from "@/lib/types";
+import { authOptions } from "@/lib/auth-options"
+import { db } from "@/lib/db"
+import { ThemeProps } from "@/lib/types"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AppShell } from "@/components/admin/layouts/shell"
+import { LinkCreateButton } from "@/components/admin/link/link-create-button"
+import { LinkList } from "@/components/admin/link/link-list"
+import { AppHeader } from "@/components/shared/page-header"
+
+import { Appearance } from "./appearance"
 
 const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
   return await db.project.findFirst({
@@ -30,41 +31,43 @@ const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
       image: true,
       theme: true,
     },
-  });
-});
+  })
+})
 
 export const metadata = {
   title: "Project Details",
-};
+}
 
 async function ProjectPage({ params }) {
-  const slug = params.slug;
+  const slug = params.slug
 
   if (!slug) {
-    notFound();
+    notFound()
   }
 
-  const session = await getServerSession(authOptions);
-  const user = session?.user;
+  const session = await getServerSession(authOptions)
+  const user = session?.user
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login");
+    redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const project = await getProject(session.user.id, slug);
+  const project = await getProject(session.user.id, slug)
 
   if (!project) {
-    notFound();
+    notFound()
   }
 
-  const links = project?.links;
-  const theme = project?.theme as ThemeProps;
+  const links = project?.links
+  const theme = project?.theme as ThemeProps
 
   return (
     <AppShell>
       {/* <Breadcrumb /> */}
       <AppHeader
-        heading={project?.name || "Untitled Project"}
-        text="Create and manage short links."
+        heading="Project"
+        text={`Manage links and appearance for ${
+          project?.name || "Untitled Project"
+        }`}
       >
         <LinkCreateButton
           className={cn(buttonVariants({ variant: "default" }), "mt-1")}
@@ -107,7 +110,7 @@ async function ProjectPage({ params }) {
         </TabsContent>
       </Tabs>
     </AppShell>
-  );
+  )
 }
 
-export default ProjectPage;
+export default ProjectPage

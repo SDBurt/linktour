@@ -1,16 +1,15 @@
-import * as React from "react";
+import * as React from "react"
 
-import { cn } from "@/lib/utils";
-import { Icons } from "@/components/shared/icons";
+import { cn } from "@/lib/utils"
+import { Icons } from "@/components/shared/icons"
 
-interface EmptyCardPlaceholderProps
-  extends React.HTMLAttributes<HTMLDivElement> {}
+interface EmptyPlaceholderProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function EmptyCardPlaceholder({
+export function EmptyPlaceholder({
   className,
   children,
   ...props
-}: EmptyCardPlaceholderProps) {
+}: EmptyPlaceholderProps) {
   return (
     <div
       className={cn(
@@ -23,58 +22,58 @@ export function EmptyCardPlaceholder({
         {children}
       </div>
     </div>
-  );
+  )
 }
 
-interface EmptyCardPlaceholderIconProps
+interface EmptyPlaceholderIconProps
   extends Partial<React.SVGProps<SVGSVGElement>> {
-  name: keyof typeof Icons;
+  name: keyof typeof Icons
 }
 
-EmptyCardPlaceholder.Icon = function EmptyCardPlaceholderIcon({
+EmptyPlaceholder.Icon = function EmptyPlaceHolderIcon({
   name,
   className,
   ...props
-}: EmptyCardPlaceholderIconProps) {
-  const Icon = Icons[name];
+}: EmptyPlaceholderIconProps) {
+  const Icon = Icons[name]
 
   if (!Icon) {
-    return null;
+    return null
   }
 
   return (
-    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-slate-100">
+    <div className="flex h-20 w-20 items-center justify-center rounded-full bg-muted">
       <Icon className={cn("h-10 w-10", className)} {...props} />
     </div>
-  );
-};
+  )
+}
 
 interface EmptyPlacholderTitleProps
   extends React.HTMLAttributes<HTMLHeadingElement> {}
 
-EmptyCardPlaceholder.Title = function EmptyCardPlaceholderTitle({
+EmptyPlaceholder.Title = function EmptyPlaceholderTitle({
   className,
   ...props
 }: EmptyPlacholderTitleProps) {
   return (
     <h2 className={cn("mt-6 text-xl font-semibold", className)} {...props} />
-  );
-};
+  )
+}
 
 interface EmptyPlacholderDescriptionProps
   extends React.HTMLAttributes<HTMLParagraphElement> {}
 
-EmptyCardPlaceholder.Description = function EmptyCardPlaceholderDescription({
+EmptyPlaceholder.Description = function EmptyPlaceholderDescription({
   className,
   ...props
 }: EmptyPlacholderDescriptionProps) {
   return (
     <p
       className={cn(
-        "mt-3 mb-8 text-center text-sm font-normal leading-6 text-slate-700",
+        "mb-8 mt-2 text-center text-sm font-normal leading-6 text-muted-foreground",
         className
       )}
       {...props}
     />
-  );
-};
+  )
+}

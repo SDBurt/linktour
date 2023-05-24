@@ -1,12 +1,13 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import THEME from "@/lib/constants/theme";
-import { ThemeButtonStyleTypeProps, ThemeProps } from "@/lib/types";
-import { useCallback } from "react";
-import { HexColorPicker } from "react-colorful";
+import { Dispatch, SetStateAction, useCallback } from "react"
+import { HexColorPicker } from "react-colorful"
+
+import THEME from "@/lib/constants/theme"
+import { ThemeButtonStyleTypeProps, ThemeProps } from "@/lib/types"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 const options = {
   button: {
@@ -33,41 +34,25 @@ const options = {
     buttonColour: THEME.buttonBackgroundColor,
     buttonFontColour: THEME.buttonTextColor,
   },
-};
+}
 
 interface ButtonsCardProps {
-  theme: ThemeProps;
-  setTheme: (theme: ThemeProps) => void;
+  theme: ThemeProps
+  setTheme: Dispatch<SetStateAction<ThemeProps>>
 }
 
 export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
-  const typeChangedHandler = useCallback(
-    (value: ThemeButtonStyleTypeProps) => {
-      return setTheme({ ...theme, buttonType: value });
-    },
-    [theme]
-  );
+  const typeChangedHandler = (value: ThemeButtonStyleTypeProps) => {
+    return setTheme((prev) => ({ ...prev, buttonType: value }))
+  }
 
-  const backgroundColorChangedHandler = useCallback(
-    (value: string) => {
-      setTheme({ ...theme, buttonBackgroundColor: value });
-    },
-    [theme]
-  );
+  const backgroundColorChangedHandler = (value: string) => {
+    setTheme((prev) => ({ ...prev, buttonBackgroundColor: value }))
+  }
 
-  const textColorChangedHandler = useCallback(
-    (value: string) => {
-      setTheme({ ...theme, buttonTextColor: value });
-    },
-    [theme]
-  );
-
-  const shadowColorChangedHandler = useCallback(
-    (value: string) => {
-      setTheme({ ...theme, buttonShadowColor: value });
-    },
-    [theme]
-  );
+  const textColorChangedHandler = (value: string) => {
+    setTheme((prev) => ({ ...prev, buttonTextColor: value }))
+  }
 
   return (
     <Card>
@@ -118,7 +103,7 @@ export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
             <Dialog>
               <DialogTrigger>
                 <div
-                  className={"h-10 w-10 border rounded"}
+                  className={"h-10 w-10 rounded border"}
                   style={{ backgroundColor: theme.buttonBackgroundColor }}
                 ></div>
               </DialogTrigger>
@@ -149,7 +134,7 @@ export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
             <Dialog>
               <DialogTrigger>
                 <div
-                  className={"h-10 w-10 border rounded"}
+                  className={"h-10 w-10 rounded border"}
                   style={{ backgroundColor: theme.buttonTextColor }}
                 ></div>
               </DialogTrigger>
@@ -175,5 +160,5 @@ export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
         </form>
       </CardContent>
     </Card>
-  );
+  )
 }

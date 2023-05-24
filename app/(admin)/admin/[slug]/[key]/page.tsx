@@ -1,18 +1,18 @@
-import { cache } from "react";
-import { notFound, redirect } from "next/navigation";
-import { Link, Project } from "@prisma/client";
+import { cache } from "react"
+import { notFound, redirect } from "next/navigation"
+import { Link, Project } from "@prisma/client"
+import { getServerSession } from "next-auth"
 
-import { authOptions } from "@/lib/auth-options";
-import { db } from "@/lib/db";
-import { AppHeader } from "@/components/shared/page-header";
-import { AppShell } from "@/components/admin/layouts/shell";
-import { getServerSession } from "next-auth";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { TimeframeSelect } from "@/components/shared/timeframe-select";
-import Activity from "@/components/admin/stats/activity";
-import Country from "@/components/admin/stats/country";
-import Devices from "@/components/admin/stats/devices";
-import Referer from "@/components/admin/stats/referer";
+import { authOptions } from "@/lib/auth-options"
+import { db } from "@/lib/db"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AppShell } from "@/components/admin/layouts/shell"
+import Activity from "@/components/admin/stats/activity"
+import Country from "@/components/admin/stats/country"
+import Devices from "@/components/admin/stats/devices"
+import Referer from "@/components/admin/stats/referer"
+import { AppHeader } from "@/components/shared/page-header"
+import { TimeframeSelect } from "@/components/shared/timeframe-select"
 
 const getLinkDetails = cache(async (slug: Link["slug"], key: Link["key"]) => {
   return await db.link.findUnique({
@@ -28,8 +28,8 @@ const getLinkDetails = cache(async (slug: Link["slug"], key: Link["key"]) => {
       description: true,
       clicks: true,
     },
-  });
-});
+  })
+})
 
 const getProject = cache(async (userId: string, slug: Project["slug"]) => {
   const project = await db.project.findUnique({
@@ -42,43 +42,46 @@ const getProject = cache(async (userId: string, slug: Project["slug"]) => {
       slug: true,
       userId: true,
     },
-  });
+  })
 
   if (project?.userId === userId) {
-    return project;
+    return project
   }
 
-  return null;
-});
+  return null
+})
 
 export const metadata = {
   title: "Link Details",
-};
+}
 
 async function LinkPage({ params }) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
   if (!session?.user) {
-    redirect(authOptions?.pages?.signIn || "/login");
+    redirect(authOptions?.pages?.signIn || "/login")
   }
 
-  const { slug, key } = params;
+  const { slug, key } = params
 
   if (!slug || !key) {
-    notFound();
+    notFound()
   }
 
-  const project = await getProject(session?.user.id, slug);
+  const project = await getProject(session?.user.id, slug)
 
   if (!project) {
-    notFound();
+    notFound()
   }
 
-  const link = await getLinkDetails(slug, key);
+  const link = await getLinkDetails(slug, key)
 
   return (
     <AppShell>
-      <AppHeader heading={link?.title || "Untitled Link"}>
+      <AppHeader
+        heading={link?.title || "Untitled Link"}
+        text="Link statistics"
+      >
         <TimeframeSelect />
       </AppHeader>
       <Tabs defaultValue="overview" className="w-full">
@@ -101,7 +104,7 @@ async function LinkPage({ params }) {
         </TabsContent>
       </Tabs>
     </AppShell>
-  );
+  )
 }
 
-export default LinkPage;
+export default LinkPage

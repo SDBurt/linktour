@@ -1,4 +1,4 @@
-export type IntervalProps = "1h" | "24h" | "7d" | "30d" | "90d";
+export type IntervalProps = "1h" | "24h" | "7d" | "30d" | "90d"
 
 export const intervalData = {
   "1h": {
@@ -54,44 +54,44 @@ export const intervalData = {
         day: "numeric",
       }),
   },
-};
+}
 
-export type LocationTabs = "country" | "city" | "region";
+export type LocationTabs = "country" | "city" | "region"
 
-export type DeviceTabs = "device" | "browser" | "os" | "bot" | "ua";
+export type DeviceTabs = "device" | "browser" | "os" | "bot" | "ua"
 
 export const uaToBot = (ua: string): string => {
-  if (!ua) return "Unknown Bot";
+  if (!ua) return "Unknown Bot"
   if (ua.includes("curl")) {
-    return "Curl Request";
+    return "Curl Request"
   } else if (ua.includes("Slackbot")) {
-    return "Slack Bot";
+    return "Slack Bot"
   } else if (ua.includes("Twitterbot")) {
-    return "Twitter Bot";
+    return "Twitter Bot"
   } else if (ua.includes("facebookexternalhit")) {
-    return "Facebook Bot";
+    return "Facebook Bot"
   } else if (ua.includes("LinkedInBot")) {
-    return "LinkedIn Bot";
+    return "LinkedIn Bot"
   } else if (ua.includes("WhatsApp")) {
-    return "WhatsApp Bot";
+    return "WhatsApp Bot"
   } else if (ua.includes("TelegramBot")) {
-    return "Telegram Bot";
+    return "Telegram Bot"
   } else if (ua.includes("Discordbot")) {
-    return "Discord Bot";
+    return "Discord Bot"
   } else if (ua.includes("Googlebot")) {
-    return "Google Bot";
+    return "Google Bot"
   } else if (ua.includes("Baiduspider")) {
-    return "Baidu Bot";
+    return "Baidu Bot"
   } else if (ua.includes("bingbot")) {
-    return "Bing Bot";
+    return "Bing Bot"
   } else if (ua.includes("YandexBot")) {
-    return "Yandex Bot";
+    return "Yandex Bot"
   } else if (ua.includes("DuckDuckBot")) {
-    return "DuckDuckGo Bot";
+    return "DuckDuckGo Bot"
   } else {
-    return "Unknown Bot";
+    return "Unknown Bot"
   }
-};
+}
 const VALID_TINYBIRD_ENDPOINTS = new Set([
   "timeseries",
   "clicks",
@@ -102,7 +102,7 @@ const VALID_TINYBIRD_ENDPOINTS = new Set([
   "os",
   "bot",
   "referer",
-]);
+])
 
 export const getLinkStats = async ({
   slug,
@@ -110,26 +110,24 @@ export const getLinkStats = async ({
   endpoint,
   interval,
 }: {
-  slug: string;
-  key: string;
-  endpoint: string;
-  interval?: string;
+  slug: string
+  key: string
+  endpoint: string
+  interval?: string
 }) => {
   if (!process.env.TINYBIRD_API_KEY) {
-    console.error("No TINYBIRD API key");
-    return null;
+    console.error("No TINYBIRD API key")
+    return null
   }
 
   if (!VALID_TINYBIRD_ENDPOINTS.has(endpoint)) {
-    console.error("Not a valid endpoint");
-    return null;
+    console.error("Not a valid endpoint")
+    return null
   }
 
-  let url = new URL(
-    `https://api.us-east.tinybird.co/v0/pipes/${endpoint}.json`
-  );
-  url.searchParams.append("slug", slug);
-  url.searchParams.append("key", key);
+  let url = new URL(`https://api.us-east.tinybird.co/v0/pipes/${endpoint}.json`)
+  url.searchParams.append("slug", slug)
+  url.searchParams.append("key", key)
 
   if (interval) {
     url.searchParams.append(
@@ -138,13 +136,12 @@ export const getLinkStats = async ({
         .toISOString()
         .replace("T", " ")
         .replace("Z", "")
-    );
+    )
     url.searchParams.append(
       "end",
       new Date(Date.now()).toISOString().replace("T", " ").replace("Z", "")
-    );
-    url.searchParams.append("granularity", intervalData[interval].granularity);
-    // console.log({ pathname: url.pathname, searchParams: url.searchParams });
+    )
+    url.searchParams.append("granularity", intervalData[interval].granularity)
   }
 
   return await fetch(url, {
@@ -156,17 +153,17 @@ export const getLinkStats = async ({
     .then(({ data }) => {
       if (endpoint === "clicks") {
         try {
-          const clicks = data[0]["clicks"];
-          return clicks || 0;
+          const clicks = data[0]["clicks"]
+          return clicks || 0
         } catch (err) {
-          console.error(err);
-          return null;
+          console.error(err)
+          return null
         }
       }
-      return data;
+      return data
     })
     .catch((err) => {
-      console.error(err);
-      return null;
-    });
-};
+      console.error(err)
+      return null
+    })
+}

@@ -1,31 +1,30 @@
-import * as React from "react";
-import { useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Project } from "@prisma/client";
-import { Resolver, SubmitHandler, useForm } from "react-hook-form";
-import * as z from "zod";
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Project } from "@prisma/client"
+import { Resolver, SubmitHandler, useForm } from "react-hook-form"
+import * as z from "zod"
 
-import { cn } from "@/lib/utils";
-import { projectCreateSchema } from "@/lib/validations/project";
-
-import { Icons } from "@/components/shared/icons";
-import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils"
+import { projectCreateSchema } from "@/lib/validations/project"
+import { toast } from "@/hooks/use-toast"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Icons } from "@/components/shared/icons"
 
 interface CardFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  submitHandler: () => void;
-  isSaving: boolean;
-  defaultValues: object;
-  resolver: Resolver<object, any> | undefined;
+  submitHandler: () => void
+  isSaving: boolean
+  defaultValues: object
+  resolver: Resolver<object, any> | undefined
 }
 
 export function FormCard({
@@ -40,7 +39,7 @@ export function FormCard({
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm({ resolver, defaultValues });
+  } = useForm({ resolver, defaultValues })
 
   return (
     <form
@@ -53,7 +52,7 @@ export function FormCard({
           <CardTitle>Create Project</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-2 w-full">
+          <div className="grid w-full gap-2">
             <Label htmlFor="name">Name</Label>
             <Input
               id="name"
@@ -69,13 +68,13 @@ export function FormCard({
             <div className="flex w-full items-center">
               <Label
                 htmlFor="slug"
-                className=" text-slate-600 h-10 items-center font-normal rounded-l-md border border-r-0 border-slate-300 bg-slate-50 py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
+                className="  placeholder:text-muted-foreground0 h-10 items-center rounded-l-md border border-r-0 px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
               >
                 LinkShortener/
               </Label>
               <Input
                 id="slug"
-                className="w-full border rounded-r-md rounded-l-none"
+                className="w-full rounded-l-none rounded-r-md border"
                 size={32}
                 placeholder="Your project slug"
                 {...register("slug")}
@@ -100,5 +99,5 @@ export function FormCard({
         </CardFooter>
       </Card>
     </form>
-  );
+  )
 }

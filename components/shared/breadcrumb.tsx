@@ -1,22 +1,24 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { useParams, usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "../ui/button";
-import { Icons } from "./icons";
-import Link from "next/link";
+import * as React from "react"
+import Link from "next/link"
+import { useParams, usePathname } from "next/navigation"
+
+import { cn } from "@/lib/utils"
+
+import { Button, buttonVariants } from "../ui/button"
+import { Icons } from "./icons"
 
 interface BreadcrumbProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function Breadcrumb({ className, children, ...props }: BreadcrumbProps) {
-  const path = usePathname();
+  const path = usePathname()
 
-  const crumbs = path?.split("/").slice(1);
+  const crumbs = path?.split("/").slice(1)
 
   const renderCrumbs = crumbs?.map((key, index) => {
     const style =
-      index === crumbs.length - 1 ? "text-foreground font-medium" : "";
+      index === crumbs.length - 1 ? "text-foreground font-medium" : ""
     return (
       <>
         {index !== 0 ? (
@@ -33,8 +35,8 @@ export function Breadcrumb({ className, children, ...props }: BreadcrumbProps) {
           {key}
         </Link>
       </>
-    );
-  });
+    )
+  })
 
   return (
     <div
@@ -46,5 +48,5 @@ export function Breadcrumb({ className, children, ...props }: BreadcrumbProps) {
     >
       {renderCrumbs}
     </div>
-  );
+  )
 }

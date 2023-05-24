@@ -1,4 +1,4 @@
-import { ThemeProps } from "../types";
+import { ThemeProps } from "../types"
 
 const THEME: ThemeProps = {
   // General
@@ -8,6 +8,7 @@ const THEME: ThemeProps = {
 
   // Background
   backgroundColor: "#02a291",
+  gradientColor: "#02a291",
   backgroundStyle: "FLAT", // COLORUP, COLORDOWN, FLAT
   backgroundType: "COLOR",
 
@@ -20,6 +21,6 @@ const THEME: ThemeProps = {
   // Typeface
   typefaceColor: "#f5f5f5",
   typefaceFamily: "dm sans",
-};
+}
 
-export default THEME;
+export default THEME

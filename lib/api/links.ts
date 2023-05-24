@@ -1,6 +1,7 @@
-import { db } from "@/lib/db";
-import { LinkProps } from "../types";
-import { nanoid } from "../utils";
+import { db } from "@/lib/db"
+
+import { LinkProps } from "../types"
+import { nanoid } from "../utils"
 
 /**
  * Count Links For Project
@@ -10,10 +11,10 @@ export const countLinksForProject = async (slug: string) => {
     where: {
       slug,
     },
-  });
+  })
 
-  return count;
-};
+  return count
+}
 
 /**
  * Get link details
@@ -26,8 +27,8 @@ export const getLinkForProject = async (slug: string, key: string) => {
         key,
       },
     },
-  });
-};
+  })
+}
 
 /**
  * Get All Links for user
@@ -42,8 +43,8 @@ export const getLinksForUser = async (userId: string) => {
     where: {
       userId: userId,
     },
-  });
-};
+  })
+}
 
 /**
  * Get All Links for project
@@ -56,7 +57,7 @@ export async function getLinksForProject(slug: string): Promise<LinkProps[]> {
     orderBy: {
       createdAt: "desc",
     },
-  });
+  })
 }
 
 /**
@@ -64,7 +65,7 @@ export async function getLinksForProject(slug: string): Promise<LinkProps[]> {
  */
 export async function getRandomKey(slug: string): Promise<string> {
   /* recursively get random key till it gets one that's avaialble */
-  const key = nanoid();
+  const key = nanoid()
   const response = await db.link.findUnique({
     where: {
       slug_key: {
@@ -72,17 +73,16 @@ export async function getRandomKey(slug: string): Promise<string> {
         key,
       },
     },
-  });
+  })
   if (response) {
     // by the off chance that key already exists
-    return getRandomKey(slug);
+    return getRandomKey(slug)
   } else {
-    return key;
+    return key
   }
 }
 
 export async function IncrementClick(slug: string, key: string) {
-  console.log("IncrementClick");
   const link = await db.link.findUnique({
     where: {
       slug_key: {
@@ -93,10 +93,10 @@ export async function IncrementClick(slug: string, key: string) {
     select: {
       clicks: true,
     },
-  });
+  })
 
   if (!link) {
-    return null;
+    return null
   }
 
   return await db.link.update({
@@ -109,5 +109,5 @@ export async function IncrementClick(slug: string, key: string) {
     data: {
       clicks: link?.clicks ? link?.clicks + 1 : 1,
     },
-  });
+  })
 }

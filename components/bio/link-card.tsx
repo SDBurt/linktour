@@ -1,20 +1,20 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { Link } from "@prisma/client";
-import NextLink from "next/link";
-import { cn } from "@/lib/utils";
+import * as React from "react"
+import NextLink from "next/link"
+import { Link } from "@prisma/client"
 
-import { Card, CardContent } from "@/components/ui/card";
+import { cn } from "@/lib/utils"
+import { Card, CardContent } from "@/components/ui/card"
 
 interface LinkCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  link: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">;
+  link: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">
 }
 
 export function LinkCard({ link, className, ...props }: LinkCardProps) {
   const buttonClickedHandler = async (link) => {
-    await fetch(`/api/projects/${link.slug}/links/${link.key}/click`);
-  };
+    await fetch(`/api/projects/${link.slug}/links/${link.key}/click`)
+  }
 
   return (
     <Card
@@ -35,5 +35,5 @@ export function LinkCard({ link, className, ...props }: LinkCardProps) {
         </CardContent>
       </NextLink>
     </Card>
-  );
+  )
 }

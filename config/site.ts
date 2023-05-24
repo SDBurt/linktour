@@ -1,13 +1,13 @@
-import { SiteConfig } from "types";
+import { SiteConfig } from "types"
 
 export const siteConfig: SiteConfig = {
   name: "LinkShortener",
   description:
-    "An open source link shortening application built using Next.js 13.x",
+    "An open source link in bio application built using Next.js 13.x",
   url: "https://sdburt.com",
   ogImage: "https://sdburt.com/og.jpg",
   links: {
     twitter: "https://twitter.com/seanburt8",
     github: "https://github.com/sdburt/link-shortener",
   },
-};
+}

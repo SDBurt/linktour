@@ -1,4 +1,4 @@
-import { db } from "@/lib/db";
+import { db } from "@/lib/db"
 
 /**
  * Get All Projects for the user
@@ -8,10 +8,10 @@ export const countProjectsForUser = async (userId: string) => {
     where: {
       userId,
     },
-  });
+  })
 
-  return count;
-};
+  return count
+}
 
 /**
  * Get All Projects for the user
@@ -33,10 +33,10 @@ export const getProjectsForUser = async (userId: string) => {
     orderBy: {
       updatedAt: "desc",
     },
-  });
+  })
 
-  return userProjects;
-};
+  return userProjects
+}
 
 /**
  * Get All Projects for the user
@@ -53,10 +53,10 @@ export const getProjectsForUserNav = async (userId: string) => {
     orderBy: {
       updatedAt: "desc",
     },
-  });
+  })
 
-  return userProjects;
-};
+  return userProjects
+}
 
 /**
  * Get Project
@@ -78,10 +78,10 @@ export const getProject = async (slug: string) => {
       theme: true,
       createdAt: true,
     },
-  });
+  })
 
-  return project;
-};
+  return project
+}
 
 /**
  * Get Project User
@@ -100,10 +100,10 @@ export const getProjectUser = async (slug: string) => {
         },
       },
     },
-  });
+  })
 
-  return projectUser;
-};
+  return projectUser
+}
 
 /**
  * Get Project Usage
@@ -118,10 +118,10 @@ export const getProjectUsage = async (slug: string) => {
       ownerUsageLimit: true,
       ownerExceededUsage: true,
     },
-  });
+  })
 
-  return projectUsage;
-};
+  return projectUsage
+}
 
 /**
  * Get Project Theme
@@ -134,7 +134,7 @@ export const getProjectTheme = async (slug: string) => {
     select: {
       theme: true,
     },
-  });
+  })
 
-  return projectTheme;
-};
+  return projectTheme
+}

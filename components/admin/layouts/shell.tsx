@@ -1,6 +1,6 @@
-import * as React from "react";
+import * as React from "react"
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"
 
 interface AppShellProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -9,5 +9,5 @@ export function AppShell({ children, className, ...props }: AppShellProps) {
     <div className={cn("grid items-start gap-4", className)} {...props}>
       {children}
     </div>
-  );
+  )
 }

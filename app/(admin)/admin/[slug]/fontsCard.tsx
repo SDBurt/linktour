@@ -1,31 +1,30 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react"
+import { HexColorPicker } from "react-colorful"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-import { Label } from "@/components/ui/label";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { HexColorPicker } from "react-colorful";
-import { Input } from "@/components/ui/input";
-import { ThemeProps } from "@/lib/types";
-import FontSelector from "@/components/admin/appearance/font-selector";
+import { ThemeProps } from "@/lib/types"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import FontSelector from "@/components/admin/appearance/font-selector"
 
 const options = {
   fonts: [{ label: "DM Sans", name: "dm sans" }],
-};
+}
 
 interface FontsCardProps {
-  theme: ThemeProps;
-  setTheme: (theme: ThemeProps) => void;
+  theme: ThemeProps
+  setTheme: Dispatch<SetStateAction<ThemeProps>>
 }
 
 export function FontsCard({ theme, setTheme }: FontsCardProps) {
   const familyChangedHandler = (value: string) => {
-    setTheme({ ...theme, typefaceFamily: value });
-  };
+    setTheme((prev) => ({ ...prev, typefaceFamily: value }))
+  }
 
   const fontColorChangedHandler = (value: string) => {
-    setTheme({ ...theme, typefaceColor: value });
-  };
+    setTheme((prev) => ({ ...prev, typefaceColor: value }))
+  }
 
   return (
     <Card>
@@ -67,5 +66,5 @@ export function FontsCard({ theme, setTheme }: FontsCardProps) {
         </form>
       </CardContent>
     </Card>
-  );
+  )
 }

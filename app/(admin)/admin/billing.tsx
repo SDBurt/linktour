@@ -1,11 +1,12 @@
-import { BillingForm } from "@/components/admin/billing/billing-form";
-import { Icons } from "@/components/shared/icons";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { UserSubscriptionPlan } from "@/types";
+import { UserSubscriptionPlan } from "@/types"
+
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { BillingForm } from "@/components/admin/billing/billing-form"
+import { Icons } from "@/components/shared/icons"
 
 interface BillingProps {
-  subscriptionPlan: UserSubscriptionPlan;
-  isCanceled: boolean;
+  subscriptionPlan: UserSubscriptionPlan
+  isCanceled: boolean
 }
 
 export function Billing({ subscriptionPlan, isCanceled }: BillingProps) {
@@ -35,5 +36,5 @@ export function Billing({ subscriptionPlan, isCanceled }: BillingProps) {
         }}
       />
     </div>
-  );
+  )
 }

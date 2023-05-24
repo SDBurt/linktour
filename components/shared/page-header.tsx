@@ -1,19 +1,25 @@
-interface AppHeaderProps {
-  heading: string;
-  text?: string;
-  children?: React.ReactNode;
+import { cn } from "@/lib/utils"
+
+interface DocsPageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  heading: string
+  text?: string
 }
 
-export function AppHeader({ heading, text, children }: AppHeaderProps) {
+export function AppHeader({
+  heading,
+  text,
+  className,
+  ...props
+}: DocsPageHeaderProps) {
   return (
-    <div className="flex justify-between px-2">
-      <div className="grid gap-1">
-        <h1 className="text-3xl font-bold tracking-wide text-slate-900">
+    <>
+      <div className={cn("space-y-4", className)} {...props}>
+        <h1 className="inline-block font-heading text-4xl lg:text-5xl">
           {heading}
         </h1>
-        {text && <p className="text-neutral-500">{text}</p>}
+        {text && <p className="text-md text-muted-foreground">{text}</p>}
       </div>
-      {children}
-    </div>
-  );
+      <hr className="my-4" />
+    </>
+  )
 }

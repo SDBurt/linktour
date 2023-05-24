@@ -1,13 +1,14 @@
-import Link from "next/link";
+import Link from "next/link"
 
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { Icons } from "@/components/shared/icons";
-import PricingCard from "./pricing-card";
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { Icons } from "@/components/shared/icons"
+
+import PricingCard from "./pricing-card"
 
 export const metadata = {
   title: "Pricing",
-};
+}
 
 export default function PricingPage() {
   const freeFeatures = [
@@ -15,14 +16,14 @@ export default function PricingPage() {
     "2 Users",
     "Basic Analytics",
     "Basic Support",
-  ];
+  ]
 
   const proFeatures = [
     "Unlimited Projects",
     "Unlimited Users",
     "Extended Analytics",
     "Premium Support",
-  ];
+  ]
 
   return (
     <section className="container flex flex-col  gap-6 py-8 md:max-w-[64rem] md:py-12 lg:py-24">
@@ -45,5 +46,5 @@ export default function PricingPage() {
         </p>
       </div>
     </section>
-  );
+  )
 }

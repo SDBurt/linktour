@@ -1,19 +1,19 @@
-import * as React from "react";
-import Link from "next/link";
-import { useLockBody } from "@/hooks/use-lock-body";
+import * as React from "react"
+import Link from "next/link"
 
-import { MainNavItem } from "types";
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { Icons } from "@/components/shared/icons";
+import { MainNavItem } from "types"
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { useLockBody } from "@/hooks/use-lock-body"
+import { Icons } from "@/components/shared/icons"
 
 interface MobileNavProps {
-  items: MainNavItem[];
-  children?: React.ReactNode;
+  items: MainNavItem[]
+  children?: React.ReactNode
 }
 
 export function MobileNav({ items, children }: MobileNavProps) {
-  useLockBody();
+  useLockBody()
 
   return (
     <div
@@ -21,7 +21,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
         "fixed inset-0 top-16 z-50 grid h-[calc(100vh-4rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md animate-in slide-in-from-bottom-80 md:hidden"
       )}
     >
-      <div className="relative z-20 grid gap-6 rounded-md bg-white p-4 shadow-md">
+      <div className="relative z-20 grid gap-6 rounded-md bg-background p-4 shadow-md">
         <Link href="/" className="flex items-center space-x-2">
           <Icons.logo />
           <span className="font-bold">{siteConfig.name}</span>
@@ -43,5 +43,5 @@ export function MobileNav({ items, children }: MobileNavProps) {
         {children}
       </div>
     </div>
-  );
+  )
 }

@@ -1,20 +1,21 @@
-import Link from "next/link";
+import Link from "next/link"
+import { getServerSession } from "next-auth"
 
-import { marketingConfig } from "@/config/marketing";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-import { MainNav } from "@/components/admin/nav/main-nav";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth-options";
+import { marketingConfig } from "@/config/marketing"
+import { authOptions } from "@/lib/auth-options"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
+import { MainNav } from "@/components/admin/nav/main-nav"
+import { SiteFooter } from "@/components/shared/page-footer"
 
 interface MarketingLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default async function MarketingLayout({
   children,
 }: MarketingLayoutProps) {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions)
 
   let navCallToAction = (
     <Link
@@ -26,7 +27,7 @@ export default async function MarketingLayout({
     >
       Login
     </Link>
-  );
+  )
 
   if (session?.user) {
     navCallToAction = (
@@ -39,7 +40,7 @@ export default async function MarketingLayout({
       >
         Admin
       </Link>
-    );
+    )
   }
 
   return (
@@ -51,6 +52,7 @@ export default async function MarketingLayout({
         </div>
       </header>
       <main className="flex-1">{children}</main>
+      <SiteFooter />
     </div>
-  );
+  )
 }

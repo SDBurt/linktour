@@ -1,44 +1,43 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { useParams, useRouter } from "next/navigation";
-import { toast } from "@/hooks/use-toast";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "@prisma/client";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import * as React from "react"
+import { useParams, useRouter } from "next/navigation"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Link } from "@prisma/client"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
 
-import { cn } from "@/lib/utils";
-import { linkPatchSchema } from "@/lib/validations/link";
-
-import { Icons } from "@/components/shared/icons";
-import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils"
+import { linkPatchSchema } from "@/lib/validations/link"
+import useProject from "@/hooks/use-project"
+import { toast } from "@/hooks/use-toast"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import useProject from "@/hooks/use-project";
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Icons } from "@/components/shared/icons"
 
 interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  link?: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">;
-  domain?: string;
+  link?: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">
+  domain?: string
 }
 
-type FormData = z.infer<typeof linkPatchSchema>;
+type FormData = z.infer<typeof linkPatchSchema>
 
 export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
-  const router = useRouter();
+  const router = useRouter()
 
-  const params = useParams();
+  const params = useParams()
 
   const { slug } = params as {
-    slug: string;
-  };
+    slug: string
+  }
 
   const {
     handleSubmit,
@@ -51,11 +50,11 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
       url: link?.url || "", // Destination of the link
       key: link?.key || "", // key of the link, uses the domain
     },
-  });
-  const [isSaving, setIsSaving] = React.useState<boolean>(false);
+  })
+  const [isSaving, setIsSaving] = React.useState<boolean>(false)
 
   async function onSubmit(data: FormData) {
-    setIsSaving(true);
+    setIsSaving(true)
 
     const response = await fetch(`/api/projects/${slug}/links`, {
       method: "POST",
@@ -67,24 +66,24 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
         url: data.url,
         key: data.key,
       }),
-    });
+    })
 
-    setIsSaving(false);
+    setIsSaving(false)
 
     if (!response?.ok) {
-      console.error(await response.json());
+      console.error(await response.json())
       return toast({
         title: "Something went wrong.",
         description: "Your link was not updated. Please try again.",
         variant: "destructive",
-      });
+      })
     }
 
     toast({
       description: "Your link has been updated.",
-    });
+    })
 
-    router.refresh();
+    router.refresh()
   }
 
   return (
@@ -117,13 +116,13 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
             <div className="flex w-full items-center">
               <Label
                 htmlFor="key"
-                className=" text-slate-600 h-10 items-center font-normal rounded-l-md border border-r-0 border-slate-300 bg-slate-50 py-2 px-3 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-50 dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
+                className=" placeholder:text-muted-foreground0 h-10 items-center rounded-l-md border border-r-0  px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
               >
                 {link?.slug || slug || "localhost:3000"}
               </Label>
               <Input
                 id="key"
-                className="w-full border rounded-r-md rounded-l-none"
+                className="w-full rounded-l-none rounded-r-md border"
                 size={32}
                 placeholder="Your project key"
                 {...register("key")}
@@ -160,5 +159,5 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
         </CardFooter>
       </Card>
     </form>
-  );
+  )
 }

@@ -1,9 +1,9 @@
-import React from "react";
+import React from "react"
 
 interface FeatureCardProps {
-  title: string;
-  subtitle: string;
-  children: React.ReactNode;
+  title: string
+  subtitle: string
+  children: React.ReactNode
 }
 
 export default function FeatureCard({
@@ -21,5 +21,5 @@ export default function FeatureCard({
         </div>
       </div>
     </div>
-  );
+  )
 }

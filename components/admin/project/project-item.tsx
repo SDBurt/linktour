@@ -1,27 +1,27 @@
-import NextLink from "next/link";
-import { Project } from "@prisma/client";
+import NextLink from "next/link"
+import { Project } from "@prisma/client"
 
-import { ProjectOperations } from "@/components/admin/project/project-operations";
-import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Icons } from "@/components/shared/icons";
+} from "@/components/ui/tooltip"
+import { ProjectOperations } from "@/components/admin/project/project-operations"
+import { Icons } from "@/components/shared/icons"
 
 interface ProjectItemProps {
-  project: Pick<Project, "id" | "name" | "slug" | "description">;
+  project: Pick<Project, "id" | "name" | "slug" | "description">
 }
 
 export function ProjectItem({ project }: ProjectItemProps) {
@@ -31,7 +31,7 @@ export function ProjectItem({ project }: ProjectItemProps) {
         <CardTitle>
           <NextLink
             href={`/admin/${project.slug}`}
-            className="font-semibold hover:underline cursor-pointer"
+            className="cursor-pointer font-semibold hover:underline"
           >
             {project.name}
           </NextLink>
@@ -70,7 +70,7 @@ export function ProjectItem({ project }: ProjectItemProps) {
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }
 
 ProjectItem.Skeleton = function ProjectItemSkeleton() {
@@ -84,5 +84,5 @@ ProjectItem.Skeleton = function ProjectItemSkeleton() {
         <Skeleton className="h-5 w-1/5" />
       </div>
     </div>
-  );
-};
+  )
+}
