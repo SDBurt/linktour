@@ -1,8 +1,15 @@
-import { notFound } from "next/navigation"
+import { notFound } from "next/navigation";
 
-import { getProject } from "@/lib/api/projects"
-import THEME from "@/lib/constants/theme"
+
+
+import { getProject } from "@/lib/api/projects";
+import THEME from "@/lib/constants/theme";
 import { ThemeProps } from "@/lib/types"
+import Preview from "@/app/(admin)/admin/[slug]/preview"
+
+
+
+
 
 // Dynamic metadata
 export async function generateMetadata({ params, searchParams }) {
