@@ -51,6 +51,10 @@ const getProject = cache(async (userId: string, slug: Project["slug"]) => {
   return null;
 });
 
+export const metadata = {
+  title: "Link Details",
+};
+
 async function LinkPage({ params }) {
   const session = await getServerSession(authOptions);
 

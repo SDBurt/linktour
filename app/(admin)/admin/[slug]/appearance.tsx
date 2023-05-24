@@ -27,10 +27,6 @@ export function Appearance({ project, links, theme, user }: AppearanceProps) {
   }
   const [themePreview, setThemePreview] = useState<ThemeProps>(theme ?? THEME);
 
-  useEffect(() => {
-    console.log(themePreview);
-  }, [themePreview]);
-
   const onSubmitClicked = async (e) => {
     e.preventDefault();
     const response = await fetch(`/api/projects/${project.slug}/theme`, {

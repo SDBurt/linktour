@@ -10,7 +10,8 @@ import {
   getProject,
   getProjectsForUser,
 } from "@/lib/api/projects";
-import { projectCreateSchema } from "@/lib/validations/project";
+import { projectSchema } from "@/lib/validations/project";
+import { freePlanValues } from "@/config/subscriptions";
 
 /**
  * Get a list of projects for the user
@@ -52,14 +53,14 @@ export async function POST(req: Request) {
     if (!subscriptionPlan?.isPro) {
       const count = await countProjectsForUser(session.user.id);
 
-      if (count >= 3) {
+      if (count >= freePlanValues.project.count) {
         throw new RequiresProPlanError();
       }
     }
 
     const json = await req.json();
 
-    const body = projectCreateSchema.parse(json);
+    const body = projectSchema.parse(json);
 
     const { slug } = body;
 

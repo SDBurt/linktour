@@ -32,6 +32,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { freePlanValues } from "@/config/subscriptions";
 
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
   project?: Pick<Project, "id" | "name" | "slug" | "description">;
@@ -138,6 +139,14 @@ export function ProjectForm({
     setIsSaving(false);
 
     if (!response?.ok) {
+      if (response.status === 402) {
+        return toast({
+          title: `Limit of ${freePlanValues.project.count} posts reached.`,
+          description: "Please upgrade your plan.",
+          variant: "destructive",
+        });
+      }
+
       return toast({
         title: "Something went wrong.",
         description:

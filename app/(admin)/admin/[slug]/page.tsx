@@ -33,6 +33,10 @@ const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
   });
 });
 
+export const metadata = {
+  title: "Project Details",
+};
+
 async function ProjectPage({ params }) {
   const slug = params.slug;
 
@@ -68,12 +72,16 @@ async function ProjectPage({ params }) {
       </AppHeader>
       <Tabs defaultValue="links" className="w-full">
         <TabsList>
-          <TabsTrigger value="links">Links</TabsTrigger>
-          <TabsTrigger value="appearance">Appearance</TabsTrigger>
-          <TabsTrigger disabled value="analytics">
+          <TabsTrigger id="links" value="links">
+            Links
+          </TabsTrigger>
+          <TabsTrigger id="appearance" value="appearance">
+            Appearance
+          </TabsTrigger>
+          <TabsTrigger id="analytics" disabled value="analytics">
             Analytics
           </TabsTrigger>
-          <TabsTrigger disabled value="settings">
+          <TabsTrigger id="settings" disabled value="settings">
             Settings
           </TabsTrigger>
         </TabsList>
