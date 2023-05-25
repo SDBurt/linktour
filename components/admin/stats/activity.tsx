@@ -21,7 +21,7 @@ const Activity = () => {
 
   const { data } = useSWR<ChartDataType[]>(
     `/api/projects/${params?.slug}/links/${params?.key}/stats/timeseries${
-      interval ? `?interval=${interval}` : "?interval=24hr"
+      interval ? `?interval=${interval}` : "?interval=24h"
     }`,
     fetcher
   )

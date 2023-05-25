@@ -1,10 +1,16 @@
-"use client"
+"use client";
 
-import NextLink from "next/link"
-import { Link } from "@prisma/client"
+import NextLink from "next/link";
+import { Link } from "@prisma/client";
 
-import { ThemeProps } from "@/lib/types"
-import { cn } from "@/lib/utils"
+
+
+import { ThemeProps } from "@/lib/types";
+import { cn } from "@/lib/utils";
+
+
+
+
 
 interface CustomButtonProps {
   link: Pick<Link, "title" | "url" | "slug" | "key">
@@ -55,7 +61,11 @@ export default function CustomButton({ link, theme }: CustomButtonProps) {
   }
 
   async function buttonClickedHandler(link) {
-    await fetch(`/api/projects/${link.slug}/links/${link.key}/click`)
+    if (link.slug && link.key) {
+      await fetch(`/api/projects/${link.slug}/links/${link.key}/click`)
+    } else {
+      console.warn("slug or link is undefined")
+    }
   }
 
   return (

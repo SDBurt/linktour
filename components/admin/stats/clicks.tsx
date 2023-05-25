@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
-import { useParams, useSearchParams } from "next/navigation"
-import { MousePointerClick } from "lucide-react"
-import useSWR from "swr"
+import { useParams, useSearchParams } from "next/navigation";
+import { MousePointerClick } from "lucide-react";
+import useSWR from "swr";
 
-import { fetcher } from "@/lib/utils"
-import MetricCard from "@/components/shared/metric-card"
+
+
+import { fetcher } from "@/lib/utils";
+import MetricCard from "@/components/shared/metric-card";
+
+
+
+
 
 export default function Clicks() {
   const params = useParams()
@@ -13,7 +19,7 @@ export default function Clicks() {
   const interval = searchParams?.get("interval")
   const { data } = useSWR<number>(
     `/api/projects/${params?.slug}/links/${params?.key}/stats/clicks${
-      interval ? `?interval=${interval}` : "?interval=24hr"
+      interval ? `?interval=${interval}` : "?interval=24h"
     }`,
     fetcher
   )

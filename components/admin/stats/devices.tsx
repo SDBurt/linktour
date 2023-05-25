@@ -16,7 +16,7 @@ export default function Devices() {
 
   const { data, isLoading } = useSWR<ChartProps["data"]>(
     `/api/projects/${params?.slug}/links/${params?.key}/stats/devices${
-      interval ? `?interval=${interval}` : "?interval=24hr"
+      interval ? `?interval=${interval}` : "?interval=24h"
     }`,
     fetcher
   )
