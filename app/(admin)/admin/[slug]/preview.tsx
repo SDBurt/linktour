@@ -71,7 +71,7 @@ const Preview = ({ user, project, theme, links }: PreviewProps) => {
           fontFamily: theme.typefaceFamily,
         }}
       >
-        <p className="font-normal">ShortLinker</p>
+        <p className="font-normal">LinkTour</p>
       </div>
     </div>
   )
