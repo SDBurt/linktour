@@ -5,7 +5,7 @@ import { SiteConfig } from "types";
 
 
 export const siteConfig: SiteConfig = {
-  name: "LinkShortener",
+  name: "LinkTour",
   description:
     "An open source link in bio application built using Next.js 13.x",
   url: "https://sdburt.com",
