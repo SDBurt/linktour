@@ -1,4 +1,8 @@
-import { SiteConfig } from "types"
+import { SiteConfig } from "types";
+
+
+
+
 
 export const siteConfig: SiteConfig = {
   name: "LinkShortener",
@@ -8,6 +12,6 @@ export const siteConfig: SiteConfig = {
   ogImage: "https://sdburt.com/og.jpg",
   links: {
     twitter: "https://twitter.com/seanburt8",
-    github: "https://github.com/sdburt/link-shortener",
+    github: "https://github.com/sdburt/linktour",
   },
 }

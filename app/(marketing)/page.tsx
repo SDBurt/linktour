@@ -1,16 +1,21 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import { env } from "@/env.mjs"
-import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
 
-import FeatureCard from "./feature-card"
+
+import { env } from "@/env.mjs";
+import { siteConfig } from "@/config/site";
+import { cn } from "@/lib/utils";
+import { buttonVariants } from "@/components/ui/button";
+
+
+
+import FeatureCard from "./feature-card";
+
 
 async function getGitHubStars(): Promise<string | null> {
   try {
     const response = await fetch(
-      "https://api.github.com/repos/sdburt/link-shortener",
+      "https://api.github.com/repos/sdburt/linktour",
       {
         headers: {
           Accept: "application/vnd.github+json",
