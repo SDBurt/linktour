@@ -26,8 +26,6 @@ export async function GET(
 
     const interval = searchParams.get("interval")
 
-    // console.log({params, searchParams})
-
     // Check if the user has access to this link.
     if (!(await verifyCurrentUserHasAccessToLink(params.slug, params.key))) {
       return new Response(null, { status: 403 })
@@ -46,7 +44,7 @@ export async function GET(
 
     return new Response(JSON.stringify(stats))
   } catch (err) {
-    console.log(err)
+    console.error(err)
     if (err instanceof z.ZodError) {
       return new Response(JSON.stringify(err.issues), { status: 422 })
     }
