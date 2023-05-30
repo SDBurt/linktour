@@ -10,66 +10,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Account {
-    id                String   @id @default(cuid())
-    userId            String
-    type              String
-    provider          String
-    providerAccountId String
-    refresh_token     String?  @db.Text
-    access_token      String?  @db.Text
-    expires_at        Int?
-    token_type        String?
-    scope             String?
-    id_token          String?  @db.Text
-    session_state     String?
-    createdAt         DateTime @default(now()) @map(name: "created_at")
-    updatedAt         DateTime @default(now()) @map(name: "updated_at")
-    user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@unique([provider, providerAccountId])
-    @@map(name: "accounts")
-}
-
-model Session {
-    id           String   @id @default(cuid())
-    sessionToken String   @unique
-    userId       String
-    expires      DateTime
-    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-    @@map(name: "sessions")
-}
-
-model User {
-    id                     String    @id @default(cuid())
-    name                   String?
-    email                  String?   @unique
-    emailVerified          DateTime?
-    image                  String?
-    createdAt              DateTime  @default(now()) @map(name: "created_at")
-    updatedAt              DateTime  @default(now()) @map(name: "updated_at")
-    accounts               Account[]
-    sessions               Session[]
-    links                  Link[]
-    stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
-    stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
-    stripePriceId          String?   @map(name: "stripe_price_id")
-    stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
-    project                Project[]
-
-    @@map(name: "users")
-}
-
-model VerificationToken {
-    identifier String
-    token      String   @unique
-    expires    DateTime
-
-    @@unique([identifier, token])
-    @@map(name: "verification_tokens")
-}
-
 model Project {
     id       String  @id @default(cuid())
     name     String
@@ -90,9 +30,9 @@ model Project {
 
     // Creator
     userId String
-    user   User   @relation(fields: [userId], references: [id])
 
-    theme Theme?
+    theme Theme @relation(fields: [themeId], references: [id], onUpdate: Cascade, onDelete: Cascade) // references `id` of `Profile`
+    themeId String @unique
 }
 
 model Link {
@@ -114,7 +54,6 @@ model Link {
 
     // Creator
     userId String
-    user   User   @relation(fields: [userId], references: [id])
 
     // project
     project Project? @relation(fields: [slug], references: [slug], onUpdate: Cascade, onDelete: Cascade)
@@ -126,8 +65,7 @@ model Link {
 model Theme {
     id String @id @default(cuid())
 
-    project     Project @relation(fields: [projectSlug], references: [slug])
-    projectSlug String  @unique
+    project     Project?
 
     backgroundColor String @default("#3d7ad5")
     gradientColor   String @default("#02a291")
@@ -139,11 +77,11 @@ model Theme {
     buttonTextColor       String @default("#888888")
     buttonType            String @default("SOFTSHADOW_CIRCULAR")
 
-    key       String
+    key       String?
     luminance String @default("DARK")
 
     // social icon settings
-    socialStyleColor String
+    socialStyleColor String?
 
     // typeface settings
     typefaceColor  String @default("#f5f5f5")
