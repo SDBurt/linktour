@@ -1,4 +1,4 @@
-import { getServerSession } from "next-auth"
+import { auth } from "@clerk/nextjs"
 import * as z from "zod"
 
 import {
@@ -6,7 +6,6 @@ import {
   verifyCurrentUserHasAccessToProject,
 } from "@/lib/api/auth"
 import { getProject } from "@/lib/api/projects"
-import { authOptions } from "@/lib/auth-options"
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -35,9 +34,10 @@ export async function GET(
     }
 
     return new Response(JSON.stringify(1), { status: 200 })
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+  } catch (err) {
+    console.error(err)
+    if (err instanceof z.ZodError) {
+      return new Response(JSON.stringify(err.issues), { status: 422 })
     }
 
     return new Response(null, { status: 500 })

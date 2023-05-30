@@ -21,7 +21,7 @@ model Project {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @default(now())
-    links     Link[]
+    
 
     // usage
     usage              Int     @default(0)
@@ -31,8 +31,11 @@ model Project {
     // Creator
     userId String
 
-    theme Theme @relation(fields: [themeId], references: [id], onUpdate: Cascade, onDelete: Cascade) // references `id` of `Profile`
-    themeId String @unique
+    // Theme
+    theme Theme?
+
+    // Links
+    links Link[]
 }
 
 model Link {
@@ -65,8 +68,6 @@ model Link {
 model Theme {
     id String @id @default(cuid())
 
-    project     Project?
-
     backgroundColor String @default("#3d7ad5")
     gradientColor   String @default("#02a291")
     backgroundStyle String @default("COLORUP")
@@ -86,4 +87,7 @@ model Theme {
     // typeface settings
     typefaceColor  String @default("#f5f5f5")
     typefaceFamily String @default("dm sans")
+
+    project     Project? @relation(fields: [projectSlug], references: [slug], onUpdate: Cascade, onDelete: Cascade)
+    projectSlug String @unique
 }

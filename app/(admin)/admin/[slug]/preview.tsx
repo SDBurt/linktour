@@ -1,20 +1,21 @@
 import React, { useMemo } from "react"
-import { Link, Project, User } from "@prisma/client"
-import hexToRgba from "hex-to-rgba"
+import { Link, Project } from "@prisma/client"
 
 import { ThemeProps } from "@/lib/types"
 import { UserAvatar } from "@/components/user/user-avatar"
 
 import CustomButton from "./customButton"
+import { User } from "@clerk/nextjs/dist/types/server"
 
 interface PreviewProps {
-  user: Pick<User, "image" | "name">
+  user: Pick<User, "imageUrl" | "username">
   project: Pick<Project, "name" | "image" | "description">
   theme: ThemeProps
   links: Pick<Link, "title" | "url" | "slug" | "key">[]
 }
 
 const Preview = ({ user, project, theme, links }: PreviewProps) => {
+
   const backgroundStyle = useMemo(() => {
     let style = {}
     if (theme.backgroundStyle === "COLORUP") {
@@ -40,7 +41,7 @@ const Preview = ({ user, project, theme, links }: PreviewProps) => {
         <div className="flex w-full items-center justify-center">
           <UserAvatar
             className="h-24 w-24"
-            user={{ name: user.name, image: user.image }}
+            user={{ username: user.username, imageUrl: user.imageUrl }}
           />
         </div>
         <div

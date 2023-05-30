@@ -43,7 +43,7 @@ const BarChart = ({ data }: { data: ChartDataType[] }) => {
             <Tooltip labelFormatter={dateFormatter} />
             <Legend />
             <CartesianGrid horizontal={true} vertical={false} />
-            <Bar dataKey="clicks" fill="#00FF00" />
+            <Bar dataKey="clicks" fill="#26E0EC" />
           </ReBarChart>
         </ResponsiveContainer>
       </div>

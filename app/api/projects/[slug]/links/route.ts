@@ -1,9 +1,9 @@
-import { Session, getServerSession } from "next-auth"
+import { auth } from "@clerk/nextjs"
 import * as z from "zod"
 
+import { freePlanValues } from "@/config/subscriptions"
 import { verifyCurrentUserHasAccessToProject } from "@/lib/api/auth"
 import { countLinksForProject, getLinksForProject } from "@/lib/api/links"
-import { authOptions } from "@/lib/auth-options"
 import { db } from "@/lib/db"
 import { RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
@@ -57,15 +57,15 @@ export async function POST(
     }
 
     // Session exists if it reaches this point
-    const { user } = (await getServerSession(authOptions)) as Session
-    const subscriptionPlan = await getUserSubscriptionPlan(user.id)
+    const { userId } = (await auth()) as { userId: string }
+    const subscriptionPlan = await getUserSubscriptionPlan(userId)
 
     // If user is on a free plan.
     // Check if user has reached limit of 3 projects.
     if (!subscriptionPlan?.isPro) {
       const count = await countLinksForProject(params.slug)
 
-      if (count >= 3) {
+      if (count >= freePlanValues.project.count) {
         throw new RequiresProPlanError()
       }
     }
@@ -75,7 +75,7 @@ export async function POST(
 
     const link = await db.link.create({
       data: {
-        userId: user.id,
+        userId: userId as string,
         slug: params.slug,
         ...body,
       },

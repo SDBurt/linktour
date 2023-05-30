@@ -4,6 +4,7 @@ import Stripe from "stripe"
 import { env } from "@/env.mjs"
 import { db } from "@/lib/db"
 import { stripe } from "@/lib/stripe"
+import { clerkClient } from "@clerk/nextjs"
 
 export async function POST(req: Request) {
   const body = await req.text()
@@ -23,6 +24,10 @@ export async function POST(req: Request) {
 
   const session = event.data.object as Stripe.Checkout.Session
 
+  if (!session?.metadata?.userId) {
+    return new Response("Unknown user", { status: 400 })
+  }
+
   if (event.type === "checkout.session.completed") {
     // Retrieve the subscription details from Stripe.
     const subscription = await stripe.subscriptions.retrieve(
@@ -32,11 +37,8 @@ export async function POST(req: Request) {
     // Update the user stripe into in our database.
     // Since this is the initial subscription, we need to update
     // the subscription id and customer id.
-    await db.user.update({
-      where: {
-        id: session?.metadata?.userId,
-      },
-      data: {
+    await clerkClient.users.updateUser(session?.metadata?.userId, {
+      publicMetadata: {
         stripeSubscriptionId: subscription.id,
         stripeCustomerId: subscription.customer as string,
         stripePriceId: subscription.items.data[0].price.id,
@@ -54,11 +56,8 @@ export async function POST(req: Request) {
     )
 
     // Update the price id and set the new period end.
-    await db.user.update({
-      where: {
-        stripeSubscriptionId: subscription.id,
-      },
-      data: {
+    await clerkClient.users.updateUser(session?.metadata?.userId, {
+      publicMetadata: {
         stripePriceId: subscription.items.data[0].price.id,
         stripeCurrentPeriodEnd: new Date(
           subscription.current_period_end * 1000

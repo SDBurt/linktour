@@ -1,9 +1,8 @@
 import { cache } from "react"
 import { notFound, redirect } from "next/navigation"
+import { auth, redirectToSignIn } from "@clerk/nextjs"
 import { Link, Project } from "@prisma/client"
-import { getServerSession } from "next-auth"
 
-import { authOptions } from "@/lib/auth-options"
 import { db } from "@/lib/db"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AppShell } from "@/components/admin/layouts/shell"
@@ -56,10 +55,10 @@ export const metadata = {
 }
 
 async function LinkPage({ params }) {
-  const session = await getServerSession(authOptions)
+  const { userId } = auth()
 
-  if (!session?.user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+  if (!userId) {
+    return redirectToSignIn()
   }
 
   const { slug, key } = params
@@ -68,7 +67,7 @@ async function LinkPage({ params }) {
     notFound()
   }
 
-  const project = await getProject(session?.user.id, slug)
+  const project = await getProject(userId, slug)
 
   if (!project) {
     notFound()

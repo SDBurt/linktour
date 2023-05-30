@@ -1,20 +1,19 @@
-import { getServerSession } from "next-auth"
+import { auth } from "@clerk/nextjs"
 
-import { authOptions } from "@/lib/auth-options"
 import { db } from "@/lib/db"
 
 export async function verifyCurrentUser() {
-  const session = await getServerSession(authOptions)
+  const { userId } = auth()
 
-  return session !== null
+  return userId !== null
 }
 
 export async function verifyCurrentUserHasAccessToProject(slug: string) {
-  const session = await getServerSession(authOptions)
+  const { userId } = auth()
   const count = await db.project.count({
     where: {
       slug: slug,
-      userId: session?.user.id,
+      userId: userId as string,
     },
   })
 
@@ -25,12 +24,12 @@ export async function verifyCurrentUserHasAccessToLink(
   slug: string,
   key: string
 ) {
-  const session = await getServerSession(authOptions)
+  const { userId } = auth()
   const count = await db.link.count({
     where: {
       slug: slug,
       key: key,
-      userId: session?.user.id,
+      userId: userId as string,
     },
   })
 

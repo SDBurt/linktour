@@ -74,9 +74,9 @@ export const getProject = async (slug: string) => {
       slug: true,
       verified: true,
       links: true,
-      user: true,
       theme: true,
       createdAt: true,
+      userId: true
     },
   })
 
@@ -92,13 +92,7 @@ export const getProjectUser = async (slug: string) => {
       slug,
     },
     select: {
-      user: {
-        select: {
-          id: true,
-          name: true,
-          email: true,
-        },
-      },
+      userId: true
     },
   })
 

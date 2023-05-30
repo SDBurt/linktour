@@ -1,18 +1,16 @@
-import { getServerSession } from "next-auth/next"
+import { auth } from "@clerk/nextjs"
 
 import { countProjectsForUser } from "@/lib/api/projects"
-import { authOptions } from "@/lib/auth-options"
 
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions)
+    const { userId } = auth()
 
-    if (!session) {
+    if (!userId) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
-    const count = await countProjectsForUser(user.id)
+    const count = await countProjectsForUser(userId)
 
     return new Response(JSON.stringify(count))
   } catch (error) {

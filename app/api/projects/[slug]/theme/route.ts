@@ -37,43 +37,6 @@ export async function GET(
   }
 }
 
-export async function POST(
-  req: Request,
-  context: z.infer<typeof routeContextSchema>
-) {
-  try {
-    // Validate route params.
-    const { params } = routeContextSchema.parse(context)
-
-    // Check if the user has access to this project.
-    if (!(await verifyCurrentUserHasAccessToProject(params.slug))) {
-      return new Response(null, { status: 403 })
-    }
-
-    // Get the request body and validate it.
-    const json = await req.json()
-    const body = themeEditSchema.parse(json)
-
-    // Create the theme.
-    // TODO: Implement sanitization for content.
-    await db.theme.create({
-      data: {
-        projectSlug: params.slug,
-        ...body,
-      },
-    })
-
-    return new Response(null, { status: 200 })
-  } catch (err) {
-    console.error(err)
-    if (err instanceof z.ZodError) {
-      return new Response(JSON.stringify(err.issues), { status: 422 })
-    }
-
-    return new Response(null, { status: 500 })
-  }
-}
-
 export async function PATCH(
   req: Request,
   context: z.infer<typeof routeContextSchema>

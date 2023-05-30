@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Link, Project, User } from "@prisma/client"
+import { Link, Project } from "@prisma/client"
 
 import THEME from "@/lib/constants/theme"
 import { ThemeProps } from "@/lib/types"
@@ -12,12 +12,14 @@ import { BackgroundCard } from "./backgroundCard"
 import { ButtonsCard } from "./buttonsCard"
 import { FontsCard } from "./fontsCard"
 import Preview from "./preview"
+import { User } from "@clerk/nextjs/dist/types/server"
+import { ProjectForm } from "@/components/admin/project/project-form"
 
 interface AppearanceProps {
-  project: Pick<Project, "name" | "description" | "image" | "slug">
+  project: Pick<Project, "id" | "name" | "description" | "image" | "slug">
   links: Pick<Link, "title" | "url" | "slug" | "key">[]
   theme: ThemeProps
-  user: Pick<User, "image" | "name">
+  user: Pick<User, "imageUrl" | "username">
 }
 
 export function Appearance({ project, links, theme, user }: AppearanceProps) {
@@ -71,7 +73,7 @@ export function Appearance({ project, links, theme, user }: AppearanceProps) {
             theme={themePreview}
             project={project}
             links={links}
-            user={{ name: user.name, image: user.image }}
+            user={{ username: user.username, imageUrl: user.imageUrl }}
           />
         </div>
       </div>

@@ -57,7 +57,7 @@ export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Background</CardTitle>
+        <CardTitle>Buttons</CardTitle>
       </CardHeader>
       <CardContent>
         <form className="flex flex-col space-y-4">

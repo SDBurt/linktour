@@ -33,7 +33,13 @@ import {
 export type Icon = LucideIcon
 
 export const Icons = {
-  logo: Command,
+  logo: ({ ...props }: LucideProps) => (
+    <svg width="32" height="32" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <path fillRule="evenodd" clipRule="evenodd" d="M91.4062 0C108.75 0 120 11.25 120 28.5938V91.4062C120 108.75 108.75 120 91.4062 120H28.5938C11.25 120 0 108.75 0 91.4062V28.5938C0 11.25 11.25 0 28.5938 0H91.4062Z" fill="#26E0EC"/>
+      <path d="M102 92.5C86.6667 92.5 48.4 91.5 18 87.5C18 90.3 22.6667 95.3333 25 97.5H98.5L102 92.5Z" fill="black" stroke="black"/>
+      <path d="M33 85.5C34 85.8333 47.1 87.3 91.5 90.5C67.5 74.9 61.8333 38.3333 62 22C43.6 39.6 35 71.6667 33 85.5Z" fill="black" stroke="black"/>
+    </svg>
+  ),
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
@@ -78,3 +84,5 @@ export const Icons = {
   twitter: Twitter,
   check: Check,
 }
+
+

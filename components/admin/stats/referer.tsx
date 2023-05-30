@@ -1,17 +1,13 @@
-"use client";
+"use client"
 
-import { useParams, useSearchParams } from "next/navigation";
-import useSWR from "swr";
+import { useParams, useSearchParams } from "next/navigation"
+import useSWR from "swr"
 
-
-
-import { fetcher } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import HorizontalChart, { ChartProps } from "@/components/shared/horizontal-chart";
-
-
-
-
+import { fetcher } from "@/lib/utils"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import HorizontalChart, {
+  ChartProps,
+} from "@/components/shared/horizontal-chart"
 
 export default function Referer() {
   const params = useParams()
@@ -34,7 +30,7 @@ export default function Referer() {
         {isLoading ? (
           <p>Loading</p>
         ) : data ? (
-          <HorizontalChart dataKey={"referer"} data={data} fill="#00FF00" />
+          <HorizontalChart dataKey={"referer"} data={data} fill="#26E0EC" />
         ) : (
           <p>No Data</p>
         )}

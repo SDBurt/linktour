@@ -1,16 +1,10 @@
-"use client";
+"use client"
 
-import NextLink from "next/link";
-import { Link } from "@prisma/client";
+import NextLink from "next/link"
+import { Link } from "@prisma/client"
 
-
-
-import { ThemeProps } from "@/lib/types";
-import { cn } from "@/lib/utils";
-
-
-
-
+import { ThemeProps } from "@/lib/types"
+import { cn } from "@/lib/utils"
 
 interface CustomButtonProps {
   link: Pick<Link, "title" | "url" | "slug" | "key">

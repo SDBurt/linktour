@@ -1,16 +1,11 @@
-import Link from "next/link";
+import Link from "next/link"
 
+import { env } from "@/env.mjs"
+import { siteConfig } from "@/config/site"
+import { cn } from "@/lib/utils"
+import { buttonVariants } from "@/components/ui/button"
 
-
-import { env } from "@/env.mjs";
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
-
-
-
-import FeatureCard from "./feature-card";
-
+import FeatureCard from "./feature-card"
 
 async function getGitHubStars(): Promise<string | null> {
   try {
@@ -119,7 +114,7 @@ export default async function IndexPage() {
           </FeatureCard>
           <FeatureCard
             title={"Authentication"}
-            subtitle={"Authentication using NextAuth.js and middlewares."}
+            subtitle={"Authentication using Clerk and middlewares."}
           >
             <svg
               viewBox="0 0 24 24"
@@ -153,7 +148,7 @@ export default async function IndexPage() {
             Open Source
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            This app is open source and powered by open source software. <br />{" "}
+            This app is open source! <br />{" "}
             The code is available on{" "}
             <Link
               href={siteConfig.links.github}

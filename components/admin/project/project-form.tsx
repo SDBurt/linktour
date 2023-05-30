@@ -9,7 +9,7 @@ import * as z from "zod"
 
 import { freePlanValues } from "@/config/subscriptions"
 import { cn } from "@/lib/utils"
-import { projectSchema } from "@/lib/validations/project"
+import { projectCreateSchema, projectPatchSchema, projectSchema } from "@/lib/validations/project"
 import { toast } from "@/hooks/use-toast"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
@@ -43,16 +43,21 @@ export function ProjectForm({
   className,
   ...props
 }: ProjectFormProps) {
+  
   const router = useRouter()
+  const defaultValues = {
+    name: project?.name || "",
+    description: project?.description || "",
+  }
+
+  if (project) {
+    defaultValues['slug'] = project?.slug || undefined
+  }
 
   // 1. Define your form.
   const form = useForm<FormData>({
-    resolver: zodResolver(projectSchema),
-    defaultValues: {
-      name: project?.name || "",
-      description: project?.description || "",
-      slug: project?.slug || undefined,
-    },
+    resolver: zodResolver(project ? projectPatchSchema : projectCreateSchema),
+    defaultValues
   })
   const [isSaving, setIsSaving] = React.useState<boolean>(false)
   const [isCheckingSlug, setIsCheckingSlug] = React.useState<boolean>(false)
@@ -73,10 +78,14 @@ export function ProjectForm({
   }, [project])
 
   async function checkSlug(slug: string) {
+    if (slug.trim() === "") {
+      return true
+    }
+
     const res = await fetch(`/api/projects/${slug}/exists`)
     const exists = await res.json()
 
-    return exists === 1
+    return exists
   }
 
   async function checkSlugButtonHandler(e) {
@@ -87,18 +96,42 @@ export function ProjectForm({
     form.clearErrors("slug")
     const slug = form.getValues("slug")
 
+    if (!slug) {
+      setSlugValid(false)
+      form.setError(
+        "slug",
+        {
+          type: "focus",
+          message: "This slug invalid",
+        },
+        { shouldFocus: true }
+      )
+      setIsCheckingSlug(false)
+      return
+    }
+
     const exists = await checkSlug(slug)
 
-    if (!exists) {
+    if (exists === 0) {
       setSlugValid(true)
       form.clearErrors(["slug"])
-    } else {
+    } else if (exists === 1) {
       setSlugValid(false)
       form.setError(
         "slug",
         {
           type: "focus",
           message: "This slug is already taken",
+        },
+        { shouldFocus: true }
+      )
+    } else {
+      setSlugValid(false)
+      form.setError(
+        "slug",
+        {
+          type: "focus",
+          message: "This slug invalid",
         },
         { shouldFocus: true }
       )
@@ -110,9 +143,10 @@ export function ProjectForm({
   async function onSubmit(data: FormData) {
     setIsSaving(true)
 
-    if (checkSlug === null) {
+
+    if (!project && data.slug) {
       const exists = await checkSlug(data.slug)
-      if (exists) {
+      if (exists === 1) {
         setIsSaving(false)
         return toast({
           title: "Something went wrong.",
@@ -120,7 +154,17 @@ export function ProjectForm({
           variant: "destructive",
         })
       }
+      else if (exists === -1) {
+        setIsSaving(false)
+        return toast({
+          title: "Something went wrong.",
+          description: "Your Project is not valid. Please try again.",
+          variant: "destructive",
+        })
+      }
     }
+
+    console.log(data)
 
     const response = await fetch(endpoint.url, {
       method: endpoint.method,
@@ -128,9 +172,7 @@ export function ProjectForm({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        name: data.name,
-        slug: data.slug,
-        description: data.description,
+        ...data
       }),
     })
 
@@ -190,54 +232,56 @@ export function ProjectForm({
                 </FormItem>
               )}
             />
+            {!project && (
+              <FormField
+                control={form.control}
+                name="slug"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Slug</FormLabel>
+                    <FormControl>
+                      <div className="flex w-full items-center">
+                        <Label className="placeholder:text-muted-foreground0 h-10 items-center rounded-l-md border border-r-0 px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900">
+                          localhost:3000/
+                        </Label>
+                        <Input
+                          className="rounded-none"
+                          placeholder="Your project's public name"
+                          {...form.register("slug")}
+                        />
+                        <Button
+                          type="button"
+                          className={cn(
+                            "rounded-l-none",
+                            slugValid ? "bg-green-700 hover:bg-green-800" : ""
+                          )}
+                          onClick={(e) => checkSlugButtonHandler(e)}
+                          disabled={isCheckingSlug}
+                        >
+                          {isCheckingSlug && (
+                            <>
+                              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                              Checking
+                            </>
+                          )}
+                          {!isCheckingSlug && slugValid && (
+                            <>
+                              <Icons.check className="mr-2 h-4 w-4" />
+                              Available
+                            </>
+                          )}
+                          {!slugValid && !isCheckingSlug && <>Check</>}
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
-              name="slug"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Slug</FormLabel>
-                  <FormControl>
-                    <div className="flex w-full items-center">
-                      <Label className="placeholder:text-muted-foreground0 h-10 items-center rounded-l-md border border-r-0 px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900">
-                        localhost:3000/
-                      </Label>
-                      <Input
-                        className="rounded-none"
-                        placeholder="Your project's public name"
-                        {...form.register("slug")}
-                      />
-                      <Button
-                        type="button"
-                        className={cn(
-                          "rounded-l-none",
-                          slugValid ? "bg-green-700 hover:bg-green-800" : ""
-                        )}
-                        onClick={(e) => checkSlugButtonHandler(e)}
-                        disabled={isCheckingSlug}
-                      >
-                        {isCheckingSlug && (
-                          <>
-                            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                            Checking
-                          </>
-                        )}
-                        {!isCheckingSlug && slugValid && (
-                          <>
-                            <Icons.check className="mr-2 h-4 w-4" />
-                            Available
-                          </>
-                        )}
-                        {!slugValid && !isCheckingSlug && <>Check</>}
-                      </Button>
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="name"
+              name="description"
               render={() => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>

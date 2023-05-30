@@ -1,5 +1,11 @@
+.github
+.git
 dist
+**/.next/**
+**/_next/**
+**/dist/**
 node_modules
-.next
 build
+.next
 .contentlayer
+.vscode

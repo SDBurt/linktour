@@ -39,9 +39,6 @@ export function MainNav({
           </span>
         )}
       </Link>
-      <>
-        {projects && <ProjectDropdownNav projects={projects ? projects : []} />}
-      </>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) => (
@@ -69,6 +66,9 @@ export function MainNav({
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
+      <>
+        {projects && <ProjectDropdownNav projects={projects ? projects : []} />}
+      </>
     </div>
   )
 }
