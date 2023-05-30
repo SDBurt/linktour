@@ -2,92 +2,92 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Project {
-    id       String  @id @default(cuid())
-    name     String
-    slug     String  @unique
-    verified Boolean @default(false)
+  id       String  @id @default(cuid())
+  name     String
+  slug     String  @unique
+  verified Boolean @default(false)
 
-    description String? @db.VarChar(280)
-    image       String?
+  description String? @db.VarChar(280)
+  image       String?
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now())
-    
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
-    // usage
-    usage              Int     @default(0)
-    ownerUsageLimit    Int     @default(1000)
-    ownerExceededUsage Boolean @default(false)
+  // usage
+  usage              Int     @default(0)
+  ownerUsageLimit    Int     @default(1000)
+  ownerExceededUsage Boolean @default(false)
 
-    // Creator
-    userId String
+  // Creator
+  userId String
 
-    // Theme
-    theme Theme?
+  // Theme
+  theme Theme?
 
-    // Links
-    links Link[]
+  // Links
+  links Link[]
 }
 
 model Link {
-    id String @id @default(cuid())
+  id String @id @default(cuid())
 
-    slug String
-    key  String
-    url  String @db.LongText
+  slug String
+  key  String
+  url  String @db.LongText
 
-    title       String
-    description String? @db.VarChar(280)
+  title       String
+  description String? @db.VarChar(280)
 
-    clicks      Int     @default(0)
-    public      Boolean @default(false)
-    publicStats Boolean @default(false)
+  clicks      Int     @default(0)
+  public      Boolean @default(false)
+  publicStats Boolean @default(false)
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
 
-    // Creator
-    userId String
+  // Creator
+  userId String
 
-    // project
-    project Project? @relation(fields: [slug], references: [slug], onUpdate: Cascade, onDelete: Cascade)
+  // project
+  project Project? @relation(fields: [slug], references: [slug])
 
-    @@unique([slug, key])
-    @@index([userId])
+  @@unique([slug, key])
+  @@index([userId])
 }
 
 model Theme {
-    id String @id @default(cuid())
+  id String @id @default(cuid())
 
-    backgroundColor String @default("#3d7ad5")
-    gradientColor   String @default("#02a291")
-    backgroundStyle String @default("COLORUP")
-    backgroundType  String @default("COLOR")
+  backgroundColor String @default("#3d7ad5")
+  gradientColor   String @default("#02a291")
+  backgroundStyle String @default("COLORUP")
+  backgroundType  String @default("COLOR")
 
-    buttonBackgroundColor String @default("#ffffff")
-    buttonShadowColor     String @default("#000000")
-    buttonTextColor       String @default("#888888")
-    buttonType            String @default("SOFTSHADOW_CIRCULAR")
+  buttonBackgroundColor String @default("#ffffff")
+  buttonShadowColor     String @default("#000000")
+  buttonTextColor       String @default("#888888")
+  buttonType            String @default("SOFTSHADOW_CIRCULAR")
 
-    key       String?
-    luminance String @default("DARK")
+  key       String?
+  luminance String  @default("DARK")
 
-    // social icon settings
-    socialStyleColor String?
+  // social icon settings
+  socialStyleColor String?
 
-    // typeface settings
-    typefaceColor  String @default("#f5f5f5")
-    typefaceFamily String @default("dm sans")
+  // typeface settings
+  typefaceColor  String @default("#f5f5f5")
+  typefaceFamily String @default("dm sans")
 
-    project     Project? @relation(fields: [projectSlug], references: [slug], onUpdate: Cascade, onDelete: Cascade)
-    projectSlug String @unique
+  project     Project? @relation(fields: [projectSlug], references: [slug])
+  projectSlug String   @unique
 }
