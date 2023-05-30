@@ -1,8 +1,6 @@
-import { redirect } from "next/navigation"
-import { getServerSession } from "next-auth"
+import { auth, currentUser, redirectToSignIn } from "@clerk/nextjs"
 
 import { getProjectsForUser } from "@/lib/api/projects"
-import { authOptions } from "@/lib/auth-options"
 import { stripe } from "@/lib/stripe"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -18,13 +16,13 @@ export const metadata = {
 }
 
 async function AdminHomePage() {
-  const session = await getServerSession(authOptions)
+  const user = await currentUser()
 
-  if (!session?.user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+  if (!user?.id) {
+    return redirectToSignIn()
   }
 
-  const subscriptionPlan = await getUserSubscriptionPlan(session.user.id)
+  const subscriptionPlan = await getUserSubscriptionPlan(user.id)
 
   // If user has a pro plan, check cancel status on Stripe.
   let isCanceled = false
@@ -35,7 +33,7 @@ async function AdminHomePage() {
     isCanceled = stripePlan.cancel_at_period_end
   }
 
-  const projects = await getProjectsForUser(session.user.id)
+  const projects = await getProjectsForUser(user.id)
 
   return (
     <AppShell>

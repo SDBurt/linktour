@@ -1,10 +1,15 @@
-"use client";
+"use client"
 
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-
-
-
-
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Legend,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts"
 
 export interface ChartProps {
   dataKey: string
@@ -14,7 +19,7 @@ export interface ChartProps {
   fill: string
 }
 
-const HorizontalChart = ({ dataKey, data, fill = "#00FF00" }: ChartProps) => {
+const HorizontalChart = ({ dataKey, data, fill = "#26E0EC" }: ChartProps) => {
   return (
     // flex hack for resizing widow from larger to smaller
     // https://github.com/recharts/recharts/issues/172

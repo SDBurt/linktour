@@ -1,9 +1,8 @@
 import { cache } from "react"
-import { notFound, redirect } from "next/navigation"
-import { Project, User } from "@prisma/client"
-import { getServerSession } from "next-auth"
+import { notFound } from "next/navigation"
+import { currentUser, redirectToSignIn } from "@clerk/nextjs"
+import { Project } from "@prisma/client"
 
-import { authOptions } from "@/lib/auth-options"
 import { db } from "@/lib/db"
 import { ThemeProps } from "@/lib/types"
 import { cn } from "@/lib/utils"
@@ -15,8 +14,9 @@ import { LinkList } from "@/components/admin/link/link-list"
 import { AppHeader } from "@/components/shared/page-header"
 
 import { Appearance } from "./appearance"
+import { Header } from "./header"
 
-const getProject = cache(async (userId: User["id"], slug: Project["slug"]) => {
+const getProject = cache(async (userId: string, slug: Project["slug"]) => {
   return await db.project.findFirst({
     where: {
       userId: userId,
@@ -39,19 +39,20 @@ export const metadata = {
 }
 
 async function ProjectPage({ params }) {
+
   const slug = params.slug
 
   if (!slug) {
     notFound()
   }
 
-  const session = await getServerSession(authOptions)
-  const user = session?.user
-  if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+  const user = await currentUser()
+
+  if (!user?.id) {
+    return redirectToSignIn()
   }
 
-  const project = await getProject(session.user.id, slug)
+  const project = await getProject(user.id, slug)
 
   if (!project) {
     notFound()
@@ -78,6 +79,9 @@ async function ProjectPage({ params }) {
           <TabsTrigger id="links" value="links">
             Links
           </TabsTrigger>
+          <TabsTrigger id="header" value="header">
+            Header
+          </TabsTrigger>
           <TabsTrigger id="appearance" value="appearance">
             Appearance
           </TabsTrigger>
@@ -91,13 +95,24 @@ async function ProjectPage({ params }) {
         <TabsContent value="links">
           <LinkList links={links} />
         </TabsContent>
+        <TabsContent value="header">
+          <Header
+            project={project}
+            links={links}
+            user={{
+              username: user?.username || "",
+              imageUrl: user?.profileImageUrl || "",
+            }}
+            theme={theme}
+          />
+        </TabsContent>
         <TabsContent value="appearance">
           <Appearance
             project={project}
             links={links}
             user={{
-              name: user?.name || "",
-              image: user?.image || "",
+              username: user?.username || "",
+              imageUrl: user?.profileImageUrl || "",
             }}
             theme={theme}
           />

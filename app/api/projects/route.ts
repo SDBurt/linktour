@@ -1,4 +1,4 @@
-import { getServerSession } from "next-auth/next"
+import { auth } from "@clerk/nextjs"
 import * as z from "zod"
 
 import { freePlanValues } from "@/config/subscriptions"
@@ -7,25 +7,25 @@ import {
   getProject,
   getProjectsForUser,
 } from "@/lib/api/projects"
-import { authOptions } from "@/lib/auth-options"
 import { db } from "@/lib/db"
 import { RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
-import { projectSchema } from "@/lib/validations/project"
+import { projectCreateSchema } from "@/lib/validations/project"
+import THEME from "@/lib/constants/theme"
+import { Theme } from "@prisma/client"
 
 /**
  * Get a list of projects for the user
  */
 export async function GET() {
   try {
-    const session = await getServerSession(authOptions)
+    const { userId } = auth()
 
-    if (!session) {
+    if (!userId) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
-    const projects = await getProjectsForUser(user.id)
+    const projects = await getProjectsForUser(userId)
 
     return new Response(JSON.stringify(projects))
   } catch (error) {
@@ -38,20 +38,18 @@ export async function GET() {
  */
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const { userId } = auth()
 
-    if (!session) {
+    if (!userId) {
       return new Response("Unauthorized", { status: 403 })
     }
 
-    const { user } = session
-
-    const subscriptionPlan = await getUserSubscriptionPlan(user.id)
+    const subscriptionPlan = await getUserSubscriptionPlan(userId)
 
     // If user is on a free plan.
     // Check if user has reached limit of 3 projects.
     if (!subscriptionPlan?.isPro) {
-      const count = await countProjectsForUser(session.user.id)
+      const count = await countProjectsForUser(userId)
 
       if (count >= freePlanValues.project.count) {
         throw new RequiresProPlanError()
@@ -60,7 +58,7 @@ export async function POST(req: Request) {
 
     const json = await req.json()
 
-    const body = projectSchema.parse(json)
+    const body = projectCreateSchema.parse(json)
 
     const { slug } = body
 
@@ -72,23 +70,32 @@ export async function POST(req: Request) {
 
     const data = {
       ...body,
-      userId: session.user.id,
+      userId: userId,
     }
 
     const newProject = await db.project.create({
       data,
       select: {
         id: true,
+        name: true,
+        slug: true,
+        description: true
       },
     })
 
+    await db.theme.create({
+      data: {...THEME, projectSlug: newProject.slug},
+      
+    })
+
     return new Response(JSON.stringify(newProject))
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+  } catch (err) {
+    console.error(err)
+    if (err instanceof z.ZodError) {
+      return new Response(JSON.stringify(err.issues), { status: 422 })
     }
 
-    if (error instanceof RequiresProPlanError) {
+    if (err instanceof RequiresProPlanError) {
       return new Response("Requires Pro Plan", { status: 402 })
     }
 

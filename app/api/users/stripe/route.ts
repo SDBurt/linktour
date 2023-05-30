@@ -1,8 +1,7 @@
-import { getServerSession } from "next-auth/next"
+import { currentUser } from "@clerk/nextjs"
 import { z } from "zod"
 
 import { proPlan } from "@/config/subscriptions"
-import { authOptions } from "@/lib/auth-options"
 import { stripe } from "@/lib/stripe"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 import { absoluteUrl } from "@/lib/utils"
@@ -11,13 +10,21 @@ const billingUrl = absoluteUrl("/admin#billing")
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(authOptions)
+    const user = await currentUser()
 
-    if (!session?.user || !session?.user.email) {
+    if (!user?.id) {
       return new Response(null, { status: 403 })
     }
 
-    const subscriptionPlan = await getUserSubscriptionPlan(session.user.id)
+    const emailAddress = user?.emailAddresses.find(
+      (email) => email.id === user?.primaryEmailAddressId
+    )?.emailAddress
+
+    if (!emailAddress) {
+      return new Response(null, { status: 403 })
+    }
+
+    const subscriptionPlan = await getUserSubscriptionPlan(user.id)
 
     // The user is on the pro plan.
     // Create a portal session to manage subscription.
@@ -38,7 +45,7 @@ export async function GET(req: Request) {
       payment_method_types: ["card"],
       mode: "subscription",
       billing_address_collection: "auto",
-      customer_email: session.user.email,
+      customer_email: emailAddress,
       line_items: [
         {
           price: proPlan.stripePriceId,
@@ -46,14 +53,15 @@ export async function GET(req: Request) {
         },
       ],
       metadata: {
-        userId: session.user.id,
+        userId: user.id,
       },
     })
 
     return new Response(JSON.stringify({ url: stripeSession.url }))
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+  } catch (err) {
+
+    if (err instanceof z.ZodError) {
+      return new Response(JSON.stringify(err.issues), { status: 422 })
     }
 
     return new Response(null, { status: 500 })

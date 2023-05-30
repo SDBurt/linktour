@@ -1,11 +1,9 @@
 import { notFound } from "next/navigation"
-import { getServerSession } from "next-auth"
+import { UserButton, auth } from "@clerk/nextjs"
 
 import { adminConfig } from "@/config/admin"
 import { getProjectsForUserNav } from "@/lib/api/projects"
-import { authOptions } from "@/lib/auth-options"
 import { MainNav } from "@/components/admin/nav/main-nav"
-import { UserAccountNav } from "@/components/admin/nav/user-account-nav"
 import { SiteFooter } from "@/components/shared/page-footer"
 
 interface AdminLayoutProps {
@@ -13,26 +11,20 @@ interface AdminLayoutProps {
 }
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {
-  const session = await getServerSession(authOptions)
+  const { userId } = auth()
 
-  if (!session?.user) {
+  if (!userId) {
     return notFound()
   }
 
-  const projects = await getProjectsForUserNav(session.user.id)
+  const projects = await getProjectsForUserNav(userId)
 
   return (
     <div className="mx-auto flex min-h-screen flex-col space-y-6">
       <header className="container sticky top-0 z-40 bg-background">
         <div className="flex h-16 items-center justify-between border-b py-4">
           <MainNav items={adminConfig.mainNav} projects={projects} />
-          <UserAccountNav
-            user={{
-              name: session.user.name,
-              image: session.user.image,
-              email: session.user.email,
-            }}
-          />
+          <UserButton afterSignOutUrl="/" />
         </div>
       </header>
       <div className="container flex-1">

@@ -3,7 +3,7 @@ import * as z from "zod"
 import { verifyCurrentUserHasAccessToProject } from "@/lib/api/auth"
 import { getProject } from "@/lib/api/projects"
 import { db } from "@/lib/db"
-import { projectSchema } from "@/lib/validations/project"
+import { projectPatchSchema } from "@/lib/validations/project"
 
 const routeContextSchema = z.object({
   params: z.object({
@@ -82,7 +82,10 @@ export async function PATCH(
 
     // Get the request body and validate it.
     const json = await req.json()
-    const body = projectSchema.parse(json)
+    console.log(json)
+    const body = projectPatchSchema.parse(json)
+
+    console.log(body)
 
     // Update the post.
     // TODO: Implement sanitization for content.
@@ -96,9 +99,10 @@ export async function PATCH(
     })
 
     return new Response(null, { status: 200 })
-  } catch (error) {
-    if (error instanceof z.ZodError) {
-      return new Response(JSON.stringify(error.issues), { status: 422 })
+  } catch (err) {
+    console.error(err)
+    if (err instanceof z.ZodError) {
+      return new Response(JSON.stringify(err.issues), { status: 422 })
     }
 
     return new Response(null, { status: 500 })

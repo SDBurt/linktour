@@ -1,8 +1,7 @@
 import Link from "next/link"
-import { getServerSession } from "next-auth"
+import { auth } from "@clerk/nextjs"
 
 import { marketingConfig } from "@/config/marketing"
-import { authOptions } from "@/lib/auth-options"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { MainNav } from "@/components/admin/nav/main-nav"
@@ -15,7 +14,7 @@ interface MarketingLayoutProps {
 export default async function MarketingLayout({
   children,
 }: MarketingLayoutProps) {
-  const session = await getServerSession(authOptions)
+  const { userId } = auth()
 
   let navCallToAction = (
     <Link
@@ -29,7 +28,7 @@ export default async function MarketingLayout({
     </Link>
   )
 
-  if (session?.user) {
+  if (userId) {
     navCallToAction = (
       <Link
         href="/admin"

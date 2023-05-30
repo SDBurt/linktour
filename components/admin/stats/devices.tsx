@@ -30,7 +30,7 @@ export default function Devices() {
         {isLoading ? (
           <p>Loading</p>
         ) : data ? (
-          <HorizontalChart dataKey={"device"} data={data} fill="#00FF00" />
+          <HorizontalChart dataKey={"device"} data={data} fill="#26E0EC" />
         ) : (
           <p>No Data</p>
         )}

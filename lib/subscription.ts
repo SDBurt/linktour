@@ -1,39 +1,32 @@
 // @ts-nocheck
 // TODO: Fix this when we turn strict mode on.
+
+import { clerkClient } from "@clerk/nextjs/server"
+
 import { UserSubscriptionPlan } from "types"
 import { freePlan, proPlan } from "@/config/subscriptions"
-import { db } from "@/lib/db"
 
 export async function getUserSubscriptionPlan(
   userId: string
 ): Promise<UserSubscriptionPlan> {
-  const user = await db.user.findFirst({
-    where: {
-      id: userId,
-    },
-    select: {
-      stripeSubscriptionId: true,
-      stripeCurrentPeriodEnd: true,
-      stripeCustomerId: true,
-      stripePriceId: true,
-    },
-  })
-
-  if (!user) {
+  if (!userId) {
     throw new Error("User not found")
   }
 
+  let user = await clerkClient.users.getUser(userId)
+
   // Check if user is on a pro plan.
   const isPro =
-    user.stripePriceId &&
-    user.stripeCurrentPeriodEnd?.getTime() + 86_400_000 > Date.now()
+    user.publicMetadata.stripePriceId &&
+    user.publicMetadata.stripeCurrentPeriodEnd?.getTime() + 86_400_000 >
+      Date.now()
 
   const plan = isPro ? proPlan : freePlan
 
   return {
     ...plan,
-    ...user,
-    stripeCurrentPeriodEnd: user.stripeCurrentPeriodEnd?.getTime(),
+    stripeCurrentPeriodEnd:
+      user.publicMetadata.stripeCurrentPeriodEnd?.getTime(),
     isPro,
   }
 }
