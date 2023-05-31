@@ -20,9 +20,9 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
   const projects = await getProjectsForUserNav(userId)
 
   return (
-    <div className="mx-auto flex min-h-screen flex-col space-y-6">
-      <header className="container sticky top-0 z-40 bg-background">
-        <div className="flex h-16 items-center justify-between border-b py-4">
+    <div className="flex min-h-screen flex-col space-y-6">
+      <header className="sticky top-0 z-40 bg-background">
+        <div className="container flex h-16 items-center justify-between border-b py-4">
           <MainNav items={adminConfig.mainNav} projects={projects} />
           <UserButton afterSignOutUrl="/" />
         </div>

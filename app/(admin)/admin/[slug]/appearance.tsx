@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Link, Project } from "@prisma/client"
 
 import THEME from "@/lib/constants/theme"
@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button"
 import { BackgroundCard } from "./backgroundCard"
 import { ButtonsCard } from "./buttonsCard"
 import { FontsCard } from "./fontsCard"
-import Preview from "./preview"
 import { User } from "@clerk/nextjs/dist/types/server"
-import { ProjectForm } from "@/components/admin/project/project-form"
+import { Router } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 interface AppearanceProps {
   project: Pick<Project, "id" | "name" | "description" | "image" | "slug">
@@ -22,19 +22,15 @@ interface AppearanceProps {
   user: Pick<User, "imageUrl" | "username">
 }
 
-export function Appearance({ project, links, theme, user }: AppearanceProps) {
-  let method = "PATCH"
-  if (!theme) {
-    theme = THEME
-    method = "POST"
-  }
+export function Appearance({ project, theme }: AppearanceProps) {
 
-  const [themePreview, setThemePreview] = useState<ThemeProps>(theme ?? THEME)
+  const router = useRouter()
+  const [themePreview, setThemePreview] = useState<ThemeProps>(theme)
 
   const onSubmitClicked = async (e) => {
     e.preventDefault()
     const response = await fetch(`/api/projects/${project.slug}/theme`, {
-      method,
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
@@ -44,39 +40,24 @@ export function Appearance({ project, links, theme, user }: AppearanceProps) {
     if (!response?.ok) {
       return toast({
         title: "Something went wrong.",
-        description: "Your theme was not created/updated. Please try again.",
+        description: "Your theme was not updated. Please try again.",
         variant: "destructive",
       })
     }
 
     toast({
-      description:
-        method === "PATCH"
-          ? "Your theme has been updated."
-          : "Your theme has been created.",
+      description: "Your theme has been updated."
     })
+
+    router.refresh()
   }
 
   return (
-    <div className="grid grid-cols-3 py-2 ">
-      <div className="col-span-2 flex max-h-[700px] flex-col space-y-2 overflow-y-scroll px-2">
+      <div className="flex flex-col space-y-2">
         <BackgroundCard theme={themePreview} setTheme={setThemePreview} />
         <ButtonsCard theme={themePreview} setTheme={setThemePreview} />
         <FontsCard theme={themePreview} setTheme={setThemePreview} />
-        <Button onClick={onSubmitClicked}>
-          {method === "PATCH" ? "Update" : "Create"}
-        </Button>
+        <Button onClick={onSubmitClicked}>Update</Button>
       </div>
-      <div className="col-span-1 flex w-full items-center justify-center overflow-hidden">
-        <div className="h-[700px] w-[341px] rounded-lg border bg-black p-2">
-          <Preview
-            theme={themePreview}
-            project={project}
-            links={links}
-            user={{ username: user.username, imageUrl: user.imageUrl }}
-          />
-        </div>
-      </div>
-    </div>
   )
 }

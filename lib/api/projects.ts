@@ -121,12 +121,24 @@ export const getProjectUsage = async (slug: string) => {
  * Get Project Theme
  */
 export const getProjectTheme = async (slug: string) => {
-  const projectTheme = await db.project.findUnique({
+  const projectTheme = await db.theme.findUnique({
     where: {
-      slug,
+      projectSlug: slug,
     },
     select: {
-      theme: true,
+      backgroundColor: true,
+      backgroundStyle: true,
+      backgroundType: true,
+      gradientColor: true,
+      buttonBackgroundColor: true,
+      buttonShadowColor: true,
+      buttonTextColor: true,
+      buttonType: true,
+      key: true,
+      luminance: true,
+      socialStyleColor: true,
+      typefaceColor: true,
+      typefaceFamily: true
     },
   })
 

@@ -7,6 +7,7 @@ export const themeEditSchema = z.object({
   backgroundColor: z.string(),
   backgroundStyle: z.string(),
   backgroundType: z.string(),
+  gradientColor: z.string(),
   buttonBackgroundColor: z.string(),
   buttonShadowColor: z.string(),
   buttonTextColor: z.string(),
