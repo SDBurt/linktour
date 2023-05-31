@@ -1,3 +1,5 @@
+import { env } from 'env.mjs'
+
 export type IntervalProps = "1h" | "24h" | "7d" | "30d" | "90d"
 
 export const intervalData = {
@@ -115,7 +117,7 @@ export const getLinkStats = async ({
   endpoint: string
   interval?: string
 }) => {
-  if (!process.env.TINYBIRD_API_KEY) {
+  if (!env.TINYBIRD_API_KEY) {
     console.error("No TINYBIRD API key")
     return null
   }

@@ -58,9 +58,6 @@ export function absoluteUrl(path: string) {
   return `${process.env.NEXT_PUBLIC_APP_URL}${path}`
 }
 
-export const isHomeHostname = (domain: string) => {
-  return HOME_HOSTNAMES.has(domain) || domain.endsWith(".vercel.app")
-}
 
 export const isReservedKey = async (key: string) => {
   let reservedKey

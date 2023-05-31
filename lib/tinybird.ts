@@ -3,6 +3,8 @@ import { NextRequest, userAgent } from "next/server"
 import { LOCALHOST_GEO_DATA } from "./constants"
 import { capitalize, getDomainWithoutWWW } from "./utils"
 
+import { env } from "env.mjs"
+
 /**
  * Recording clicks with geo, ua, referer and timestamp data
  * If key is not specified, record click as the root click ("_root", e.g. dub.sh, vercel.fyi)
@@ -46,7 +48,7 @@ export async function recordClick(
           referer_url: referer || "(direct)",
         }),
         headers: {
-          Authorization: `Bearer ${process.env.TINYBIRD_API_KEY}`,
+          Authorization: `Bearer ${env.TINYBIRD_API_KEY}`,
         },
       }
     ).then((res) => {
@@ -71,7 +73,7 @@ export async function getClicksUsage({
     }${end ? `&end=${end}` : ""}`,
     {
       headers: {
-        Authorization: `Bearer ${process.env.TINYBIRD_API_KEY}`,
+        Authorization: `Bearer ${env.TINYBIRD_API_KEY}`,
       },
     }
   )

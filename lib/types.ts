@@ -23,20 +23,6 @@ export interface LinkProps {
   userId: string
 }
 
-// export interface ProjectProps {
-//   id: string;
-//   name: string;
-//   slug: string;
-//   domain: string;
-//   domainVerified: boolean;
-//   logo?: string;
-//   ownerUsageLimit?: number;
-//   ownerExceededUsage?: boolean;
-//   users?: {
-//     role: string;
-//   }[];
-// }
-
 export interface ProjectProps {
   id: string
   name: string
