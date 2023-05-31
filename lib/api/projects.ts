@@ -49,6 +49,13 @@ export const getProjectsForUserNav = async (userId: string) => {
     select: {
       name: true,
       slug: true,
+      links: {
+        select: {
+          title: true,
+          slug: true,
+          key: true,
+        }
+      }
     },
     orderBy: {
       updatedAt: "desc",
