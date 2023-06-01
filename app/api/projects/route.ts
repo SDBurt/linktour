@@ -95,7 +95,9 @@ export async function POST(req: Request) {
     }
 
     if (err instanceof RequiresProPlanError) {
-      return new Response("Requires Pro Plan", { status: 402 })
+      return new Response(JSON.stringify({ message: "Requires Pro Plan" }), {
+        status: 402,
+      })
     }
 
     return new Response(null, { status: 500 })

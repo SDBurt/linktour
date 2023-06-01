@@ -74,13 +74,13 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
       console.error(await response.json())
       return toast({
         title: "Something went wrong.",
-        description: "Your link was not updated. Please try again.",
+        description: "Your link was not created. Please try again.",
         variant: "destructive",
       })
     }
 
     toast({
-      description: "Your link has been updated.",
+      description: "Your link has been created.",
     })
 
     router.refresh()

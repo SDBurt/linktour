@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Icons } from "@/components/shared/icons"
 
-import { Card } from "../ui/card"
+import { Card } from "../../ui/card"
 
 interface DialogButtonProps extends React.HTMLAttributes<HTMLButtonElement> {
   text: string

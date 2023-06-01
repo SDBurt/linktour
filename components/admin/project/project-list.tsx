@@ -17,33 +17,35 @@ interface ProjectListProps {
 export function ProjectList({ projects }: ProjectListProps) {
   return (
     <div>
-      {projects?.length ? (
-        <div className="grid grid-cols-3 gap-4">
-          <ProjectCreateCard className="h-full" />
-          {projects.map((project) => (
-            <ProjectItem
-              key={project.id}
-              project={{
-                id: project.id,
-                name: project.name,
-                slug: project.slug,
-                description: project.description,
-              }}
+      <div className="grid grid-cols-3 gap-4">
+        {projects?.length ? (
+          <>
+            <ProjectCreateCard className="h-full" />
+            {projects.map((project) => (
+              <ProjectItem
+                key={project.id}
+                project={{
+                  id: project.id,
+                  name: project.name,
+                  slug: project.slug,
+                  description: project.description,
+                }}
+              />
+            ))}
+          </>
+        ) : (
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="post" />
+            <EmptyPlaceholder.Title>No projects created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              You don&apos;t have any projects yet. Start creating content.
+            </EmptyPlaceholder.Description>
+            <ProjectCreateButton
+              className={cn(buttonVariants({ variant: "outline" }))}
             />
-          ))}
-        </div>
-      ) : (
-        <EmptyPlaceholder>
-          <EmptyPlaceholder.Icon name="post" />
-          <EmptyPlaceholder.Title>No projects created</EmptyPlaceholder.Title>
-          <EmptyPlaceholder.Description>
-            You don&apos;t have any projects yet. Start creating content.
-          </EmptyPlaceholder.Description>
-          <ProjectCreateButton
-            className={cn(buttonVariants({ variant: "outline" }))}
-          />
-        </EmptyPlaceholder>
-      )}
+          </EmptyPlaceholder>
+        )}
+      </div>
     </div>
   )
 }

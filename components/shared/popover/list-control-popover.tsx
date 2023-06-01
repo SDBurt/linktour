@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { IconNode } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -9,7 +10,6 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-  CommandSeparator,
 } from "@/components/ui/command"
 import {
   Popover,
@@ -18,8 +18,41 @@ import {
 } from "@/components/ui/popover"
 import { Icons } from "@/components/shared/icons"
 
+const testData = {
+  blocks: [
+    {
+      type: "paragraph",
+      data: {
+        text: "The example of text that was written in <b>one of popular</b> text editors.",
+      },
+    },
+    {
+      type: "header",
+      data: {
+        text: "With the header of course",
+        level: 2,
+      },
+    },
+    {
+      type: "paragraph",
+      data: {
+        text: "So what do we have?",
+      },
+    },
+  ],
+}
+
+type ControlPopoverItem = {
+  label: string
+  name: string
+  icon: IconNode
+  action: (item) => void
+  type: string
+  data: { [key: string]: any }
+}
+
 interface GripPopoverProps extends React.HTMLAttributes<HTMLDivElement> {
-  items: any[]
+  items: ControlPopoverItem[]
 }
 
 export function GripPopover({ items }: GripPopoverProps) {
@@ -44,12 +77,13 @@ export function GripPopover({ items }: GripPopoverProps) {
           <CommandGroup>
             {items.map((item) => (
               <CommandItem
-                key={item}
-                onSelect={(currentValue) => {
-                  console.log(currentValue)
+                key={item.name}
+                onSelect={() => {
+                  item.action(item)
                 }}
               >
-                {item}
+                {item.icon}
+                {item.label}
               </CommandItem>
             ))}
           </CommandGroup>

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { DialogButton } from "@/components/shared/dialog-button"
+import { DialogButton } from "@/components/shared/dialog/dialog-button"
 
 import { ProjectForm } from "./project-form"
 

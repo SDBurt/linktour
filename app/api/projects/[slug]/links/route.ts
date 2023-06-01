@@ -58,17 +58,19 @@ export async function POST(
 
     // Session exists if it reaches this point
     const { userId } = (await auth()) as { userId: string }
-    const subscriptionPlan = await getUserSubscriptionPlan(userId)
 
-    // If user is on a free plan.
-    // Check if user has reached limit of 3 projects.
-    if (!subscriptionPlan?.isPro) {
-      const count = await countLinksForProject(params.slug)
+    // Currently don't limit link count
+    // const subscriptionPlan = await getUserSubscriptionPlan(userId)
 
-      if (count >= freePlanValues.project.count) {
-        throw new RequiresProPlanError()
-      }
-    }
+    // // If user is on a free plan.
+    // // Check if user has reached limit of 3 projects.
+    // if (!subscriptionPlan?.isPro) {
+    //   const count = await countLinksForProject(params.slug)
+
+    //   if (count >= freePlanValues.project.count) {
+    //     throw new RequiresProPlanError()
+    //   }
+    // }
 
     const json = await req.json()
     const body = linkCreateSchema.parse(json)
@@ -92,7 +94,9 @@ export async function POST(
     }
 
     if (err instanceof RequiresProPlanError) {
-      return new Response("Requires Pro Plan", { status: 402 })
+      return new Response(JSON.stringify({ message: "Requires Pro Plan" }), {
+        status: 402,
+      })
     }
 
     return new Response(null, { status: 500 })

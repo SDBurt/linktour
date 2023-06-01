@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
-import { Calendar } from "../ui/calendar"
+import { Calendar } from "../../ui/calendar"
 
 // interface CalendarPopoverProps extends React.HTMLAttributes<HTMLDivElement> {
 //   projects: Pick<Project, "name" | "slug">[];

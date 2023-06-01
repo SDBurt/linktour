@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { LinkCreateForm } from "@/components/admin/link/link-create-form"
-import { DialogButton } from "@/components/shared/dialog-button"
+import { DialogButton } from "@/components/shared/dialog/dialog-button"
 
 interface LinkCreateButtonProps
   extends React.HTMLAttributes<HTMLButtonElement> {}
