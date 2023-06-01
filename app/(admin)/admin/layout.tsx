@@ -1,5 +1,6 @@
 import { notFound, useParams } from "next/navigation"
 import { UserButton, auth } from "@clerk/nextjs"
+
 import { adminConfig } from "@/config/admin"
 import { getProjectsForUserNav } from "@/lib/api/projects"
 import { MainNav } from "@/components/admin/nav/main-nav"

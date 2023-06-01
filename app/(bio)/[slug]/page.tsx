@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation"
 
 import { getProject } from "@/lib/api/projects"
+import { getUser } from "@/lib/clerk"
 import THEME from "@/lib/constants/theme"
 import { ThemeProps } from "@/lib/types"
 import Preview from "@/app/(admin)/admin/[slug]/preview"
-import { getUser } from "@/lib/clerk"
 
 // Dynamic metadata
 export async function generateMetadata({ params, searchParams }) {
@@ -14,8 +14,6 @@ export async function generateMetadata({ params, searchParams }) {
 
 export default async function BioPage({ params }) {
   const slug = params.slug
-
-
 
   if (!slug) {
     notFound()
@@ -42,7 +40,7 @@ export default async function BioPage({ params }) {
           theme={(theme as ThemeProps) || THEME}
           project={{ name: name, image: image, description: description }}
           links={links}
-          user={{imageUrl: user.imageUrl, username: user.username}}
+          user={{ imageUrl: user.imageUrl, username: user.username }}
         />
       </div>
     </div>

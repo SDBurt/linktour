@@ -1,20 +1,21 @@
 "use client"
 
 import * as React from "react"
-import NextLink from 'next/link'
+import NextLink from "next/link"
 import { useParams, useSelectedLayoutSegment } from "next/navigation"
-import { Project, Link } from "@prisma/client"
+import { Link, Project } from "@prisma/client"
 
 import { MainNavItem } from "types"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
+import { LinkDropdownNav } from "@/components/admin/nav/link-dropdown-nav"
 import { MobileNav } from "@/components/admin/nav/mobile-nav"
+import { ProjectDropdownNav } from "@/components/admin/nav/project-drodown-nav"
 import { Icons } from "@/components/shared/icons"
 
-import { ProjectDropdownNav } from "./project-drodown-nav"
-import { LinkDropdownNav } from "./link-dropdown-nav"
-
-type ProjectProps = Pick<Project, "name" | "slug"> & { links: Pick<Link, "title" | "slug" | "key">[] }
+type ProjectProps = Pick<Project, "name" | "slug"> & {
+  links: Pick<Link, "title" | "slug" | "key">[]
+}
 
 interface MainNavProps {
   showSiteName?: boolean
@@ -36,7 +37,7 @@ export function MainNav({
 
   const currentProject = projects?.find((p) => p.slug === params?.slug)
   const currentLink = currentProject?.links?.find((p) => p.key === params?.key)
-  
+
   return (
     <div className="flex gap-4 md:gap-8">
       <NextLink href="/" className="hidden items-center space-x-2 md:flex">
@@ -47,7 +48,9 @@ export function MainNav({
           </span>
         )}
       </NextLink>
-      <span className="flex justify-center items-center text-muted-foreground/60 text-xl">/</span>
+      <span className="flex items-center justify-center text-xl text-muted-foreground/60">
+        /
+      </span>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) => (
@@ -75,13 +78,27 @@ export function MainNav({
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
-      <span className="flex justify-center items-center text-muted-foreground/60 text-xl">/</span>
+      <span className="flex items-center justify-center text-xl text-muted-foreground/60">
+        /
+      </span>
       <div>
-        {projects && <ProjectDropdownNav currentProject={currentProject} projects={projects ? projects : []} />}
+        {projects && (
+          <ProjectDropdownNav
+            currentProject={currentProject}
+            projects={projects ? projects : []}
+          />
+        )}
       </div>
-      <span className="flex justify-center items-center text-muted-foreground/60 text-xl">/</span>
+      <span className="flex items-center justify-center text-xl text-muted-foreground/60">
+        /
+      </span>
       <div>
-        {currentProject?.links && <LinkDropdownNav currentLink={currentLink} links={currentProject?.links ? currentProject.links : []} />}
+        {currentProject?.links && (
+          <LinkDropdownNav
+            currentLink={currentLink}
+            links={currentProject?.links ? currentProject.links : []}
+          />
+        )}
       </div>
     </div>
   )

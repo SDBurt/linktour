@@ -1,4 +1,4 @@
-import { env } from 'env.mjs'
+import { env } from "env.mjs"
 
 export type IntervalProps = "1h" | "24h" | "7d" | "30d" | "90d"
 

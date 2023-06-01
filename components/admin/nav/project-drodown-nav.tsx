@@ -26,7 +26,10 @@ interface ProjectDropdownNavProps extends React.HTMLAttributes<HTMLDivElement> {
   currentProject?: Pick<Project, "name" | "slug">
 }
 
-export function ProjectDropdownNav({ projects, currentProject }: ProjectDropdownNavProps) {
+export function ProjectDropdownNav({
+  projects,
+  currentProject,
+}: ProjectDropdownNavProps) {
   const [open, setOpen] = React.useState(false)
 
   const router = useRouter()

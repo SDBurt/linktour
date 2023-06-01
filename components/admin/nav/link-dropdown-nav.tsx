@@ -18,7 +18,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-
 import { LinkCreateButton } from "@/components/admin/link/link-create-button"
 
 interface LinkDropdownNavProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -60,9 +59,7 @@ export function LinkDropdownNav({ links, currentLink }: LinkDropdownNavProps) {
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    currentLink?.key === link.key
-                      ? "opacity-100"
-                      : "opacity-0"
+                    currentLink?.key === link.key ? "opacity-100" : "opacity-0"
                   )}
                 />
                 {link.title}

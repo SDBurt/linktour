@@ -1,4 +1,5 @@
 import { auth } from "@clerk/nextjs"
+import { Theme } from "@prisma/client"
 import * as z from "zod"
 
 import { freePlanValues } from "@/config/subscriptions"
@@ -7,12 +8,11 @@ import {
   getProject,
   getProjectsForUser,
 } from "@/lib/api/projects"
+import THEME from "@/lib/constants/theme"
 import { db } from "@/lib/db"
 import { RequiresProPlanError } from "@/lib/exceptions"
 import { getUserSubscriptionPlan } from "@/lib/subscription"
 import { projectCreateSchema } from "@/lib/validations/project"
-import THEME from "@/lib/constants/theme"
-import { Theme } from "@prisma/client"
 
 /**
  * Get a list of projects for the user
@@ -79,13 +79,12 @@ export async function POST(req: Request) {
         id: true,
         name: true,
         slug: true,
-        description: true
+        description: true,
       },
     })
 
     await db.theme.create({
-      data: {...THEME, projectSlug: newProject.slug},
-      
+      data: { ...THEME, projectSlug: newProject.slug },
     })
 
     return new Response(JSON.stringify(newProject))
