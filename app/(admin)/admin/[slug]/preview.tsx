@@ -1,8 +1,7 @@
+import { User } from "@clerk/nextjs/dist/types/server"
 import { Link, Project } from "@prisma/client"
 
 import { ThemeProps } from "@/lib/types"
-
-import { User } from "@clerk/nextjs/dist/types/server"
 import Bio from "@/components/shared/bio/bio"
 
 interface PreviewProps {
@@ -13,10 +12,9 @@ interface PreviewProps {
 }
 
 const Preview = ({ user, project, theme, links }: PreviewProps) => {
-
   return (
-    <div className="rounded-lg p-2 bg-black">
-      <Bio user={user} project={project} theme={theme} links={links}/>
+    <div className="rounded-lg bg-black p-2">
+      <Bio user={user} project={project} theme={theme} links={links} />
     </div>
   )
 }
