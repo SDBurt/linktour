@@ -10,6 +10,7 @@ import {
   ExternalLink,
   File,
   FileText,
+  GripVertical,
   HelpCircle,
   Image,
   Laptop,
@@ -61,6 +62,7 @@ export const Icons = {
     </svg>
   ),
   close: X,
+  grip: GripVertical,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,

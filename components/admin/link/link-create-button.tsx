@@ -3,7 +3,7 @@
 import * as React from "react"
 
 import { LinkCreateForm } from "@/components/admin/link/link-create-form"
-import { DialogCardButton } from "@/components/shared/dialog-card-button"
+import { DialogButton } from "@/components/shared/dialog-button"
 
 interface LinkCreateButtonProps
   extends React.HTMLAttributes<HTMLButtonElement> {}
@@ -13,8 +13,8 @@ export function LinkCreateButton({
   ...props
 }: LinkCreateButtonProps) {
   return (
-    <DialogCardButton className={className} {...props} text="New Link">
+    <DialogButton className={className} {...props} text="New Link">
       <LinkCreateForm />
-    </DialogCardButton>
+    </DialogButton>
   )
 }

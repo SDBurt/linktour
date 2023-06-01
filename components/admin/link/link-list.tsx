@@ -2,12 +2,12 @@ import { Link } from "@prisma/client"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { LinkItem } from "@/components/admin/link/link-item"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 import { LinkCreateButton } from "./link-create-button"
+import { LinkCreateCard } from "./link-create-card"
 
 interface LinkListProps {
   links: Pick<
@@ -21,7 +21,7 @@ export function LinkList({ links }: LinkListProps) {
     <div>
       {links?.length ? (
         <div className="flex flex-col space-y-1">
-          <LinkCreateButton />
+          <LinkCreateCard />
           {links.map((link) => (
             <LinkItem key={link.id} link={link} />
           ))}

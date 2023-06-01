@@ -51,7 +51,7 @@ export function LinkDropdownNav({ links, currentLink }: LinkDropdownNavProps) {
             {links.map((link) => (
               <CommandItem
                 key={link.slug}
-                onSelect={(currentValue) => {
+                onSelect={() => {
                   setOpen(false)
                   router.push(`/admin/${link.slug}/${link.key}`)
                 }}

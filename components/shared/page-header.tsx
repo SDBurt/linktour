@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils"
 interface DocsPageHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
   heading: string
   text?: string
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export function AppHeader({

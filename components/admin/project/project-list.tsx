@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 import { ProjectCreateButton } from "./project-create-button"
+import { ProjectCreateCard } from "./project-create-card"
 import { ProjectItem } from "./project-item"
 
 interface ProjectListProps {
@@ -18,7 +19,7 @@ export function ProjectList({ projects }: ProjectListProps) {
     <div>
       {projects?.length ? (
         <div className="grid grid-cols-3 gap-4">
-          <ProjectCreateButton className="h-full" />
+          <ProjectCreateCard className="h-full" />
           {projects.map((project) => (
             <ProjectItem
               key={project.id}

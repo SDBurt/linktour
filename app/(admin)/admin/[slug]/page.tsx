@@ -66,7 +66,7 @@ async function ProjectPage({ params }) {
         text={`Manage links and appearance for ${
           project?.name || "Untitled Project"
         }`}
-      ></AppHeader>
+      />
       <div className="grid grid-cols-2 gap-2">
         <div className="col-span-2 max-h-[700px] overflow-y-auto lg:col-span-1">
           <Preview

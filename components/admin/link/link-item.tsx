@@ -29,14 +29,13 @@ interface LinkItemProps {
 
 export function LinkItem({ link }: LinkItemProps) {
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>{link.title}</CardTitle>
         <CardDescription>
           {formatDate(link.createdAt?.toDateString())}
         </CardDescription>
       </CardHeader>
-
       <CardContent>
         <div className="flex space-x-2">
           <TooltipProvider>
