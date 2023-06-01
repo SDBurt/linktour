@@ -69,9 +69,9 @@ model Theme {
   id String @id @default(cuid())
 
   backgroundColor String @default("#3d7ad5")
-  gradientColor   String @default("#02a291")
   backgroundStyle String @default("COLORUP")
   backgroundType  String @default("COLOR")
+  gradientColor   String @default("#02a291")
 
   buttonBackgroundColor String @default("#ffffff")
   buttonShadowColor     String @default("#000000")

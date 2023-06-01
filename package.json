@@ -13,7 +13,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint -- --fix",
-    "prettier": "npx prettier app components config hooks lib pages --check",
+    "prettier": "npx prettier app components config hooks lib --check",
     "prettier:fix": "npm run prettier -- --write",
     "postinstall": "prisma generate",
     "preview": "next build && next start",
