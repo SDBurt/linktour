@@ -1,6 +1,6 @@
 import React from "react"
 import { useParams, useRouter } from "next/navigation"
-import { Project } from "@prisma/client"
+import { Link } from "@prisma/client"
 import { Check, ChevronsUpDown } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -18,18 +18,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { LinkCreateButton } from "@/components/admin/link/link-create-button"
 
-import { ProjectCreateButton } from "../project/project-create-button"
-
-interface ProjectDropdownNavProps extends React.HTMLAttributes<HTMLDivElement> {
-  projects: Pick<Project, "name" | "slug">[]
-  currentProject?: Pick<Project, "name" | "slug">
+interface LinkDropdownNavProps extends React.HTMLAttributes<HTMLDivElement> {
+  links: Pick<Link, "title" | "slug" | "key">[]
+  currentLink?: Pick<Link, "title" | "slug" | "key">
 }
 
-export function ProjectDropdownNav({
-  projects,
-  currentProject,
-}: ProjectDropdownNavProps) {
+export function LinkDropdownNav({ links, currentLink }: LinkDropdownNavProps) {
   const [open, setOpen] = React.useState(false)
 
   const router = useRouter()
@@ -43,39 +39,37 @@ export function ProjectDropdownNav({
           aria-expanded={open}
           className="w-[200px] justify-between"
         >
-          {currentProject ? currentProject?.name : "Select Project..."}
+          {currentLink ? currentLink?.title : "Select Link..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search projects..." />
-          <CommandEmpty>No project found.</CommandEmpty>
+          <CommandInput placeholder="Search links..." />
+          <CommandEmpty>No link found.</CommandEmpty>
           <CommandGroup>
-            {projects.map((project) => (
+            {links.map((link) => (
               <CommandItem
-                key={project.slug}
+                key={link.slug}
                 onSelect={(currentValue) => {
                   setOpen(false)
-                  router.push(`/admin/${project.slug}`)
+                  router.push(`/admin/${link.slug}/${link.key}`)
                 }}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    currentProject?.slug === project.slug
-                      ? "opacity-100"
-                      : "opacity-0"
+                    currentLink?.key === link.key ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {project.name}
+                {link.title}
               </CommandItem>
             ))}
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup>
             <CommandItem>
-              <ProjectCreateButton className="font-normal" />
+              <LinkCreateButton className="font-normal" />
             </CommandItem>
           </CommandGroup>
         </Command>

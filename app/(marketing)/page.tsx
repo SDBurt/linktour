@@ -148,8 +148,7 @@ export default async function IndexPage() {
             Open Source
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            This app is open source! <br />{" "}
-            The code is available on{" "}
+            This app is open source! <br /> The code is available on{" "}
             <Link
               href={siteConfig.links.github}
               target="_blank"
