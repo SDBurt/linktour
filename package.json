@@ -1,6 +1,6 @@
 {
   "name": "linktour",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "author": {
     "name": "sdburt",
@@ -15,7 +15,9 @@
     "lint:fix": "next lint -- --fix",
     "prettier": "npx prettier app components config hooks lib pages --check",
     "prettier:fix": "npm run prettier -- --write",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "preview": "next build && next start",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.19.0",
@@ -78,7 +80,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-tailwindcss": "^3.12.0",
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "postcss": "^8.4.21",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",

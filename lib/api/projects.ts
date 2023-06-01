@@ -49,6 +49,13 @@ export const getProjectsForUserNav = async (userId: string) => {
     select: {
       name: true,
       slug: true,
+      links: {
+        select: {
+          title: true,
+          slug: true,
+          key: true,
+        },
+      },
     },
     orderBy: {
       updatedAt: "desc",
@@ -76,7 +83,7 @@ export const getProject = async (slug: string) => {
       links: true,
       theme: true,
       createdAt: true,
-      userId: true
+      userId: true,
     },
   })
 
@@ -92,7 +99,7 @@ export const getProjectUser = async (slug: string) => {
       slug,
     },
     select: {
-      userId: true
+      userId: true,
     },
   })
 
@@ -138,7 +145,7 @@ export const getProjectTheme = async (slug: string) => {
       luminance: true,
       socialStyleColor: true,
       typefaceColor: true,
-      typefaceFamily: true
+      typefaceFamily: true,
     },
   })
 

@@ -40,7 +40,6 @@ export const metadata = {
 }
 
 async function ProjectPage({ params }) {
-
   const slug = params.slug
 
   if (!slug) {
@@ -76,59 +75,59 @@ async function ProjectPage({ params }) {
         />
       </AppHeader>
       <div className="grid grid-cols-2 gap-2">
-      <div className="col-span-2 lg:col-span-1 max-h-[700px] overflow-y-auto">
-        <Preview
-          theme={theme}
-          project={project}
-          links={links}
-          user={{ username: user.username, imageUrl: user.imageUrl }}
-        />
+        <div className="col-span-2 max-h-[700px] overflow-y-auto lg:col-span-1">
+          <Preview
+            theme={theme}
+            project={project}
+            links={links}
+            user={{ username: user.username, imageUrl: user.imageUrl }}
+          />
         </div>
-      <div className="col-span-2 lg:col-span-1 lg:-order-1">
-        <Tabs defaultValue="links">
-          <TabsList>
-            <TabsTrigger id="links" value="links">
-              Links
-            </TabsTrigger>
-            <TabsTrigger id="header" value="header">
-              Header
-            </TabsTrigger>
-            <TabsTrigger id="appearance" value="appearance">
-              Appearance
-            </TabsTrigger>
-            <TabsTrigger id="analytics" disabled value="analytics">
-              Analytics
-            </TabsTrigger>
-            <TabsTrigger id="settings" disabled value="settings">
-              Settings
-            </TabsTrigger>
-          </TabsList>
+        <div className="col-span-2 lg:-order-1 lg:col-span-1">
+          <Tabs defaultValue="links">
+            <TabsList>
+              <TabsTrigger id="links" value="links">
+                Links
+              </TabsTrigger>
+              <TabsTrigger id="header" value="header">
+                Header
+              </TabsTrigger>
+              <TabsTrigger id="appearance" value="appearance">
+                Appearance
+              </TabsTrigger>
+              <TabsTrigger id="analytics" disabled value="analytics">
+                Analytics
+              </TabsTrigger>
+              <TabsTrigger id="settings" disabled value="settings">
+                Settings
+              </TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="links">
-            <LinkList links={links} />
-          </TabsContent>
-          <TabsContent value="header">
-            <Header project={project} />
-          </TabsContent>
-          <TabsContent value="appearance">
-            <Appearance
-              project={project}
-              links={links}
-              user={{
-                username: user?.username || "",
-                imageUrl: user?.profileImageUrl || "",
-              }}
-              theme={theme}
-            />
-          </TabsContent>
-          <TabsContent value="analytics">
-            <p>To be implemented</p>
-          </TabsContent>
-          <TabsContent value="settings">
-            <p>To be implemented</p>
-          </TabsContent>
-        </Tabs>
-      </div>
+            <TabsContent value="links">
+              <LinkList links={links} />
+            </TabsContent>
+            <TabsContent value="header">
+              <Header project={project} />
+            </TabsContent>
+            <TabsContent value="appearance">
+              <Appearance
+                project={project}
+                links={links}
+                user={{
+                  username: user?.username || "",
+                  imageUrl: user?.profileImageUrl || "",
+                }}
+                theme={theme}
+              />
+            </TabsContent>
+            <TabsContent value="analytics">
+              <p>To be implemented</p>
+            </TabsContent>
+            <TabsContent value="settings">
+              <p>To be implemented</p>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </AppShell>
   )

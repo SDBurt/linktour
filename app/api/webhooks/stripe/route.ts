@@ -1,10 +1,10 @@
 import { headers } from "next/headers"
+import { clerkClient } from "@clerk/nextjs"
 import Stripe from "stripe"
 
 import { env } from "@/env.mjs"
 import { db } from "@/lib/db"
 import { stripe } from "@/lib/stripe"
-import { clerkClient } from "@clerk/nextjs"
 
 export async function POST(req: Request) {
   const body = await req.text()

@@ -9,7 +9,11 @@ import * as z from "zod"
 
 import { freePlanValues } from "@/config/subscriptions"
 import { cn } from "@/lib/utils"
-import { projectCreateSchema, projectPatchSchema, projectSchema } from "@/lib/validations/project"
+import {
+  projectCreateSchema,
+  projectPatchSchema,
+  projectSchema,
+} from "@/lib/validations/project"
 import { toast } from "@/hooks/use-toast"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
@@ -43,7 +47,6 @@ export function ProjectForm({
   className,
   ...props
 }: ProjectFormProps) {
-  
   const router = useRouter()
   const defaultValues = {
     name: project?.name || "",
@@ -51,13 +54,13 @@ export function ProjectForm({
   }
 
   if (project) {
-    defaultValues['slug'] = project?.slug || undefined
+    defaultValues["slug"] = project?.slug || undefined
   }
 
   // 1. Define your form.
   const form = useForm<FormData>({
     resolver: zodResolver(project ? projectPatchSchema : projectCreateSchema),
-    defaultValues
+    defaultValues,
   })
   const [isSaving, setIsSaving] = React.useState<boolean>(false)
   const [isCheckingSlug, setIsCheckingSlug] = React.useState<boolean>(false)
@@ -143,7 +146,6 @@ export function ProjectForm({
   async function onSubmit(data: FormData) {
     setIsSaving(true)
 
-
     if (!project && data.slug) {
       const exists = await checkSlug(data.slug)
       if (exists === 1) {
@@ -153,8 +155,7 @@ export function ProjectForm({
           description: "Your Project slug is already taken. Please try again.",
           variant: "destructive",
         })
-      }
-      else if (exists === -1) {
+      } else if (exists === -1) {
         setIsSaving(false)
         return toast({
           title: "Something went wrong.",
@@ -172,7 +173,7 @@ export function ProjectForm({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        ...data
+        ...data,
       }),
     })
 

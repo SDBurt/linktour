@@ -1,22 +1,26 @@
 "use client"
 
 import * as React from "react"
-import Link from "next/link"
-import { useSelectedLayoutSegment } from "next/navigation"
-import { Project } from "@prisma/client"
+import NextLink from "next/link"
+import { useParams, useSelectedLayoutSegment } from "next/navigation"
+import { Link, Project } from "@prisma/client"
 
 import { MainNavItem } from "types"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
+import { LinkDropdownNav } from "@/components/admin/nav/link-dropdown-nav"
 import { MobileNav } from "@/components/admin/nav/mobile-nav"
+import { ProjectDropdownNav } from "@/components/admin/nav/project-drodown-nav"
 import { Icons } from "@/components/shared/icons"
 
-import { ProjectDropdownNav } from "./project-drodown-nav"
+type ProjectProps = Pick<Project, "name" | "slug"> & {
+  links: Pick<Link, "title" | "slug" | "key">[]
+}
 
 interface MainNavProps {
   showSiteName?: boolean
   items?: MainNavItem[]
-  projects?: Pick<Project, "name" | "slug">[]
+  projects?: ProjectProps[]
   children?: React.ReactNode
 }
 
@@ -27,32 +31,40 @@ export function MainNav({
   children,
 }: MainNavProps) {
   const segment = useSelectedLayoutSegment()
+
+  const params = useParams()
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
 
+  const currentProject = projects?.find((p) => p.slug === params?.slug)
+  const currentLink = currentProject?.links?.find((p) => p.key === params?.key)
+
   return (
-    <div className="flex gap-6 md:gap-10">
-      <Link href="/" className="hidden items-center space-x-2 md:flex">
+    <div className="flex gap-4 md:gap-8">
+      <NextLink href="/" className="hidden items-center space-x-2 md:flex">
         <Icons.logo />
         {showSiteName && (
           <span className="hidden font-bold sm:inline-block">
             {siteConfig.name}
           </span>
         )}
-      </Link>
+      </NextLink>
+      <span className="flex items-center justify-center text-xl text-muted-foreground/60">
+        /
+      </span>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) => (
-            <Link
+            <NextLink
               key={index}
               href={item.disabled ? "#" : item.href}
               className={cn(
-                "flex items-center text-lg font-medium text-foreground/60 transition-colors hover:text-foreground/80 sm:text-sm",
+                "flex items-center text-center text-lg font-medium text-foreground/60 transition-colors hover:text-foreground/80 sm:text-sm",
                 item.href.startsWith(`/${segment}`) && "text-foreground",
                 item.disabled && "cursor-not-allowed opacity-80"
               )}
             >
               {item.title}
-            </Link>
+            </NextLink>
           ))}
         </nav>
       ) : null}
@@ -66,9 +78,28 @@ export function MainNav({
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
-      <>
-        {projects && <ProjectDropdownNav projects={projects ? projects : []} />}
-      </>
+      <span className="flex items-center justify-center text-xl text-muted-foreground/60">
+        /
+      </span>
+      <div>
+        {projects && (
+          <ProjectDropdownNav
+            currentProject={currentProject}
+            projects={projects ? projects : []}
+          />
+        )}
+      </div>
+      <span className="flex items-center justify-center text-xl text-muted-foreground/60">
+        /
+      </span>
+      <div>
+        {currentProject?.links && (
+          <LinkDropdownNav
+            currentLink={currentLink}
+            links={currentProject?.links ? currentProject.links : []}
+          />
+        )}
+      </div>
     </div>
   )
 }

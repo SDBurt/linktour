@@ -1,9 +1,8 @@
 import { NextRequest, userAgent } from "next/server"
+import { env } from "env.mjs"
 
 import { LOCALHOST_GEO_DATA } from "./constants"
 import { capitalize, getDomainWithoutWWW } from "./utils"
-
-import { env } from "env.mjs"
 
 /**
  * Recording clicks with geo, ua, referer and timestamp data

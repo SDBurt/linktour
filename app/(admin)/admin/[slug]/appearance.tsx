@@ -1,9 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { User } from "@clerk/nextjs/dist/types/server"
 import { Link, Project } from "@prisma/client"
 
-import THEME from "@/lib/constants/theme"
 import { ThemeProps } from "@/lib/types"
 import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
@@ -11,9 +12,6 @@ import { Button } from "@/components/ui/button"
 import { BackgroundCard } from "./backgroundCard"
 import { ButtonsCard } from "./buttonsCard"
 import { FontsCard } from "./fontsCard"
-import { User } from "@clerk/nextjs/dist/types/server"
-import { Router } from "lucide-react"
-import { useRouter } from "next/navigation"
 
 interface AppearanceProps {
   project: Pick<Project, "id" | "name" | "description" | "image" | "slug">
@@ -23,7 +21,6 @@ interface AppearanceProps {
 }
 
 export function Appearance({ project, theme }: AppearanceProps) {
-
   const router = useRouter()
   const [themePreview, setThemePreview] = useState<ThemeProps>(theme)
 
@@ -46,18 +43,18 @@ export function Appearance({ project, theme }: AppearanceProps) {
     }
 
     toast({
-      description: "Your theme has been updated."
+      description: "Your theme has been updated.",
     })
 
     router.refresh()
   }
 
   return (
-      <div className="flex flex-col space-y-2">
-        <BackgroundCard theme={themePreview} setTheme={setThemePreview} />
-        <ButtonsCard theme={themePreview} setTheme={setThemePreview} />
-        <FontsCard theme={themePreview} setTheme={setThemePreview} />
-        <Button onClick={onSubmitClicked}>Update</Button>
-      </div>
+    <div className="flex flex-col space-y-2">
+      <BackgroundCard theme={themePreview} setTheme={setThemePreview} />
+      <ButtonsCard theme={themePreview} setTheme={setThemePreview} />
+      <FontsCard theme={themePreview} setTheme={setThemePreview} />
+      <Button onClick={onSubmitClicked}>Update</Button>
+    </div>
   )
 }
