@@ -1,11 +1,29 @@
-# Link Shortener
+![LinkTour](/public/android-chrome-192x192.png)
 
-This repository contains the code for a link shortener app largly based on the open source project [dub.sh](https://dub.sh) with aspects from the Nextjs template [Taxonomy](https://github.com/shadcn/taxonomy/tree/main/app). I haven not decided on a name of it yet.
+# LinkTour
 
-The app has two subdomains. The main (_http://localhost:3000_) is used as a default for redirecting, while the second (ex: *http://app.localhost:3000*) is the dashboard for creating and managing projects and links.
+## Overview
 
-## To Do
+This repository contains the code for LinkTour, an open source link in bio app largely based on the open source project [dub.sh](https://dub.sh) and Nextjs template [Taxonomy](https://github.com/shadcn/taxonomy/tree/main/app).
 
-- [ ] implement projects with custom domains
-- [ ] better dashboard
-- [ ] project invitations
+## Technologies
+
+- React 18
+- NextJS 13
+- Clerk for user authentication and management
+- Prisma with Planetscale
+- Tinybird for real-time stats
+- Shadcn's Radix components styled with TailwindCSS
+- Stripe for subscriptions
+
+## Setup
+
+- clone the repository
+- `npm install`
+- copy `.env.example` to `.env` and fill in the blanks with your values
+  - Create a Clerk account
+    - Get keys for google and github
+  - Create a planetscale account
+  - Create a Tinybird account
+    - Create pipelines for the different stat endpoints found in `@/lib/api/stats.ts` (`VALID_TINYBIRD_ENDPOINTS`)
+  - Create a stripe account
