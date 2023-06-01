@@ -34,15 +34,13 @@ export default async function BioPage({ params }) {
   const user = await getUser(userId)
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center ">
-      <div className="flex h-full w-full justify-center">
-        <Bio
-          theme={(theme as ThemeProps) || THEME}
-          project={{ name: name, image: image, description: description }}
-          links={links}
-          user={{ imageUrl: user.imageUrl, username: user.username }}
-        />
-      </div>
+    <div className="flex h-full w-full justify-center">
+      <Bio
+        theme={(theme as ThemeProps) || THEME}
+        project={{ name: name, image: image, description: description }}
+        links={links}
+        user={{ imageUrl: user.imageUrl, username: user.username }}
+      />
     </div>
   )
 }
