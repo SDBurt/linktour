@@ -1,19 +1,19 @@
 "use client"
 
 import { useState } from "react"
+import { User } from "@clerk/nextjs/dist/types/server"
 import { Link, Project } from "@prisma/client"
 
 import THEME from "@/lib/constants/theme"
 import { ThemeProps } from "@/lib/types"
 import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
+import { ProjectForm } from "@/components/admin/project/project-form"
 
 import { BackgroundCard } from "./backgroundCard"
 import { ButtonsCard } from "./buttonsCard"
 import { FontsCard } from "./fontsCard"
 import Preview from "./preview"
-import { User } from "@clerk/nextjs/dist/types/server"
-import { ProjectForm } from "@/components/admin/project/project-form"
 
 interface AppearanceProps {
   project: Pick<Project, "id" | "name" | "description" | "image" | "slug">

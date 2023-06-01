@@ -1,15 +1,14 @@
+import { User } from "@clerk/nextjs/dist/types/server"
 import { AvatarProps } from "@radix-ui/react-avatar"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Icons } from "@/components/shared/icons"
-import { User } from "@clerk/nextjs/dist/types/server"
 
 interface UserAvatarProps extends AvatarProps {
   user: Pick<User, "imageUrl" | "username">
 }
 
 export function UserAvatar({ user, ...props }: UserAvatarProps) {
-
   return (
     <Avatar {...props}>
       {user.imageUrl ? (

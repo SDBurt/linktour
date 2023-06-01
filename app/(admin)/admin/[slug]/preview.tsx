@@ -1,11 +1,11 @@
 import React, { useMemo } from "react"
+import { User } from "@clerk/nextjs/dist/types/server"
 import { Link, Project } from "@prisma/client"
 
 import { ThemeProps } from "@/lib/types"
 import { UserAvatar } from "@/components/user/user-avatar"
 
 import CustomButton from "./customButton"
-import { User } from "@clerk/nextjs/dist/types/server"
 
 interface PreviewProps {
   user: Pick<User, "imageUrl" | "username">
@@ -15,7 +15,6 @@ interface PreviewProps {
 }
 
 const Preview = ({ user, project, theme, links }: PreviewProps) => {
-
   const backgroundStyle = useMemo(() => {
     let style = {}
     if (theme.backgroundStyle === "COLORUP") {

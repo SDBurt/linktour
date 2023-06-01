@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation"
+import { notFound, useParams } from "next/navigation"
 import { UserButton, auth } from "@clerk/nextjs"
 
 import { adminConfig } from "@/config/admin"

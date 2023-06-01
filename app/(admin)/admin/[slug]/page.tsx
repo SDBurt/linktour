@@ -39,7 +39,6 @@ export const metadata = {
 }
 
 async function ProjectPage({ params }) {
-
   const slug = params.slug
 
   if (!slug) {
