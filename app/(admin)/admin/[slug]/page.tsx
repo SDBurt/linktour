@@ -5,11 +5,8 @@ import { Project } from "@prisma/client"
 
 import { db } from "@/lib/db"
 import { ThemeProps } from "@/lib/types"
-import { cn } from "@/lib/utils"
-import { buttonVariants } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AppShell } from "@/components/admin/layouts/shell"
-import { LinkCreateButton } from "@/components/admin/link/link-create-button"
 import { LinkList } from "@/components/admin/link/link-list"
 import { AppHeader } from "@/components/shared/page-header"
 
@@ -69,11 +66,7 @@ async function ProjectPage({ params }) {
         text={`Manage links and appearance for ${
           project?.name || "Untitled Project"
         }`}
-      >
-        <LinkCreateButton
-          className={cn(buttonVariants({ variant: "default" }), "mt-1")}
-        />
-      </AppHeader>
+      ></AppHeader>
       <div className="grid grid-cols-2 gap-2">
         <div className="col-span-2 max-h-[700px] overflow-y-auto lg:col-span-1">
           <Preview

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { DialogButton } from "@/components/shared/dialog-button"
+import { DialogCardButton } from "@/components/shared/dialog-card-button"
 
 import { ProjectForm } from "./project-form"
 
@@ -14,8 +14,8 @@ export function ProjectCreateButton({
   ...props
 }: ProjectCreateButtonProps) {
   return (
-    <DialogButton {...props} className={className} text="New Project">
+    <DialogCardButton className={className} {...props} text="New Project">
       <ProjectForm />
-    </DialogButton>
+    </DialogCardButton>
   )
 }

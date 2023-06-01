@@ -2,6 +2,7 @@ import { Project } from "@prisma/client"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
@@ -16,7 +17,8 @@ export function ProjectList({ projects }: ProjectListProps) {
   return (
     <div>
       {projects?.length ? (
-        <div className="space-y-1">
+        <div className="grid grid-cols-3 gap-4">
+          <ProjectCreateButton className="h-full" />
           {projects.map((project) => (
             <ProjectItem
               key={project.id}

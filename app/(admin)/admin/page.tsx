@@ -42,7 +42,7 @@ async function AdminHomePage() {
         heading="Admin"
         text="Create and manage projects, billing, and settings"
       >
-        <ProjectCreateButton />
+        {/* <ProjectCreateButton /> */}
       </AppHeader>
       <Tabs defaultValue="projects" className="w-full">
         <TabsList>
