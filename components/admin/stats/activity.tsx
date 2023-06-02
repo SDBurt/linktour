@@ -3,6 +3,7 @@
 import { useParams, useSearchParams } from "next/navigation"
 import useSWR from "swr"
 
+import { intervalData } from "@/lib/api/stats"
 import { fetcher } from "@/lib/utils"
 import {
   Card,
@@ -50,7 +51,10 @@ const Activity = () => {
         <CardDescription>Total Clicks: {clickTotal}</CardDescription>
       </CardHeader>
       <CardContent className="h-96 w-full">
-        <BarChart data={formatData(data)} />
+        <BarChart
+          data={formatData(data)}
+          format={intervalData[interval || "24h"].format}
+        />
       </CardContent>
     </Card>
   )
