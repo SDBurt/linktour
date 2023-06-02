@@ -82,10 +82,7 @@ export async function PATCH(
 
     // Get the request body and validate it.
     const json = await req.json()
-    console.log(json)
     const body = projectPatchSchema.parse(json)
-
-    console.log(body)
 
     // Update the post.
     // TODO: Implement sanitization for content.

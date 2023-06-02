@@ -12,8 +12,7 @@ export const BioMiddleware: NextMiddleware = async (
   req: NextRequest,
   ev: NextFetchEvent
 ) => {
-  const { path, key, fullKey } = parse(req)
-  console.log({ path, key })
+  const { key } = parse(req)
   if (key) {
     ev.waitUntil(recordClick(key, req))
   }

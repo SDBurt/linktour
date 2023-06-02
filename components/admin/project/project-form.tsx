@@ -165,8 +165,6 @@ export function ProjectForm({
       }
     }
 
-    console.log(data)
-
     const response = await fetch(endpoint.url, {
       method: endpoint.method,
       headers: {

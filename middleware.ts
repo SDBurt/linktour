@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server"
 import { authMiddleware } from "@clerk/nextjs"
 
-import { reservedkeys } from "./config/site"
-import BioMiddleware from "./lib/middleware/bio"
+import { reservedkeys } from "@/config/site"
+import BioMiddleware from "@/lib/middleware/bio"
 
 export default authMiddleware({
   afterAuth(auth, req, evt) {
-    // console.log({isPublic: auth.isPublicRoute, path: req.nextUrl.pathname})
     const key = decodeURIComponent(req.nextUrl.pathname.split("/")[1])
     if (!reservedkeys.includes(key) && auth.isPublicRoute) {
       return BioMiddleware(req, evt)
