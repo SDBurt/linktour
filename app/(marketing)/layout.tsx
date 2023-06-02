@@ -4,7 +4,7 @@ import { auth } from "@clerk/nextjs"
 import { marketingConfig } from "@/config/marketing"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { MainNav } from "@/components/admin/nav/main-nav"
+import { MainNav } from "@/components/marketing/nav/main-nav"
 import { SiteFooter } from "@/components/shared/page-footer"
 
 interface MarketingLayoutProps {

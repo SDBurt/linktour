@@ -11,3 +11,5 @@ export const siteConfig: SiteConfig = {
     github: "https://github.com/sdburt/linktour",
   },
 }
+
+export const reservedkeys = ["", "admin", "login", "signup"]

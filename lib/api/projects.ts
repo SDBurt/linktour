@@ -151,3 +151,27 @@ export const getProjectTheme = async (slug: string) => {
 
   return projectTheme
 }
+
+export async function IncrementViews(slug: string) {
+  const project = await db.project.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      views: true,
+    },
+  })
+
+  if (!project) {
+    return null
+  }
+
+  return await db.project.update({
+    where: {
+      slug,
+    },
+    data: {
+      views: project?.views ? project.views + 1 : 1,
+    },
+  })
+}

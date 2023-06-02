@@ -1,5 +1,5 @@
 import { cache } from "react"
-import { notFound, redirect } from "next/navigation"
+import { notFound } from "next/navigation"
 import { auth, redirectToSignIn } from "@clerk/nextjs"
 import { Link, Project } from "@prisma/client"
 

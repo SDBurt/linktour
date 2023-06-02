@@ -1,10 +1,13 @@
 import { cache } from "react"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import { currentUser, redirectToSignIn } from "@clerk/nextjs"
 import { Project } from "@prisma/client"
 
+import { getProject } from "@/lib/api/projects"
 import { db } from "@/lib/db"
 import { ThemeProps } from "@/lib/types"
+import { buttonVariants } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AppShell } from "@/components/admin/layouts/shell"
 import { LinkList } from "@/components/admin/link/link-list"
@@ -14,23 +17,16 @@ import { Appearance } from "./appearance"
 import { Header } from "./header"
 import Preview from "./preview"
 
-const getProject = cache(async (userId: string, slug: Project["slug"]) => {
-  return await db.project.findFirst({
-    where: {
-      userId: userId,
-      slug: slug,
-    },
-    select: {
-      id: true,
-      name: true,
-      slug: true,
-      links: true,
-      description: true,
-      image: true,
-      theme: true,
-    },
-  })
-})
+const getProjectForUser = cache(
+  async (userId: string, slug: Project["slug"]) => {
+    const project = await getProject(slug)
+
+    if (!project || project.userId !== userId) {
+      return null
+    }
+    return project
+  }
+)
 
 export const metadata = {
   title: "Project Details",
@@ -49,7 +45,7 @@ async function ProjectPage({ params }) {
     return redirectToSignIn()
   }
 
-  const project = await getProject(user.id, slug)
+  const project = await getProjectForUser(user.id, slug)
 
   if (!project) {
     notFound()
@@ -60,13 +56,20 @@ async function ProjectPage({ params }) {
 
   return (
     <AppShell>
-      {/* <Breadcrumb /> */}
       <AppHeader
         heading="Project"
         text={`Manage links and appearance for ${
           project?.name || "Untitled Project"
         }`}
-      />
+      >
+        <Link
+          href={`/${project.slug}`}
+          className={buttonVariants()}
+          target="_blank"
+        >
+          View Project
+        </Link>
+      </AppHeader>
       <div className="grid grid-cols-2 gap-2">
         <div className="col-span-2 max-h-[700px] overflow-y-auto lg:col-span-1">
           <Preview

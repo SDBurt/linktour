@@ -36,6 +36,8 @@ model Project {
 
   // Links
   links Link[]
+
+  views    Int     @default(0)
 }
 
 model Link {
