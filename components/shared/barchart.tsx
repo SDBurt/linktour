@@ -1,6 +1,6 @@
 "use client"
 
-import { format } from "date-fns"
+// import { format } from "date-fns"
 import {
   Bar,
   CartesianGrid,
@@ -14,9 +14,10 @@ import {
 
 export type ChartDataType = { start: string; clicks: number; end?: string }
 
-const BarChart = ({ data }: { data: ChartDataType[] }) => {
+const BarChart = ({ data, format }: { data: ChartDataType[]; format: any }) => {
   const dateFormatter = (date) => {
-    return format(new Date(date), "MMM dd hh:mm")
+    return format(new Date(date))
+    // return format(new Date(date), "MMM dd hh:mm")
   }
 
   return (
@@ -30,20 +31,35 @@ const BarChart = ({ data }: { data: ChartDataType[] }) => {
             margin={{
               top: 20,
               right: 20,
-              left: 20,
+              left: -20,
               bottom: 20,
             }}
           >
             <XAxis
               dataKey="start"
               type="category"
+              stroke="#888888"
+              tickLine={false}
+              axisLine={false}
+              fontSize={12}
               tickFormatter={dateFormatter}
             />
-            <YAxis type="number" />
+            <YAxis
+              type="number"
+              stroke="#888888"
+              tickLine={false}
+              axisLine={false}
+              fontSize={12}
+              allowDecimals={false}
+            />
             <Tooltip labelFormatter={dateFormatter} />
             <Legend />
-            <CartesianGrid horizontal={true} vertical={false} />
-            <Bar dataKey="clicks" fill="#26E0EC" />
+            <CartesianGrid
+              horizontal={true}
+              vertical={false}
+              stroke="#EEEEEE"
+            />
+            <Bar dataKey="clicks" fill="#26E0EC" radius={[4, 4, 0, 0]} />
           </ReBarChart>
         </ResponsiveContainer>
       </div>

@@ -32,17 +32,40 @@ const HorizontalChart = ({ dataKey, data, fill = "#26E0EC" }: ChartProps) => {
               margin={{
                 top: 20,
                 right: 20,
-                left: 40,
+                left: 20,
                 bottom: 20,
               }}
               layout="vertical"
             >
-              <XAxis type="number" />
-              <YAxis dataKey={dataKey} type="category" />
+              <XAxis
+                type="number"
+                stroke="#888888"
+                tickLine={false}
+                axisLine={false}
+                fontSize={12}
+                allowDecimals={false}
+              />
+              <YAxis
+                dataKey={dataKey}
+                type="category"
+                stroke="#888888"
+                tickLine={false}
+                axisLine={false}
+                fontSize={12}
+              />
               <Tooltip />
               <Legend />
-              <CartesianGrid horizontal={false} vertical={true} />
-              <Bar barSize={20} dataKey="clicks" fill={fill} />
+              <CartesianGrid
+                horizontal={false}
+                vertical={true}
+                stroke="#EEEEEE"
+              />
+              <Bar
+                barSize={20}
+                dataKey="clicks"
+                fill={fill}
+                radius={[0, 4, 4, 0]}
+              />
             </BarChart>
           </ResponsiveContainer>
         ) : (
