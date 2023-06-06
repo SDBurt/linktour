@@ -3,8 +3,6 @@ import { ClassValue, clsx } from "clsx"
 import { customAlphabet } from "nanoid"
 import { twMerge } from "tailwind-merge"
 
-import { HOME_HOSTNAMES } from "./constants"
-
 interface SWRError extends Error {
   status: number
 }

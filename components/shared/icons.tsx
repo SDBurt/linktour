@@ -5,7 +5,6 @@ import {
   Check,
   ChevronLeft,
   ChevronRight,
-  Command,
   CreditCard,
   ExternalLink,
   File,

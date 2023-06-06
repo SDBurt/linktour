@@ -13,12 +13,17 @@ interface BioButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   key: string
 }
 
+interface CustomButtonProps {
+  link: Pick<Link, "title" | "url" | "slug" | "key">
+  theme: ThemeProps
+}
+
 function BioButton({
+  className,
   slug,
   key,
   url,
   title,
-  className,
   style,
 }: BioButtonProps) {
   async function buttonClickedHandler(s: string, k: string) {
@@ -38,11 +43,6 @@ function BioButton({
       </NextLink>
     </div>
   )
-}
-
-interface CustomButtonProps {
-  link: Pick<Link, "title" | "url" | "slug" | "key">
-  theme: ThemeProps
 }
 
 const makeGeneralStyle = (buttonType: string) => {
@@ -95,7 +95,7 @@ export default function CustomButton({ link, theme }: CustomButtonProps) {
   // we can use tailwind for non-arbitrary values
   const buttonCls = cn(
     "flex h-full w-full items-center justify-center p-4 font-medium", // position and base style
-    "ease-out transition-all", // animate
+    "transition-all ease-out", // animate
     makeGeneralStyle(theme?.buttonType)
   )
 
