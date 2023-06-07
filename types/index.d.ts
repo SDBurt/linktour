@@ -92,6 +92,7 @@ export type EditorBlockDataType = {
     | "url"
     | "clicks"
     | "thumbnail"
+    | "thumbnailType"
   >
 }
 

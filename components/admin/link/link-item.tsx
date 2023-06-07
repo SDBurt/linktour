@@ -31,6 +31,7 @@ interface LinkItemProps {
     | "url"
     | "clicks"
     | "thumbnail"
+    | "thumbnailType"
   >
 }
 

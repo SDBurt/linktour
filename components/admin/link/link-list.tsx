@@ -12,7 +12,15 @@ import { LinkCreateCard } from "./link-create-card"
 interface LinkListProps {
   links: Pick<
     Link,
-    "id" | "title" | "slug" | "key" | "createdAt" | "url" | "clicks"
+    | "id"
+    | "title"
+    | "slug"
+    | "key"
+    | "createdAt"
+    | "url"
+    | "clicks"
+    | "thumbnail"
+    | "thumbnailType"
   >[]
 }
 

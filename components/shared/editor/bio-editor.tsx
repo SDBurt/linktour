@@ -38,6 +38,7 @@ const testData: EditorComponentType = {
           title: "Github",
           url: "https://github.com/sdburt",
           thumbnail: "http://via.placeholder.com/640x360",
+          thumbnailType: "image",
           slug: "sdburt",
           createdAt: new Date(),
           clicks: 2,
@@ -49,10 +50,12 @@ const testData: EditorComponentType = {
       type: "link",
       data: {
         link: {
+          id: "1234",
           key: "Linkedin",
           title: "linkedin",
           url: "https://linkedin.com/seanburt8",
           thumbnail: "http://via.placeholder.com/640x360",
+          thumbnailType: "image",
           slug: "sdburt",
           createdAt: new Date(),
           clicks: 10,
