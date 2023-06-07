@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import { useMemo } from "react"
 import { User } from "@clerk/nextjs/dist/types/server"
 import { Link, Project } from "@prisma/client"
 
