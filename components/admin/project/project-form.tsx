@@ -1,6 +1,6 @@
 "use client"
 
-import * as React from "react"
+import { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Project } from "@prisma/client"
@@ -62,11 +62,11 @@ export function ProjectForm({
     resolver: zodResolver(project ? projectPatchSchema : projectCreateSchema),
     defaultValues,
   })
-  const [isSaving, setIsSaving] = React.useState<boolean>(false)
-  const [isCheckingSlug, setIsCheckingSlug] = React.useState<boolean>(false)
-  const [slugValid, setSlugValid] = React.useState<boolean | null>(null)
+  const [isSaving, setIsSaving] = useState<boolean>(false)
+  const [isCheckingSlug, setIsCheckingSlug] = useState<boolean>(false)
+  const [slugValid, setSlugValid] = useState<boolean | null>(null)
 
-  const endpoint = React.useMemo(() => {
+  const endpoint = useMemo(() => {
     if (project) {
       return {
         method: "PATCH",
