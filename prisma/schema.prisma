@@ -37,7 +37,7 @@ model Project {
   // Links
   links Link[]
 
-  views    Int     @default(0)
+  views Int @default(0)
 }
 
 model Link {
@@ -48,6 +48,7 @@ model Link {
   url  String @db.LongText
 
   title       String
+  thumbnail   String?
   description String? @db.VarChar(280)
 
   clicks      Int     @default(0)

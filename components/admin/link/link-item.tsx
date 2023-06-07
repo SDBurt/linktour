@@ -23,7 +23,14 @@ import { Icons } from "@/components/shared/icons"
 interface LinkItemProps {
   link: Pick<
     Link,
-    "id" | "title" | "slug" | "key" | "createdAt" | "url" | "clicks"
+    | "id"
+    | "title"
+    | "slug"
+    | "key"
+    | "createdAt"
+    | "url"
+    | "clicks"
+    | "thumbnail"
   >
 }
 
@@ -33,7 +40,7 @@ export function LinkItem({ link }: LinkItemProps) {
       <CardHeader>
         <CardTitle>{link.title}</CardTitle>
         <CardDescription>
-          {formatDate(link.createdAt?.toDateString())}
+          {link.createdAt && formatDate(link.createdAt?.toDateString())}
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -920,8 +920,16 @@ interface IconProps {
 
 export const Icon = ({ name }: IconProps) => {
   if (!name) {
+    console.warn("No name provided to icon")
     return null
   }
-  const LucideIcon = icons[name]
+
+  if (!names.includes(name)) {
+    console.error("invalid name: ", name)
+  }
+
+  const LucideIcon: icons.LucideIcon = icons[name]
   return <LucideIcon className="mr-2" size={16} />
 }
+
+export default Icon
