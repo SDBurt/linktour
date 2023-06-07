@@ -4,12 +4,12 @@ export const siteConfig: SiteConfig = {
   name: "LinkTour",
   description:
     "An open source link in bio application built using Next.js 13.x",
-  url: "https://sdburt.com",
-  ogImage: "https://sdburt.com/og.jpg",
+  url: "https://linktour.ca",
+  ogImage: "https://linktour.ca/og.jpg",
   links: {
     twitter: "https://twitter.com/seanburt8",
     github: "https://github.com/sdburt/linktour",
   },
 }
 
-export const reservedkeys = ["", "admin", "login", "signup"]
+export const reservedkeys = ["", "admin", "login", "signup", "playground"]
