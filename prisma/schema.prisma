@@ -47,9 +47,10 @@ model Link {
   key  String
   url  String @db.LongText
 
-  title       String
-  thumbnail   String?
-  description String? @db.VarChar(280)
+  title         String
+  thumbnail     String?
+  thumbnailType String?
+  description   String? @db.VarChar(280)
 
   clicks      Int     @default(0)
   public      Boolean @default(false)
