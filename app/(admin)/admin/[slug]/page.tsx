@@ -70,8 +70,8 @@ async function ProjectPage({ params }) {
           View Project
         </Link>
       </AppHeader>
-      <div className="grid grid-cols-2 gap-2">
-        <div className="col-span-2 max-h-[700px] overflow-y-auto lg:col-span-1">
+      <div className="grid grid-cols-3 gap-4">
+        <div className="col-span-3 flex items-center justify-center p-4 lg:col-span-1">
           <Preview
             theme={theme}
             project={project}
@@ -79,7 +79,7 @@ async function ProjectPage({ params }) {
             user={{ username: user.username, imageUrl: user.imageUrl }}
           />
         </div>
-        <div className="col-span-2 lg:-order-1 lg:col-span-1">
+        <div className="col-span-3 lg:-order-1 lg:col-span-2">
           <Tabs defaultValue="links">
             <TabsList>
               <TabsTrigger id="links" value="links">

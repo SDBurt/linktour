@@ -10,7 +10,7 @@ interface BioButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
   url: string
   slug: string
-  key: string
+  linkKey: string
 }
 
 interface CustomButtonProps {
@@ -21,7 +21,7 @@ interface CustomButtonProps {
 function BioButton({
   className,
   slug,
-  key,
+  linkKey,
   url,
   title,
   style,
@@ -35,7 +35,7 @@ function BioButton({
   }
 
   return (
-    <div onClick={(e) => buttonClickedHandler(slug, key)}>
+    <div onClick={(e) => buttonClickedHandler(slug, linkKey)}>
       <NextLink href={url} className={className} style={style} target="_blank">
         <div>
           <h1>{title}</h1>
@@ -117,7 +117,7 @@ export default function CustomButton({ link, theme }: CustomButtonProps) {
       title={link.title}
       url={link.url}
       slug={link.slug}
-      key={link.key}
+      linkKey={link.key}
       className={buttonCls}
       style={buttonStyle}
     />

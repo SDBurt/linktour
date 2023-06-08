@@ -32,8 +32,8 @@ const Bio = ({ user, project, theme, links }: PreviewProps) => {
   }, [theme.backgroundColor, theme.backgroundStyle, theme.gradientColor])
 
   return (
-    <div
-      className="flex h-full w-full flex-col items-center justify-center py-8"
+    <main
+      className="flex h-full w-full flex-col items-center justify-center p-4"
       style={backgroundStyle}
     >
       <div className="mb-auto w-full max-w-2xl space-y-8 p-4">
@@ -73,7 +73,7 @@ const Bio = ({ user, project, theme, links }: PreviewProps) => {
       >
         <p className="font-normal">LinkTour</p>
       </div>
-    </div>
+    </main>
   )
 }
 

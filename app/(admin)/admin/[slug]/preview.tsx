@@ -13,7 +13,7 @@ interface PreviewProps {
 
 const Preview = ({ user, project, theme, links }: PreviewProps) => {
   return (
-    <div className="rounded-lg bg-black p-2">
+    <div className="h-[729px] w-[340px] overflow-hidden overflow-y-auto rounded-[3rem] ring-8 ring-slate-800">
       <Bio user={user} project={project} theme={theme} links={links} />
     </div>
   )
