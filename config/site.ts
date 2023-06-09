@@ -12,4 +12,4 @@ export const siteConfig: SiteConfig = {
   },
 }
 
-export const reservedkeys = ["", "admin", "login", "signup", "playground"]
+export const reservedkeys = ["", "admin", "login", "register", "playground"]

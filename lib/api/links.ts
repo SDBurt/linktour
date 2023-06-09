@@ -83,6 +83,7 @@ export async function getRandomKey(slug: string): Promise<string> {
 }
 
 export async function IncrementClick(slug: string, key: string) {
+  console.log(`IncrementClick for ${slug}/${key}`)
   const link = await db.link.findUnique({
     where: {
       slug_key: {

@@ -17,7 +17,7 @@ export default authMiddleware({
       return NextResponse.redirect(signInUrl)
     }
   },
-  publicRoutes: ["/", "/login", "/register", "/((?!admin).*)"],
+  publicRoutes: ["/", "/((?!admin|api).*)"],
 })
 
 export const config = {

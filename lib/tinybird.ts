@@ -16,7 +16,7 @@ export async function recordClick(
   const geo = process.env.VERCEL === "1" ? req.geo : LOCALHOST_GEO_DATA
   const ua = userAgent(req)
   const referer = req.headers.get("referer")
-
+  console.log(`recordClick for ${slug}/${key}`)
   return await Promise.allSettled([
     fetch(
       "https://api.us-east.tinybird.co/v0/events?name=click_events&wait=true",
