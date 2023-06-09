@@ -20,6 +20,7 @@ export async function GET(
 
     // cookies, geo, ip
     // tinybird
+    console.log("/api/projects/<slug>/view")
     await recordClick(params.slug, req)
 
     // db total clicks

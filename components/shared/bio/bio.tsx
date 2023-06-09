@@ -5,7 +5,7 @@ import { Link, Project } from "@prisma/client"
 import { ThemeProps } from "@/lib/types"
 import { UserAvatar } from "@/components/user/user-avatar"
 
-import CustomButton from "./customButton"
+import BioLinkButton from "./bio-link-button"
 
 interface PreviewProps {
   user: Pick<User, "imageUrl" | "username">
@@ -39,7 +39,7 @@ const Bio = ({ user, project, theme, links }: PreviewProps) => {
       <div className="mb-auto w-full max-w-2xl space-y-8 p-4">
         <div className="flex w-full items-center justify-center">
           <UserAvatar
-            className="h-24 w-24"
+            className="h-24 w-24 ring-1"
             user={{ username: user.username, imageUrl: user.imageUrl }}
           />
         </div>
@@ -54,15 +54,13 @@ const Bio = ({ user, project, theme, links }: PreviewProps) => {
           <p className="font-normal">{project.description}</p>
         </div>
 
-        <div className="flex flex-col space-y-4">
+        <ul className="flex flex-col space-y-4">
           {links.map((link, index) => (
-            <CustomButton
-              key={`${link.title.trim()}-${index}`}
-              link={link}
-              theme={theme}
-            />
+            <li key={`${link.title.trim()}-${index}`}>
+              <BioLinkButton link={link} theme={theme} />
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
       <div
         className="flex h-16 w-full items-center justify-center"

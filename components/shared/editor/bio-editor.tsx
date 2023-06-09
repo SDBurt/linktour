@@ -3,7 +3,7 @@ import { EditorBlockType, EditorComponentType } from "@/types"
 
 import { LinkItem } from "@/components/admin/link/link-item"
 
-import CustomButton from "../bio/customButton"
+import CustomButton from "../bio/bio-link-button"
 import {
   GripPopover,
   type ControlPopoverItem,
