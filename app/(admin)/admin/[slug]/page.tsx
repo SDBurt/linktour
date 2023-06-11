@@ -71,7 +71,7 @@ async function ProjectPage({ params }) {
         </Link>
       </AppHeader>
       <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-3 flex items-center justify-center p-4 lg:col-span-1">
+        <div className="col-span-3 flex justify-center p-4 lg:col-span-1">
           <Preview
             theme={theme}
             project={project}

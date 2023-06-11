@@ -19,9 +19,9 @@ export const bioButtonVariants = cva(
         default: "hover:translate-y-1 hover:bg-transparent",
         fill: "hover:translate-y-1 hover:bg-transparent",
         outline: "border hover:scale-[1.01]",
-        softShadow: "shadow hover:drop-shadow-sm hover:scale-[1.01]",
+        softShadow: "soft-shadow hover:scale-[1.01]",
         hardShadow:
-          "hard-shadow hover:shadow-[0_4px_0px_rgb(0,0,0)] hover:-translate-y-1",
+          "hard-shadow border border-black hover:translate-y-1 hover:translate-x-0.5",
       },
       type: {
         default: "rounded-none",
@@ -39,36 +39,37 @@ export const bioButtonVariants = cva(
 export const bioButtonStyles = (
   variant: bioButtonVariantsTypes,
   textColor: string,
-  backgroundColor: string
+  backgroundColor: string,
+  borderColor: string
 ) => {
   switch (variant) {
     case "default":
       return {
         backgroundColor: backgroundColor,
-        borderColor: backgroundColor,
+        borderColor: borderColor,
         color: textColor,
       }
     case "fill":
       return {
         backgroundColor: backgroundColor,
-        borderColor: backgroundColor,
+        borderColor: borderColor,
         color: textColor,
       }
     case "outline":
       return {
-        borderColor: backgroundColor,
+        borderColor: borderColor,
         color: textColor,
       }
     case "softShadow":
       return {
         backgroundColor: backgroundColor,
-        borderColor: backgroundColor,
+        borderColor: borderColor,
         color: textColor,
       }
     case "hardShadow":
       return {
         backgroundColor: backgroundColor,
-        borderColor: backgroundColor,
+        borderColor: borderColor,
         color: textColor,
       }
     default:

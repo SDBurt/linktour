@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useCallback } from "react"
 import { HexColorPicker } from "react-colorful"
 
+import { PreviewButtonThemes, buttonOptions } from "@/lib/constants/appearance"
 import THEME from "@/lib/constants/theme"
 import { ThemeButtonStyleTypeProps, ThemeProps } from "@/lib/types"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,42 +9,28 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-
-const options = {
-  button: {
-    fill: [
-      { label: "None", name: "FILL" },
-      { label: "Small", name: "FILL_ROUNDED" },
-      { label: "Large", name: "FILL_CIRCULAR" },
-    ],
-    outline: [
-      { label: "None", name: "OUTLINE" },
-      { label: "Small", name: "OUTLINE_ROUNDED" },
-      { label: "Large", name: "OUTLINE_CIRCULAR" },
-    ],
-    softShadow: [
-      { label: "None", name: "SOFTSHADOW" },
-      { label: "Small", name: "SOFTSHADOW_ROUNDED" },
-      { label: "Large", name: "SOFTSHADOW_CIRCULAR" },
-    ],
-    hardShadow: [
-      { label: "None", name: "HARDSHADOW" },
-      { label: "Small", name: "HARDSHADOW_ROUNDED" },
-      { label: "Large", name: "HARDSHADOW_CIRCULAR" },
-    ],
-    buttonColour: THEME.buttonBackgroundColor,
-    buttonFontColour: THEME.buttonTextColor,
-  },
-}
+import PreviewButton from "@/components/shared/bio/bio-preview-button"
 
 interface ButtonsCardProps {
   theme: ThemeProps
   setTheme: Dispatch<SetStateAction<ThemeProps>>
 }
 
+function ButtonOptionContainer({ children }) {
+  return <div className="flex flex-col space-y-2">{children}</div>
+}
+
+function ButtonOptionGroup({ children }) {
+  return <div className="grid grid-cols-3 gap-8">{children}</div>
+}
+
+function ButtonOptionItem({ children }) {
+  return <div className="w-full py-2">{children}</div>
+}
+
 export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
   const typeChangedHandler = (value: ThemeButtonStyleTypeProps) => {
-    return setTheme((prev) => ({ ...prev, buttonType: value }))
+    setTheme((prev) => ({ ...prev, buttonType: value }))
   }
 
   const backgroundColorChangedHandler = (value: string) => {
@@ -62,41 +49,100 @@ export function ButtonsCard({ theme, setTheme }: ButtonsCardProps) {
       <CardContent>
         <form className="flex flex-col space-y-4">
           <Label>Type</Label>
-          <RadioGroup
-            defaultValue={theme.buttonType}
-            orientation="vertical"
-            value={theme.buttonType}
-            onValueChange={typeChangedHandler}
-          >
+          <ButtonOptionContainer>
             <Label>Fill</Label>
-            {options.button.fill.map((option) => (
-              <div key={option.name} className="flex items-center space-x-2">
-                <RadioGroupItem value={option.name} id={option.name} />
-                <Label htmlFor={option.name}>{option.label}</Label>
-              </div>
-            ))}
+            <ButtonOptionGroup>
+              {buttonOptions.button.fill.map((option) => (
+                <div key={option.name} className="flex items-center space-x-2">
+                  <ButtonOptionItem>
+                    <PreviewButton
+                      onClick={() => typeChangedHandler(option.name)}
+                      buttonTextColor={
+                        PreviewButtonThemes[option.name].buttonTextColor
+                      }
+                      buttonBackgroundColor={
+                        PreviewButtonThemes[option.name].buttonBackgroundColor
+                      }
+                      buttonBorderColor={
+                        PreviewButtonThemes[option.name].buttonBorderColor
+                      }
+                      buttonType={option.name}
+                      active={theme.buttonType === option.name}
+                    />
+                  </ButtonOptionItem>
+                </div>
+              ))}
+            </ButtonOptionGroup>
             <Label>Outline</Label>
-            {options.button.outline.map((option) => (
-              <div key={option.name} className="flex items-center space-x-2">
-                <RadioGroupItem value={option.name} id={option.name} />
-                <Label htmlFor={option.name}>{option.label}</Label>
-              </div>
-            ))}
+            <ButtonOptionGroup>
+              {buttonOptions.button.outline.map((option) => (
+                <div key={option.name} className="flex items-center space-x-2">
+                  <ButtonOptionItem>
+                    <PreviewButton
+                      onClick={() => typeChangedHandler(option.name)}
+                      buttonTextColor={
+                        PreviewButtonThemes[option.name].buttonTextColor
+                      }
+                      buttonBackgroundColor={
+                        PreviewButtonThemes[option.name].buttonBackgroundColor
+                      }
+                      buttonBorderColor={
+                        PreviewButtonThemes[option.name].buttonBorderColor
+                      }
+                      buttonType={option.name}
+                      active={theme.buttonType === option.name}
+                    />
+                  </ButtonOptionItem>
+                </div>
+              ))}
+            </ButtonOptionGroup>
             <Label>Soft Shadow</Label>
-            {options.button.softShadow.map((option) => (
-              <div key={option.name} className="flex items-center space-x-2">
-                <RadioGroupItem value={option.name} id={option.name} />
-                <Label htmlFor={option.name}>{option.label}</Label>
-              </div>
-            ))}
+            <ButtonOptionGroup>
+              {buttonOptions.button.softShadow.map((option) => (
+                <div key={option.name} className="flex items-center space-x-2">
+                  <ButtonOptionItem>
+                    <PreviewButton
+                      onClick={(e) => typeChangedHandler(option.name)}
+                      buttonTextColor={
+                        PreviewButtonThemes[option.name].buttonTextColor
+                      }
+                      buttonBackgroundColor={
+                        PreviewButtonThemes[option.name].buttonBackgroundColor
+                      }
+                      buttonBorderColor={
+                        PreviewButtonThemes[option.name].buttonBorderColor
+                      }
+                      buttonType={option.name}
+                      active={theme.buttonType === option.name}
+                    />
+                  </ButtonOptionItem>
+                </div>
+              ))}
+            </ButtonOptionGroup>
             <Label>Hard Shadow</Label>
-            {options.button.hardShadow.map((option) => (
-              <div key={option.name} className="flex items-center space-x-2">
-                <RadioGroupItem value={option.name} id={option.name} />
-                <Label htmlFor={option.name}>{option.label}</Label>
-              </div>
-            ))}
-          </RadioGroup>
+            <ButtonOptionGroup>
+              {buttonOptions.button.hardShadow.map((option) => (
+                <div key={option.name} className="flex items-center space-x-2">
+                  <ButtonOptionItem>
+                    <PreviewButton
+                      onClick={() => typeChangedHandler(option.name)}
+                      buttonTextColor={
+                        PreviewButtonThemes[option.name].buttonTextColor
+                      }
+                      buttonBackgroundColor={
+                        PreviewButtonThemes[option.name].buttonBackgroundColor
+                      }
+                      buttonBorderColor={
+                        PreviewButtonThemes[option.name].buttonBorderColor
+                      }
+                      buttonType={option.name}
+                      active={theme.buttonType === option.name}
+                    />
+                  </ButtonOptionItem>
+                </div>
+              ))}
+            </ButtonOptionGroup>
+          </ButtonOptionContainer>
 
           <Label>Button Colour</Label>
           <div className="flex flex-row space-x-2">

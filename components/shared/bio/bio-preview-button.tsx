@@ -12,11 +12,19 @@ import {
 
 interface PreviewButtonProps extends React.HTMLAttributes<HTMLDivElement> {
   buttonType: ThemeButtonStyleTypeProps
-  theme: ThemeProps
-  children: React.ReactNode
+  buttonTextColor: string
+  buttonBackgroundColor: string
+  buttonBorderColor: string
+  active?: boolean
+  children?: React.ReactNode
+}
+interface PreviewButtonWrapperProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  children?: React.ReactNode
+  active: boolean
 }
 
-const buttonVariantType = (
+export const buttonVariantType = (
   buttonType: ThemeButtonStyleTypeProps
 ): { variant: bioButtonVariantsTypes; type: bioButtonBorderTypes } => {
   const buttonMap: {
@@ -42,25 +50,52 @@ const buttonVariantType = (
   return buttonMap[buttonType]
 }
 
-export default function PreviewButton({
-  theme,
-  buttonType,
+export function PreviewButtonWrapper({
+  active,
   children,
-}: PreviewButtonProps) {
-  const { buttonTextColor, buttonBackgroundColor } = theme
-  const { variant, type } = buttonVariantType(buttonType)
-  const buttonStyle = bioButtonStyles(
-    "hardShadow",
-    buttonTextColor,
-    buttonBackgroundColor
-  )
-
+  ...props
+}: PreviewButtonWrapperProps) {
   return (
     <div
-      className={cn(bioButtonVariants({ variant: variant, type: type }))}
-      style={buttonStyle}
+      className={cn(
+        "rounded border border-muted p-4 hover:cursor-pointer hover:border-muted-foreground",
+        active ? "border-2 border-muted-foreground" : null
+      )}
+      {...props}
     >
       {children}
     </div>
+  )
+}
+
+export default function PreviewButton({
+  buttonTextColor,
+  buttonBackgroundColor,
+  buttonBorderColor,
+  buttonType,
+  active,
+  children,
+  ...props
+}: PreviewButtonProps) {
+  const { variant, type } = buttonVariantType(buttonType)
+  const buttonStyle = bioButtonStyles(
+    variant,
+    buttonTextColor,
+    buttonBackgroundColor,
+    buttonBorderColor
+  )
+
+  return (
+    <PreviewButtonWrapper active={active ?? false} {...props}>
+      <div
+        className={cn(
+          bioButtonVariants({ variant: variant, type: type }),
+          "h-10 px-4 py-2"
+        )}
+        style={buttonStyle}
+      >
+        {children}
+      </div>
+    </PreviewButtonWrapper>
   )
 }
