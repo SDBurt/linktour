@@ -78,6 +78,7 @@ model Theme {
   gradientColor   String @default("#02a291")
 
   buttonBackgroundColor String @default("#ffffff")
+  buttonBorderColor     String @default("#888888")
   buttonShadowColor     String @default("#000000")
   buttonTextColor       String @default("#888888")
   buttonType            String @default("SOFTSHADOW_CIRCULAR")

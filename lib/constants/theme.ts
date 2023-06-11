@@ -10,6 +10,7 @@ const THEME: ThemeProps = {
   backgroundType: "COLOR",
   buttonBackgroundColor: "#ffffff",
   buttonShadowColor: "#000000",
+  buttonBorderColor: "#888888",
   buttonTextColor: "#888888",
   buttonType: "SOFTSHADOW_CIRCULAR",
   typefaceColor: "#f5f5f5",

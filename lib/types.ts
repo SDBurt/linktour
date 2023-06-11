@@ -89,7 +89,8 @@ export interface ThemeProps {
   backgroundStyle: ThemeBackgroundStyleProps
   backgroundType: ThemeBackgroundTypeProps
   buttonBackgroundColor: string
-  buttonShadowColor: string
+  buttonShadowColor?: string
+  buttonBorderColor: string
   buttonTextColor: string
   buttonType: ThemeButtonStyleTypeProps
   typefaceColor: string

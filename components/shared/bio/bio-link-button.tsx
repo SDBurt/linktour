@@ -29,13 +29,20 @@ const buttonVariantType = (buttonType: string) => {
 }
 
 export default function BioLinkButton({ link, theme }: BioLinkButtonProps) {
-  const { buttonType, buttonTextColor, buttonBackgroundColor } = theme
+  const {
+    buttonType,
+    buttonTextColor,
+    buttonBackgroundColor,
+    buttonBorderColor,
+  } = theme
   const { variant, type } = buttonVariantType(buttonType)
   const { title, url, slug, key } = link
+
   const buttonStyle = bioButtonStyles(
-    "hardShadow",
+    variant,
     buttonTextColor,
-    buttonBackgroundColor
+    buttonBackgroundColor,
+    buttonBorderColor
   )
 
   const buttonClickedHandler = (s: string, k: string) => {
