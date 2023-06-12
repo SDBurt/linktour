@@ -4,7 +4,7 @@ export const siteConfig: SiteConfig = {
   name: "LinkTour",
   description:
     "An open source link in bio application built using Next.js 13.x",
-  url: "https://linktour.ca",
+  url: "https://www.linktour.ca",
   ogImage: "https://linktour.ca/og.jpg",
   links: {
     twitter: "https://twitter.com/seanburt8",
