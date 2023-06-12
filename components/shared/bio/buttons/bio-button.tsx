@@ -16,8 +16,8 @@ export const bioButtonVariants = cva(
   {
     variants: {
       variant: {
-        default: "hover:translate-y-1 hover:bg-transparent",
-        fill: "hover:translate-y-1 hover:bg-transparent",
+        default: "hover:scale-[1.01] hover:bg-transparent!",
+        fill: "hover:scale-[1.01] hover:bg-transparent!",
         outline: "border hover:scale-[1.01]",
         softShadow: "soft-shadow hover:scale-[1.01]",
         hardShadow:

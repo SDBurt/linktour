@@ -14,7 +14,7 @@ const THEME: ThemeProps = {
   buttonTextColor: "#888888",
   buttonType: "SOFTSHADOW_CIRCULAR",
   typefaceColor: "#f5f5f5",
-  typefaceFamily: "dm sans",
+  typefaceFamily: "inter",
 }
 
 export default THEME

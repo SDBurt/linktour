@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react"
+import { Dispatch, SetStateAction } from "react"
 import { HexColorPicker } from "react-colorful"
 
 import { ThemeProps } from "@/lib/types"
@@ -6,11 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import FontSelector from "@/components/admin/appearance/font-selector"
 
-const options = {
-  fonts: [{ label: "DM Sans", name: "dm sans" }],
-}
+// import FontSelector from "@/components/admin/appearance/font-selector"
+
+// const options = {
+//   fonts: [{ label: "DM Sans", name: "dm sans" }],
+// }
 
 interface FontsCardProps {
   theme: ThemeProps
@@ -18,9 +19,9 @@ interface FontsCardProps {
 }
 
 export function FontsCard({ theme, setTheme }: FontsCardProps) {
-  const familyChangedHandler = (value: string) => {
-    setTheme((prev) => ({ ...prev, typefaceFamily: value }))
-  }
+  // const familyChangedHandler = (value: string) => {
+  //   setTheme((prev) => ({ ...prev, typefaceFamily: value }))
+  // }
 
   const fontColorChangedHandler = (value: string) => {
     setTheme((prev) => ({ ...prev, typefaceColor: value }))
@@ -33,12 +34,12 @@ export function FontsCard({ theme, setTheme }: FontsCardProps) {
       </CardHeader>
       <CardContent>
         <form className="flex flex-col space-y-4">
-          <Label>Family</Label>
+          {/* <Label>Family</Label>
           <FontSelector
             currentFont={theme.typefaceFamily}
             setCurrentFont={familyChangedHandler}
             fonts={options.fonts || []}
-          />
+          /> */}
 
           <Label>Color</Label>
 

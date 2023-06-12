@@ -47,7 +47,6 @@ const Bio = ({ user, project, theme, links }: PreviewProps) => {
           className="w-full text-center"
           style={{
             color: theme.typefaceColor,
-            fontFamily: theme.typefaceFamily,
           }}
         >
           <h2 className="pb-2 text-xl font-bold">{project.name}</h2>
@@ -66,7 +65,6 @@ const Bio = ({ user, project, theme, links }: PreviewProps) => {
         className="flex h-16 w-full items-center justify-center"
         style={{
           color: theme.typefaceColor,
-          fontFamily: theme.typefaceFamily,
         }}
       >
         <p className="font-normal">LinkTour</p>
