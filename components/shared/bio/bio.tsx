@@ -5,6 +5,7 @@ import { Link, Project } from "@prisma/client"
 import { ThemeProps } from "@/lib/types"
 import { UserAvatar } from "@/components/user/user-avatar"
 
+import { Icons } from "../icons"
 import BioLinkButton from "./bio-link-button"
 
 interface PreviewProps {
@@ -62,11 +63,12 @@ const Bio = ({ user, project, theme, links }: PreviewProps) => {
         </ul>
       </div>
       <div
-        className="flex h-16 w-full items-center justify-center"
+        className="flex h-16 w-full items-center justify-center space-x-2"
         style={{
           color: theme.typefaceColor,
         }}
       >
+        <Icons.logo />
         <p className="font-normal">LinkTour</p>
       </div>
     </main>
