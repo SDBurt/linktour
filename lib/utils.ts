@@ -90,3 +90,14 @@ export const nanoid = customAlphabet(
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
   7
 ) // 7-character random string
+
+export async function checkSlug(slug: string) {
+  if (slug.trim() === "") {
+    return true
+  }
+
+  const res = await fetch(`/api/projects/${slug}/exists`)
+  const exists = await res.json()
+
+  return exists
+}

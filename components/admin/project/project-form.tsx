@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { freePlanValues } from "@/config/subscriptions"
-import { cn } from "@/lib/utils"
+import { checkSlug, cn } from "@/lib/utils"
 import {
   projectCreateSchema,
   projectPatchSchema,
@@ -32,10 +32,9 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Icons } from "@/components/shared/icons"
-import SlugPicker, { checkSlug } from "@/components/shared/slug-picker"
+import SlugPicker from "@/components/shared/slug-picker"
 
 interface ProjectFormProps extends React.HTMLAttributes<HTMLFormElement> {
   project?: Pick<Project, "id" | "name" | "slug" | "description">

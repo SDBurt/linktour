@@ -71,7 +71,7 @@ export function BackgroundForm({ theme, setTheme }: BackgroundFormProps) {
             }
           >
             <div
-              className="flex h-10 w-full items-center justify-center p-4 px-4 py-2 font-medium ring-1 ring-muted"
+              className="flex h-10 w-full items-center justify-center p-4 py-2 font-medium ring-1 ring-muted"
               style={backgroundStyle(option.name)}
             />
           </div>

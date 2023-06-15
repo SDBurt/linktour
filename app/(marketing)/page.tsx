@@ -4,7 +4,6 @@ import { env } from "@/env.mjs"
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
-import { Form, FormField } from "@/components/ui/form"
 import { SlugPickerForm } from "@/components/marketing/slug-check"
 
 import FeatureCard from "./feature-card"
@@ -34,17 +33,6 @@ async function getGitHubStars(): Promise<string | null> {
   } catch (error) {
     return null
   }
-}
-
-export async function checkSlug(slug: string) {
-  if (slug.trim() === "") {
-    return true
-  }
-
-  const res = await fetch(`/api/projects/${slug}/exists`)
-  const exists = await res.json()
-
-  return exists
 }
 
 export default async function IndexPage() {

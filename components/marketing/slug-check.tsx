@@ -5,10 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
-import { cn } from "@/lib/utils"
+import { checkSlug, cn } from "@/lib/utils"
 import { projectSlugSchema } from "@/lib/validations/project"
 import { Form, FormField } from "@/components/ui/form"
-import SlugPicker, { checkSlug } from "@/components/shared/slug-picker"
+import SlugPicker from "@/components/shared/slug-picker"
 
 type FormData = z.infer<typeof projectSlugSchema>
 

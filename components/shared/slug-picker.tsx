@@ -7,7 +7,7 @@ import {
 } from "react-hook-form"
 
 import { siteConfig } from "@/config/site"
-import { cn } from "@/lib/utils"
+import { checkSlug, cn } from "@/lib/utils"
 import {
   FormControl,
   FormItem,
@@ -23,17 +23,6 @@ import { Icons } from "./icons"
 interface SlugPickerProps {
   form: any
   register: (name: string, options?: RegisterOptions) => UseFormRegisterReturn
-}
-
-export async function checkSlug(slug: string) {
-  if (slug.trim() === "") {
-    return true
-  }
-
-  const res = await fetch(`/api/projects/${slug}/exists`)
-  const exists = await res.json()
-
-  return exists
 }
 
 export default function SlugPicker({ form, register }: SlugPickerProps) {
