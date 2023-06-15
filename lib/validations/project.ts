@@ -20,3 +20,9 @@ export const projectPatchSchema = z.object({
 export const projectSlugSchema = z.object({
   slug: z.string().min(3).max(128).trim(),
 })
+
+export const projectDemoSchema = z.object({
+  name: z.string().min(3).max(128).trim(),
+  description: z.string().min(3).max(255),
+  image: z.string().min(3).max(255),
+})

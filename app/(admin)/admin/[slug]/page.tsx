@@ -13,7 +13,7 @@ import { AppShell } from "@/components/admin/layouts/shell"
 import { LinkList } from "@/components/admin/link/link-list"
 import { AppHeader } from "@/components/shared/page-header"
 
-import { Appearance } from "./appearance"
+import { Appearance } from "../../../../components/admin/appearance/appearance"
 import { Header } from "./header"
 import Preview from "./preview"
 

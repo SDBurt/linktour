@@ -15,7 +15,7 @@ import {
   projectSchema,
 } from "@/lib/validations/project"
 import { toast } from "@/hooks/use-toast"
-import { Button, buttonVariants } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,

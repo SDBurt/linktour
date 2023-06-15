@@ -1,3 +1,5 @@
+"use client"
+
 import NextLink from "next/link"
 import { VariantProps, cva } from "class-variance-authority"
 
@@ -81,28 +83,49 @@ export interface BioButtonProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof bioButtonVariants> {
   url: string
+  slug: string
+  LinkKey: string
 }
 
 function BioButton({
   url,
+  slug,
+  LinkKey,
   variant,
   type,
   className,
   style,
   children,
 }: BioButtonProps) {
+  async function buttonClickedHandler() {
+    console.log(slug, LinkKey)
+    await fetch(`/api/projects/${slug}/links/${LinkKey}/click`)
+  }
+
   return (
     <div>
-      <NextLink
-        href={url}
-        className={cn(bioButtonVariants({ variant, type, className }))}
-        style={style}
-        target="_blank"
-      >
-        <div>
-          <h1>{children}</h1>
+      {url ? (
+        <NextLink
+          onClick={() => buttonClickedHandler()}
+          href={url}
+          className={cn(bioButtonVariants({ variant, type, className }))}
+          style={style}
+          target="_blank"
+        >
+          <div>
+            <h1>{children}</h1>
+          </div>
+        </NextLink>
+      ) : (
+        <div
+          className={cn(bioButtonVariants({ variant, type, className }))}
+          style={style}
+        >
+          <div>
+            <h1>{children}</h1>
+          </div>
         </div>
-      </NextLink>
+      )}
     </div>
   )
 }

@@ -3,7 +3,6 @@ import { EditorBlockType, EditorComponentType } from "@/types"
 
 import { LinkItem } from "@/components/admin/link/link-item"
 
-import CustomButton from "../bio/bio-link-button"
 import {
   GripPopover,
   type ControlPopoverItem,
@@ -25,7 +24,7 @@ const testData: EditorComponentType = {
     buttonTextColor: "#888888",
     buttonType: "SOFTSHADOW_CIRCULAR",
     typefaceColor: "#f5f5f5",
-    typefaceFamily: "inter",
+    typefaceFamily: "dm sans",
   },
   blocks: [
     {

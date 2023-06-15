@@ -13,6 +13,7 @@ export async function recordClick(
   req: NextRequest,
   key?: string
 ) {
+  console.log(`recordClick for ${slug}/${key}`)
   const geo = process.env.VERCEL === "1" ? req.geo : LOCALHOST_GEO_DATA
   const ua = userAgent(req)
   const referer = req.headers.get("referer")

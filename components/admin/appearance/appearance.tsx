@@ -9,9 +9,9 @@ import { ThemeProps } from "@/lib/types"
 import { toast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/button"
 
-import { BackgroundCard } from "./backgroundCard"
-import { ButtonsCard } from "./buttonsCard"
-import { FontsCard } from "./fontsCard"
+import BackgroundCard from "./backgroundCard"
+import ButtonsCard from "./buttonsCard"
+import FontsCard from "./fontsCard"
 
 interface AppearanceProps {
   project: Pick<Project, "id" | "name" | "description" | "image" | "slug">

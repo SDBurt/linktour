@@ -1,3 +1,5 @@
+"use client"
+
 import { Link } from "@prisma/client"
 
 import { ThemeProps } from "@/lib/types"
@@ -45,18 +47,10 @@ export default function BioLinkButton({ link, theme }: BioLinkButtonProps) {
     buttonBorderColor
   )
 
-  const buttonClickedHandler = (s: string, k: string) => {
-    if (s && k) {
-      fetch(`/api/projects/${s}/links/${k}/click`).then(() =>
-        console.log("registered click done")
-      )
-    } else {
-      console.warn("slug or link is undefined")
-    }
-  }
   return (
     <BioButton
-      onClick={() => buttonClickedHandler(slug, key)}
+      slug={slug}
+      LinkKey={key}
       url={url}
       variant={variant}
       type={type}
