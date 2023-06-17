@@ -40,9 +40,7 @@ export function LinkItem({ link }: LinkItemProps) {
     <Card className="w-full">
       <CardHeader>
         <CardTitle>{link.title}</CardTitle>
-        <CardDescription>
-          {link.createdAt && formatDate(link.createdAt?.toDateString())}
-        </CardDescription>
+        <CardDescription>{link.url}</CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex space-x-2">

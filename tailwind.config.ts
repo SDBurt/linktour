@@ -1,11 +1,10 @@
-const { fontFamily } = require("tailwindcss/defaultTheme")
+import typographyPlugin from "@tailwindcss/typography"
+import { Config } from "tailwindcss"
+import animatePlugin from "tailwindcss-animate"
+import { fontFamily } from "tailwindcss/defaultTheme"
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./app/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-  ],
+const config = {
+  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   darkMode: ["class"],
   theme: {
     container: {
@@ -52,7 +51,7 @@ module.exports = {
         },
       },
       spacing: {
-        '128': '32rem',
+        "128": "32rem",
       },
       borderRadius: {
         lg: `var(--radius)`,
@@ -65,12 +64,12 @@ module.exports = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0" },
         },
       },
       animation: {
@@ -79,8 +78,7 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    require("@tailwindcss/typography"),
-  ],
-}
+  plugins: [animatePlugin, typographyPlugin],
+} satisfies Config
+
+export default config
