@@ -1,3 +1,6 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import { Link } from "@prisma/client"
 
 import { cn } from "@/lib/utils"
@@ -8,6 +11,7 @@ import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 import { LinkCreateButton } from "./link-create-button"
 import { LinkCreateCard } from "./link-create-card"
+import LinkGrip from "./link-grip"
 
 interface LinkListProps {
   links: Pick<
@@ -16,6 +20,7 @@ interface LinkListProps {
     | "title"
     | "slug"
     | "key"
+    | "index"
     | "createdAt"
     | "url"
     | "clicks"
@@ -25,13 +30,28 @@ interface LinkListProps {
 }
 
 export function LinkList({ links }: LinkListProps) {
+  const [sortedLinks, setSortedLinks] = useState(
+    links.sort((a, b) => a.index - b.index)
+  )
+
+  useEffect(() => {
+    console.log("USEEFFECT: ", sortedLinks)
+  }, [sortedLinks])
+
   return (
     <div>
-      {links?.length ? (
+      {sortedLinks?.length ? (
         <div className="flex flex-col space-y-1">
           <LinkCreateCard />
-          {links.map((link) => (
-            <LinkItem key={link.id} link={link} />
+          {sortedLinks.map((link, index) => (
+            <div className="flex items-center space-x-2" key={link.id}>
+              <LinkGrip
+                links={sortedLinks}
+                setLinks={setSortedLinks}
+                index={index}
+              />
+              <LinkItem link={link} />
+            </div>
           ))}
         </div>
       ) : (

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -20,13 +20,15 @@ import { Icons } from "@/components/shared/icons"
 export type ControlPopoverItem = {
   label: string
   name: string
+  icon: React.ReactNode
+  action: () => void
 }
 
 interface GripPopoverProps extends React.HTMLAttributes<HTMLDivElement> {
-  items: ControlPopoverItem[]
+  options: ControlPopoverItem[]
 }
 
-export function GripPopover({ items }: GripPopoverProps) {
+export function GripPopover({ options }: GripPopoverProps) {
   const [open, setOpen] = useState(false)
 
   return (
@@ -46,8 +48,19 @@ export function GripPopover({ items }: GripPopoverProps) {
           <CommandInput placeholder="Search..." />
           <CommandEmpty>Not found.</CommandEmpty>
           <CommandGroup>
-            {items.map((item) => (
-              <CommandItem key={item.name}>{item.label}</CommandItem>
+            {options.map((option: ControlPopoverItem) => (
+              <CommandItem key={option.name}>
+                <div
+                  className="flex items-center space-x-4"
+                  onClick={() => {
+                    option.action()
+                    setOpen(false)
+                  }}
+                >
+                  {option.icon}
+                  <p>{option.label}</p>
+                </div>
+              </CommandItem>
             ))}
           </CommandGroup>
         </Command>

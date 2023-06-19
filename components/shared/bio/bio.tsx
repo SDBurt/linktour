@@ -79,11 +79,17 @@ const Bio = ({ user, socials, project, theme, links }: PreviewProps) => {
 
         {socials && Object.keys(socials).length > 0 && (
           <div className="flex items-center justify-center space-x-1">
-            {Object.keys(socials).map((social) => {
+            {Object.keys(socials).map((social, index) => {
               if (socials[social].trim().length === 0) {
                 return null
               }
-              return <SocialLink social={social} url={socials[social]} />
+              return (
+                <SocialLink
+                  key={`${social}-${index}`}
+                  social={social}
+                  url={socials[social]}
+                />
+              )
             })}
           </div>
         )}

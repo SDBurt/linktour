@@ -47,6 +47,8 @@ model Link {
   key  String
   url  String @db.LongText
 
+  order Int @default(0)
+
   title         String
   thumbnail     String?
   thumbnailType String?

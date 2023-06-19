@@ -32,7 +32,7 @@ export default function DemoEditor() {
   const [themeData, setThemeData] = useState<ThemeProps>(THEME)
 
   const [linkData, setLinkData] = useState<
-    Pick<Link, "title" | "url" | "slug" | "key">[]
+    Pick<Link, "title" | "url" | "slug">[]
   >([])
 
   return (

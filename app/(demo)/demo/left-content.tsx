@@ -34,7 +34,7 @@ interface SectionProps extends React.HTMLAttributes<HTMLDivElement> {
 interface LeftContentProps extends React.HTMLAttributes<HTMLDivElement> {
   socials: { [key: string]: string }
   setSocials: Dispatch<SetStateAction<{ [key: string]: string }>>
-  links: Pick<Link, "title" | "url">[]
+  links: Pick<Link, "title" | "url" | "slug">[]
   setLinks: Dispatch<SetStateAction<Pick<Link, "title" | "url">[]>>
   theme: ThemeProps
   setTheme: Dispatch<SetStateAction<ThemeProps>>

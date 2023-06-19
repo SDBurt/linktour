@@ -49,6 +49,7 @@
     "clsx": "^1.2.1",
     "cmdk": "^0.2.0",
     "date-fns": "^2.29.3",
+    "framer-motion": "^10.12.16",
     "hex-to-rgba": "^2.0.1",
     "lucide-react": "^0.127.0",
     "next": "^13.4.5",

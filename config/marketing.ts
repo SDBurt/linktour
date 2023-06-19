@@ -127,6 +127,14 @@ export const demoPopulatedTheme: ThemeProps = {
   typefaceFamily: "dm sans",
 }
 export const demoPopulatedLinks = [
-  { title: "Wiki", url: "https://rickandmorty.fandom.com/wiki/Morty_Smith" },
-  { title: "Watch", url: "https://www.adultswim.com/videos/rick-and-morty" },
+  {
+    title: "Wiki",
+    url: "https://rickandmorty.fandom.com/wiki/Morty_Smith",
+    slug: "wiki",
+  },
+  {
+    title: "Watch",
+    url: "https://www.adultswim.com/videos/rick-and-morty",
+    slug: "watch",
+  },
 ]
