@@ -12,12 +12,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint -- --fix",
+    "lint:fix": "next lint --fix",
     "prettier": "npx prettier app components config hooks lib --check",
     "prettier:fix": "npm run prettier -- --write",
     "postinstall": "prisma generate",
     "preview": "next build && next start",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.19.0",

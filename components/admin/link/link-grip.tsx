@@ -15,7 +15,7 @@ interface LinkGrip {
     | "title"
     | "slug"
     | "key"
-    | "index"
+    | "order"
     | "createdAt"
     | "url"
     | "clicks"
@@ -30,7 +30,7 @@ interface LinkGrip {
         | "title"
         | "slug"
         | "key"
-        | "index"
+        | "order"
         | "createdAt"
         | "url"
         | "clicks"
@@ -41,7 +41,7 @@ interface LinkGrip {
   >
 }
 
-export default function LinkGrip({ links, setLinks, index }: LinkGrip) {
+export default function LinkGrip({ setLinks, index }: LinkGrip) {
   function incrementPosition(index) {
     setLinks((prev) => {
       if (index === prev.length - 1) {

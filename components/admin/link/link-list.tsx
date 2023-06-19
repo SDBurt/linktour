@@ -34,10 +34,6 @@ export function LinkList({ links }: LinkListProps) {
     links.sort((a, b) => a.order - b.order)
   )
 
-  useEffect(() => {
-    console.log("USEEFFECT: ", sortedLinks)
-  }, [sortedLinks])
-
   return (
     <div>
       {sortedLinks?.length ? (
@@ -45,11 +41,11 @@ export function LinkList({ links }: LinkListProps) {
           <LinkCreateCard />
           {sortedLinks.map((link, index) => (
             <div className="flex items-center space-x-2" key={link.id}>
-              <LinkGrip
+              {/* <LinkGrip
                 links={sortedLinks}
                 setLinks={setSortedLinks}
                 index={index}
-              />
+              /> */}
               <LinkItem link={link} />
             </div>
           ))}
