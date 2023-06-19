@@ -20,7 +20,7 @@ interface LinkListProps {
     | "title"
     | "slug"
     | "key"
-    | "index"
+    | "order"
     | "createdAt"
     | "url"
     | "clicks"
@@ -31,7 +31,7 @@ interface LinkListProps {
 
 export function LinkList({ links }: LinkListProps) {
   const [sortedLinks, setSortedLinks] = useState(
-    links.sort((a, b) => a.index - b.index)
+    links.sort((a, b) => a.order - b.order)
   )
 
   useEffect(() => {

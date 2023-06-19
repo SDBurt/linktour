@@ -28,7 +28,7 @@ export const incrementLinkIndex = async (id: string) => {
       id,
     },
     data: {
-      index: ref.index + 1,
+      order: ref.order + 1,
     },
   })
 
@@ -41,7 +41,7 @@ export const incrementLinkIndex = async (id: string) => {
 export const decrementLinkIndex = async (id: string) => {
   const ref = await getLink(id)
 
-  if (!ref || ref.index === 0) {
+  if (!ref || ref.order === 0) {
     return null
   }
 
@@ -50,7 +50,7 @@ export const decrementLinkIndex = async (id: string) => {
       id,
     },
     data: {
-      index: ref.index - 1,
+      order: ref.order - 1,
     },
   })
 
