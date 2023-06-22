@@ -17,13 +17,12 @@ export type ChartDataType = { start: string; clicks: number; end?: string }
 const BarChart = ({ data, format }: { data: ChartDataType[]; format: any }) => {
   const dateFormatter = (date) => {
     return format(new Date(date))
-    // return format(new Date(date), "MMM dd hh:mm")
   }
 
   return (
     // flex hack for resizing widow from larger to smaller
     // https://github.com/recharts/recharts/issues/172
-    <div className="flex h-full w-full">
+    <div className="flex min-h-[24rem] w-full">
       <div className="w-0 flex-1">
         <ResponsiveContainer width="100%" height="100%">
           <ReBarChart

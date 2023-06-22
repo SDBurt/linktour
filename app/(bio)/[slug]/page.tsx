@@ -5,7 +5,7 @@ import { IncrementViews, getProject } from "@/lib/api/projects"
 import { getUser } from "@/lib/clerk"
 import THEME from "@/lib/constants/theme"
 import { ThemeProps } from "@/lib/types"
-import Bio from "@/components/shared/bio/bio"
+import ProjectBio from "@/components/shared/bio/project-bio"
 
 // Dynamic metadata
 export async function generateMetadata({ params, searchParams }) {
@@ -14,10 +14,8 @@ export async function generateMetadata({ params, searchParams }) {
 }
 
 async function recordNewView(slug: Project["slug"]) {
-  await fetch(`/api/projects/${slug}/view`)
-
   // db total clicks
-  const res = await IncrementViews(slug)
+  await IncrementViews(slug)
 }
 
 export default async function BioPage({ params }) {
@@ -37,11 +35,11 @@ export default async function BioPage({ params }) {
 
   const user = await getUser(userId)
 
-  // await recordNewView(project.slug)
+  await recordNewView(project.slug)
 
   return (
     <div className="flex h-full w-full justify-center">
-      <Bio
+      <ProjectBio
         theme={(theme as ThemeProps) || THEME}
         project={{ name: name, image: image, description: description }}
         links={links}

@@ -1,8 +1,6 @@
-"use client"
+import { cva } from "class-variance-authority"
 
-import NextLink from "next/link"
-import { VariantProps, cva } from "class-variance-authority"
-
+import { ThemeButtonStyleTypeProps } from "@/lib/types"
 import { cn } from "@/lib/utils"
 
 export type bioButtonVariantsTypes =
@@ -79,55 +77,57 @@ export const bioButtonStyles = (
   }
 }
 
-export interface BioButtonProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof bioButtonVariants> {
-  url: string
-  slug: string
-  LinkKey: string
-}
-
-function BioButton({
-  url,
-  slug,
-  LinkKey,
-  variant,
-  type,
-  className,
-  style,
-  children,
-}: BioButtonProps) {
-  async function buttonClickedHandler() {
-    console.log(slug, LinkKey)
-    await fetch(`/api/projects/${slug}/links/${LinkKey}/click`)
+const buttonVariantType = (buttonType: string) => {
+  const buttonMap = {
+    FILL: { variant: "fill", type: "default" },
+    FILL_ROUNDED: { variant: "fill", type: "rounded" },
+    FILL_CIRCULAR: { variant: "fill", type: "circular" },
+    OUTLINE: { variant: "outline", type: "default" },
+    OUTLINE_ROUNDED: { variant: "outline", type: "rounded" },
+    OUTLINE_CIRCULAR: { variant: "outline", type: "circular" },
+    SOFTSHADOW: { variant: "softShadow", type: "default" },
+    SOFTSHADOW_ROUNDED: { variant: "softShadow", type: "rounded" },
+    SOFTSHADOW_CIRCULAR: { variant: "softShadow", type: "circular" },
+    HARDSHADOW: { variant: "hardShadow", type: "default" },
+    HARDSHADOW_ROUNDED: { variant: "hardShadow", type: "rounded" },
+    HARDSHADOW_CIRCULAR: { variant: "hardShadow", type: "circular" },
   }
 
+  return buttonMap[buttonType]
+}
+
+export interface ButtonProps extends React.HTMLAttributes<HTMLDivElement> {
+  buttonType: ThemeButtonStyleTypeProps
+  textColor: string
+  backgroundColor: string
+  borderColor: string
+}
+
+export default function Button({
+  buttonType,
+  textColor,
+  backgroundColor,
+  borderColor,
+  className,
+  children,
+}: ButtonProps) {
+  const { variant, type } = buttonVariantType(buttonType)
+
+  const buttonStyle = bioButtonStyles(
+    variant,
+    textColor,
+    backgroundColor,
+    borderColor
+  )
+
   return (
-    <div>
-      {url ? (
-        <NextLink
-          onClick={() => buttonClickedHandler()}
-          href={url}
-          className={cn(bioButtonVariants({ variant, type, className }))}
-          style={style}
-          target="_blank"
-        >
-          <div>
-            <h1>{children}</h1>
-          </div>
-        </NextLink>
-      ) : (
-        <div
-          className={cn(bioButtonVariants({ variant, type, className }))}
-          style={style}
-        >
-          <div>
-            <h1>{children}</h1>
-          </div>
-        </div>
-      )}
+    <div
+      className={cn(bioButtonVariants({ variant, type, className }))}
+      style={buttonStyle}
+    >
+      <div>
+        <h1>{children}</h1>
+      </div>
     </div>
   )
 }
-
-export default BioButton

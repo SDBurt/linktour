@@ -6,7 +6,8 @@ import { ThemeButtonStyleTypeProps, ThemeProps } from "@/lib/types"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import PreviewButton from "@/components/shared/bio/bio-preview-button"
+
+import PreviewButton from "../preview-button"
 
 interface ButtonsFormProps extends React.HTMLAttributes<HTMLFormElement> {
   theme: ThemeProps

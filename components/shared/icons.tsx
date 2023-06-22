@@ -122,6 +122,7 @@ export const Icons = {
   github: Github,
   linkedin: Linkedin,
   mail: Mail,
+  email: Mail,
   youtube: Youtube,
   twitch: Twitch,
   dribbble: Dribbble,

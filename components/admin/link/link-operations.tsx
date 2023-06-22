@@ -23,7 +23,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { LinkEditForm } from "@/components/admin/link/link-edit-form"
+import LinkEditForm from "@/components/admin/link/link-edit-form"
 import { Icons } from "@/components/shared/icons"
 
 async function deleteLink(key: string) {
@@ -52,6 +52,21 @@ export function LinkOperations({ link }: LinkOperationsProps) {
   const [showEditDialog, setShowEditDialog] = React.useState<boolean>(false)
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
+
+  async function onSubmit(body) {
+    const response = await fetch(
+      `/api/projects/${link.slug}/links/${link.key}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body,
+      }
+    )
+
+    return response
+  }
 
   return (
     <>
@@ -115,7 +130,13 @@ export function LinkOperations({ link }: LinkOperationsProps) {
       </AlertDialog>
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
         <DialogContent className="p-0">
-          <LinkEditForm link={link} />
+          <LinkEditForm
+            title={link.title}
+            url={link.url}
+            linkKey={link.key}
+            slug={link.slug}
+            submitHandler={onSubmit}
+          />
         </DialogContent>
       </Dialog>
     </>

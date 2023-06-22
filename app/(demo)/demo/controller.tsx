@@ -5,9 +5,9 @@ import { Link, Project } from "@prisma/client"
 
 import THEME from "@/lib/constants/theme"
 import { ThemeProps } from "@/lib/types"
+import Preview from "@/components/shared/bio/preview"
 
 import LeftContent from "./left-content"
-import Preview from "./preview"
 
 export default function DemoEditor() {
   const [projectData, setProjectData] = useState<

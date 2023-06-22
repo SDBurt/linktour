@@ -11,11 +11,11 @@ import { buttonVariants } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AppShell } from "@/components/admin/layouts/shell"
 import { LinkList } from "@/components/admin/link/link-list"
+import ProjectPreview from "@/components/shared/bio/project-preview"
 import { AppHeader } from "@/components/shared/page-header"
 
 import { Appearance } from "../../../../components/admin/appearance/appearance"
 import { Header } from "./header"
-import Preview from "./preview"
 
 const getProjectForUser = cache(
   async (userId: string, slug: Project["slug"]) => {
@@ -72,8 +72,9 @@ async function ProjectPage({ params }) {
       </AppHeader>
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-3 flex justify-center p-4 lg:col-span-1">
-          <Preview
+          <ProjectPreview
             theme={theme}
+            socials={[]}
             project={project}
             links={links}
             user={{ username: user.username, imageUrl: user.imageUrl }}

@@ -1,15 +1,10 @@
-"use client"
-
 import * as React from "react"
-import { useParams, useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Link } from "@prisma/client"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 
 import { cn } from "@/lib/utils"
 import { linkPatchSchema } from "@/lib/validations/link"
-import useProject from "@/hooks/use-project"
 import { toast } from "@/hooks/use-toast"
 import { buttonVariants } from "@/components/ui/button"
 import {
@@ -24,14 +19,24 @@ import { Label } from "@/components/ui/label"
 import { Icons } from "@/components/shared/icons"
 
 interface linkFormProps extends React.HTMLAttributes<HTMLFormElement> {
-  link: Pick<Link, "id" | "title" | "slug" | "key" | "url" | "clicks">
+  title: string
+  url: string
+  linkKey: string
+  slug: string
+  submitHandler: (body: any) => Promise<Response>
 }
 
 type FormData = z.infer<typeof linkPatchSchema>
 
-export function LinkEditForm({ link, className, ...props }: linkFormProps) {
-  const router = useRouter()
-
+export default function LinkEditForm({
+  title,
+  url,
+  linkKey,
+  slug,
+  submitHandler,
+  className,
+  ...props
+}: linkFormProps) {
   const {
     handleSubmit,
     register,
@@ -39,33 +44,31 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
   } = useForm<FormData>({
     resolver: zodResolver(linkPatchSchema),
     defaultValues: {
-      title: link?.title || "", // Name of the link
-      url: link.url || "", // Destination of the link
-      key: link.key || "", // key of the link, uses the domain
+      title: title, // Name of the link
+      url: url, // Destination of the link
+      key: linkKey, // key of the link, uses the domain
     },
   })
   const [isSaving, setIsSaving] = React.useState<boolean>(false)
 
-  const params = useParams()
-
-  const { slug } = params as {
-    slug: string
-  }
-
   async function onSubmit(data: FormData) {
     setIsSaving(true)
 
-    const response = await fetch(`/api/projects/${slug}/links/${link.key}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: data?.title,
-        url: data.url,
-        key: data.key,
-      }),
+    const body = JSON.stringify({
+      title: data?.title,
+      url: data.url,
+      key: data.key,
     })
+
+    // const response = await fetch(`/api/projects/${slug}/links/${linkKey}`, {
+    //   method: "PATCH",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body,
+    // })
+
+    const response = await submitHandler(body)
 
     setIsSaving(false)
 
@@ -81,8 +84,6 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
     toast({
       description: "Your link has been updated.",
     })
-
-    router.refresh()
   }
 
   return (
@@ -111,7 +112,7 @@ export function LinkEditForm({ link, className, ...props }: linkFormProps) {
                 htmlFor="key"
                 className="  placeholder:text-muted-foreground0 h-10 items-center rounded-l-md border border-r-0 px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
               >
-                {link?.slug || "undefined"}
+                {slug || "undefined"}/
               </Label>
               <Input
                 id="key"
