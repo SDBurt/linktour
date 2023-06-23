@@ -24,7 +24,7 @@ export default function BioBanner({
       <div className="mb-2 flex w-full items-center justify-center">
         <UserAvatar
           className="h-24 w-24 ring-1 ring-muted"
-          user={{ username: imageName, imageUrl: imageUrl }}
+          user={{ username: imageName || null, imageUrl: imageUrl }}
         />
       </div>
       <div

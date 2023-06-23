@@ -3,14 +3,12 @@
   "root": true,
   "extends": [
     "next/core-web-vitals",
-    "plugin:tailwindcss/recommended",
     "prettier",
-    "plugin:prettier/recommended",
+    "plugin:tailwindcss/recommended",
     "plugin:storybook/recommended"
   ],
   "plugins": ["tailwindcss"],
   "rules": {
-    "prettier/prettier": "error",
     "@next/next/no-html-link-for-pages": "off",
     "react/jsx-key": "off",
     "tailwindcss/no-custom-classname": "off"

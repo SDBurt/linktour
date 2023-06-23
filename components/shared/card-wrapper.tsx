@@ -1,14 +1,7 @@
 import React from "react"
 
 import { cn } from "@/lib/utils"
-
-import {
-  Card,
-  CardContent,
-  CardContentContainer,
-  CardHeader,
-  CardTitle,
-} from "./ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
 interface CardWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string

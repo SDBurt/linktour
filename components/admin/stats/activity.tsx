@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import BarChart, { ChartDataType } from "@/components/shared/barchart"
+import BarChart, { ChartDataType } from "@/components/shared/charts/barchart"
 
 const Activity = () => {
   const params = useParams()
