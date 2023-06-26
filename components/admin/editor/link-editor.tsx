@@ -15,7 +15,19 @@ interface LinkEditorProps {
   socials?: BioSocialItem[]
   project: Pick<Project, "name" | "image" | "description" | "slug">
   theme: ThemeProps
-  links: Pick<Link, "title" | "url" | "slug" | "key">[]
+  links: Pick<
+    Link,
+    | "id"
+    | "title"
+    | "slug"
+    | "key"
+    | "order"
+    | "createdAt"
+    | "url"
+    | "clicks"
+    | "thumbnail"
+    | "thumbnailType"
+  >[]
 }
 
 export default function LinkEditor({

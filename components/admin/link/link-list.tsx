@@ -1,6 +1,3 @@
-"use client"
-
-import { useState } from "react"
 import { Link } from "@prisma/client"
 
 import { cn } from "@/lib/utils"
