@@ -1,12 +1,10 @@
 import { auth } from "@clerk/nextjs"
 import * as z from "zod"
 
-import { freePlanValues } from "@/config/subscriptions"
 import { verifyCurrentUserHasAccessToProject } from "@/lib/api/auth"
-import { countLinksForProject, getLinksForProject } from "@/lib/api/links"
+import { getLinksForProject } from "@/lib/api/links"
 import { db } from "@/lib/db"
 import { RequiresProPlanError } from "@/lib/exceptions"
-import { getUserSubscriptionPlan } from "@/lib/subscription"
 import { linkCreateSchema } from "@/lib/validations/link"
 
 const routeContextSchema = z.object({

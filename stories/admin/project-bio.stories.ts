@@ -1,9 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
 import { ThemeProps } from "@/lib/types"
-
-import { Icons } from "../icons"
-import ProjectPreview from "./project-preview"
+import ProjectBio from "@/components/shared/bio/project-bio"
+import { Icons } from "@/components/shared/icons"
 
 const project = {
   name: "Morty Smith",
@@ -100,13 +99,13 @@ const links = [
   },
 ]
 
-const meta: Meta<typeof ProjectPreview> = {
-  component: ProjectPreview,
+const meta: Meta<typeof ProjectBio> = {
+  component: ProjectBio,
   tags: ["autodocs"],
 }
 
 export default meta
-type Story = StoryObj<typeof ProjectPreview>
+type Story = StoryObj<typeof ProjectBio>
 
 export const Default: Story = {
   args: {
@@ -115,5 +114,23 @@ export const Default: Story = {
     project: project,
     theme: theme,
     links: links,
+  },
+}
+
+export const NoSocials: Story = {
+  args: {
+    user: { username: project.name, imageUrl: project.image },
+    project: project,
+    theme: theme,
+    links: links,
+  },
+}
+
+export const NoLinks: Story = {
+  args: {
+    user: { username: project.name, imageUrl: project.image },
+    socials: socials,
+    project: project,
+    theme: theme,
   },
 }

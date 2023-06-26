@@ -80,7 +80,11 @@ export const getProject = async (slug: string) => {
       description: true,
       slug: true,
       verified: true,
-      links: true,
+      links: {
+        orderBy: {
+          order: "asc",
+        },
+      },
       theme: true,
       createdAt: true,
       userId: true,

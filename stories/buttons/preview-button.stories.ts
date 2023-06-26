@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import PreviewButton from "./preview-button"
+import PreviewButton from "@/components/admin/appearance/preview-button"
 
 const meta: Meta<typeof PreviewButton> = {
   component: PreviewButton,

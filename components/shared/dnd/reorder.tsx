@@ -31,7 +31,7 @@ function ReorderItem({ item, idField, children }: ReorderItemProps) {
     <Reorder.Item
       className="w-full rounded-lg"
       value={item}
-      id={item.slug}
+      id={item[idField]}
       dragListener={draggable}
       dragControls={controls}
     >
@@ -62,7 +62,7 @@ function ReorderGroup({ items, setItems, children }: ReorderGroupProps) {
     <AnimatePresence mode="wait" initial={false}>
       <Reorder.Group
         axis="y"
-        onReorder={(newOrder) => setItems(newOrder)}
+        onReorder={setItems}
         values={items}
         className="flex flex-col space-y-4"
       >

@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
+import BioSocials from "@/components/shared/bio/socials/socials"
 import { Icons } from "@/components/shared/icons"
-
-import BioSocials from "./socials"
 
 const socials = [
   {

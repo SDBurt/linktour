@@ -1,13 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react"
 
-import BioBanner from "./bio-banner"
-
-const project = {
-  name: "Morty Smith",
-  description: "The titular central protagonist of Rick and Morty",
-  image:
-    "https://static.wikia.nocookie.net/rickandmorty/images/e/ee/Morty501.png",
-}
+import BioBanner from "@/components/shared/bio/banner/bio-banner"
 
 const meta: Meta<typeof BioBanner> = {
   component: BioBanner,

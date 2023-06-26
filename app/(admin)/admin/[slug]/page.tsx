@@ -9,6 +9,7 @@ import { db } from "@/lib/db"
 import { ThemeProps } from "@/lib/types"
 import { buttonVariants } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import LinkEditor from "@/components/admin/editor/link-editor"
 import { AppShell } from "@/components/admin/layouts/shell"
 import { LinkList } from "@/components/admin/link/link-list"
 import ProjectPreview from "@/components/shared/bio/project-preview"
@@ -70,62 +71,57 @@ async function ProjectPage({ params }) {
           View Project
         </Link>
       </AppHeader>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-3 flex justify-center p-4 lg:col-span-1">
-          <ProjectPreview
-            theme={theme}
-            socials={[]}
+      <Tabs defaultValue="links">
+        <TabsList>
+          <TabsTrigger id="links" value="links">
+            Links
+          </TabsTrigger>
+          <TabsTrigger id="header" value="header">
+            Header
+          </TabsTrigger>
+          <TabsTrigger id="appearance" value="appearance">
+            Appearance
+          </TabsTrigger>
+          <TabsTrigger id="analytics" disabled value="analytics">
+            Analytics
+          </TabsTrigger>
+          <TabsTrigger id="settings" disabled value="settings">
+            Settings
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="links">
+          <LinkEditor
             project={project}
             links={links}
-            user={{ username: user.username, imageUrl: user.imageUrl }}
+            user={{
+              username: user?.username || "",
+              imageUrl: user?.profileImageUrl || "",
+            }}
+            theme={theme}
           />
-        </div>
-        <div className="col-span-3 lg:-order-1 lg:col-span-2">
-          <Tabs defaultValue="links">
-            <TabsList>
-              <TabsTrigger id="links" value="links">
-                Links
-              </TabsTrigger>
-              <TabsTrigger id="header" value="header">
-                Header
-              </TabsTrigger>
-              <TabsTrigger id="appearance" value="appearance">
-                Appearance
-              </TabsTrigger>
-              <TabsTrigger id="analytics" disabled value="analytics">
-                Analytics
-              </TabsTrigger>
-              <TabsTrigger id="settings" disabled value="settings">
-                Settings
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="links">
-              <LinkList links={links} />
-            </TabsContent>
-            <TabsContent value="header">
-              <Header project={project} />
-            </TabsContent>
-            <TabsContent value="appearance">
-              <Appearance
-                project={project}
-                links={links}
-                user={{
-                  username: user?.username || "",
-                  imageUrl: user?.profileImageUrl || "",
-                }}
-                theme={theme}
-              />
-            </TabsContent>
-            <TabsContent value="analytics">
-              <p>To be implemented</p>
-            </TabsContent>
-            <TabsContent value="settings">
-              <p>To be implemented</p>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </div>
+        </TabsContent>
+        <TabsContent value="header">
+          <Header project={project} />
+        </TabsContent>
+        <TabsContent value="appearance">
+          <Appearance
+            project={project}
+            links={links}
+            user={{
+              username: user?.username || "",
+              imageUrl: user?.profileImageUrl || "",
+            }}
+            theme={theme}
+          />
+        </TabsContent>
+        <TabsContent value="analytics">
+          <p>To be implemented</p>
+        </TabsContent>
+        <TabsContent value="settings">
+          <p>To be implemented</p>
+        </TabsContent>
+      </Tabs>
     </AppShell>
   )
 }

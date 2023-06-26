@@ -1,17 +1,17 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Link } from "@prisma/client"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { LinkItem } from "@/components/admin/link/link-item"
+import { ReorderGroup, ReorderItem } from "@/components/shared/dnd/reorder"
 import { EmptyPlaceholder } from "@/components/shared/empty-placeholder"
 
 import { LinkCreateButton } from "./link-create-button"
 import { LinkCreateCard } from "./link-create-card"
-import LinkGrip from "./link-grip"
 
 interface LinkListProps {
   links: Pick<
@@ -27,28 +27,35 @@ interface LinkListProps {
     | "thumbnail"
     | "thumbnailType"
   >[]
+  setLinks: (link) => void
+  slug: string
 }
 
-export function LinkList({ links }: LinkListProps) {
-  const [sortedLinks, setSortedLinks] = useState(
-    links.sort((a, b) => a.order - b.order)
-  )
+export function LinkList({ links, setLinks, slug }: LinkListProps) {
+  const reorderHandler = (newOrder) => {
+    const body = newOrder.map((item, index) => ({ id: item.id, order: index }))
+
+    fetch(`/api/projects/${slug}/links/reorder`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    }).then(() => {
+      // router.refresh()
+      setLinks(newOrder)
+    })
+  }
 
   return (
     <div>
-      {sortedLinks?.length ? (
+      {links?.length ? (
         <div className="flex flex-col space-y-1">
           <LinkCreateCard />
-          {sortedLinks.map((link, index) => (
-            <div className="flex items-center space-x-2" key={link.id}>
-              {/* <LinkGrip
-                links={sortedLinks}
-                setLinks={setSortedLinks}
-                index={index}
-              /> */}
-              <LinkItem link={link} />
-            </div>
-          ))}
+          <ReorderGroup items={links} setItems={reorderHandler}>
+            {links.map((link) => (
+              <ReorderItem item={link} idField="key" key={link.key}>
+                <LinkItem link={link} />
+              </ReorderItem>
+            ))}
+          </ReorderGroup>
         </div>
       ) : (
         <EmptyPlaceholder>

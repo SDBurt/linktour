@@ -1,9 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react"
 import * as z from "zod"
 
-import { linkPatchSchema } from "@/lib/validations/link"
-
-import CustomForm from "./custom-form"
+import CustomForm from "@/components/shared/custom-form"
 
 const meta: Meta<typeof CustomForm> = {
   component: CustomForm,

@@ -1,3 +1,5 @@
+import { Link } from "@prisma/client"
+
 import { db } from "@/lib/db"
 
 /**
@@ -55,4 +57,24 @@ export const decrementLinkIndex = async (id: string) => {
   })
 
   return link
+}
+
+/**
+ * reorderLinks
+ */
+export const reorderLinks = async (newOrder: Link[]) => {
+  const result = await Promise.allSettled([
+    newOrder.map((link, index) => {
+      return db.link.update({
+        where: {
+          id: link.id,
+        },
+        data: {
+          order: index,
+        },
+      })
+    }),
+  ])
+
+  return result
 }
