@@ -5,18 +5,14 @@ import { currentUser, redirectToSignIn } from "@clerk/nextjs"
 import { Project } from "@prisma/client"
 
 import { getProject } from "@/lib/api/projects"
-import { db } from "@/lib/db"
 import { ThemeProps } from "@/lib/types"
 import { buttonVariants } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AppearanceEditor } from "@/components/admin/editor/appearance-editor"
 import LinkEditor from "@/components/admin/editor/link-editor"
+import ProfileEditor from "@/components/admin/editor/profile-editor"
 import { AppShell } from "@/components/admin/layouts/shell"
-import { LinkList } from "@/components/admin/link/link-list"
-import ProjectPreview from "@/components/shared/bio/project-preview"
 import { AppHeader } from "@/components/shared/page-header"
-
-import { Appearance } from "../../../../components/admin/appearance/appearance"
-import { Header } from "./header"
 
 const getProjectForUser = cache(
   async (userId: string, slug: Project["slug"]) => {
@@ -76,8 +72,8 @@ async function ProjectPage({ params }) {
           <TabsTrigger id="links" value="links">
             Links
           </TabsTrigger>
-          <TabsTrigger id="header" value="header">
-            Header
+          <TabsTrigger id="profile" value="profile">
+            Profile
           </TabsTrigger>
           <TabsTrigger id="appearance" value="appearance">
             Appearance
@@ -101,11 +97,19 @@ async function ProjectPage({ params }) {
             theme={theme}
           />
         </TabsContent>
-        <TabsContent value="header">
-          <Header project={project} />
+        <TabsContent value="profile">
+          <ProfileEditor
+            project={project}
+            links={links}
+            user={{
+              username: user?.username || "",
+              imageUrl: user?.profileImageUrl || "",
+            }}
+            theme={theme}
+          />
         </TabsContent>
         <TabsContent value="appearance">
-          <Appearance
+          <AppearanceEditor
             project={project}
             links={links}
             user={{
