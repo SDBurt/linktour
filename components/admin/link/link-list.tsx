@@ -35,10 +35,9 @@ export function LinkList({ links, setLinks, slug }: LinkListProps) {
     fetch(`/api/projects/${slug}/links/reorder`, {
       method: "PATCH",
       body: JSON.stringify(body),
-    }).then(() => {
-      // router.refresh()
-      setLinks(newOrder)
     })
+
+    setLinks(newOrder)
   }
 
   return (
