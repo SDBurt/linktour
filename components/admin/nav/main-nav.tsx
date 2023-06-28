@@ -78,27 +78,29 @@ export function MainNav({
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
-      <span className="flex items-center justify-center text-xl text-muted-foreground/60">
-        /
-      </span>
-      <div>
-        {projects && (
-          <ProjectDropdownNav
-            currentProject={currentProject}
-            projects={projects ? projects : []}
-          />
-        )}
-      </div>
-      <span className="flex items-center justify-center text-xl text-muted-foreground/60">
-        /
-      </span>
-      <div>
-        {currentProject?.links && (
-          <LinkDropdownNav
-            currentLink={currentLink}
-            links={currentProject?.links ? currentProject.links : []}
-          />
-        )}
+      <div className="hidden md:flex md:flex-row">
+        <span className="flex items-center justify-center text-xl text-muted-foreground/60">
+          /
+        </span>
+        <div>
+          {projects && (
+            <ProjectDropdownNav
+              currentProject={currentProject}
+              projects={projects ? projects : []}
+            />
+          )}
+        </div>
+        <span className="flex items-center justify-center text-xl text-muted-foreground/60">
+          /
+        </span>
+        <div>
+          {currentProject?.links && (
+            <LinkDropdownNav
+              currentLink={currentLink}
+              links={currentProject?.links ? currentProject.links : []}
+            />
+          )}
+        </div>
       </div>
     </div>
   )
