@@ -83,7 +83,11 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
       description: "Your link has been created.",
     })
 
+    const newLink = await response.json()
+
     router.refresh()
+
+    router.push(`/admin/${newLink.slug}/links/${newLink.key}`)
   }
 
   return (
@@ -92,72 +96,68 @@ export function LinkCreateForm({ link, className, ...props }: linkFormProps) {
       onSubmit={handleSubmit(onSubmit)}
       {...props}
     >
-      <Card>
-        <CardHeader>
-          <CardTitle>Create Link</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid gap-2">
-            <Label htmlFor="title">Title</Label>
-            <Input
-              id="title"
-              className="w-[400px]"
-              size={32}
-              placeholder="ex: Personal Github"
-              {...register("title")}
-            />
-            {errors?.title && (
-              <p className="px-1 text-xs text-red-600">
-                {errors.title.message}
-              </p>
-            )}
+      {/* <Card className="rounded"> */}
+      <CardHeader>
+        <CardTitle>Create Link</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-2">
+          <Label htmlFor="title">Title</Label>
+          <Input
+            id="title"
+            className="w-full"
+            size={32}
+            placeholder="ex: Personal Github"
+            {...register("title")}
+          />
+          {errors?.title && (
+            <p className="px-1 text-xs text-red-600">{errors.title.message}</p>
+          )}
 
-            <Label htmlFor="key">Key</Label>
-            <div className="flex w-full items-center">
-              <Label
-                htmlFor="key"
-                className=" placeholder:text-muted-foreground0 h-10 items-center rounded-l-md border border-r-0  px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
-              >
-                {link?.slug || slug || "localhost:3000"}
-              </Label>
-              <Input
-                id="key"
-                className="w-full rounded-l-none rounded-r-md border"
-                size={32}
-                placeholder="Your project key"
-                {...register("key")}
-              />
-            </div>
-            {errors?.key && (
-              <p className="px-1 text-xs text-red-600">{errors.key.message}</p>
-            )}
-
-            <Label htmlFor="url">Destination URL</Label>
+          <Label htmlFor="key">Key</Label>
+          <div className="flex w-full items-center">
+            <Label
+              htmlFor="key"
+              className="placeholder:text-muted-foreground0 h-9 items-center rounded-l-md border border-r-0  px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900"
+            >
+              {link?.slug || slug || "localhost:3000"}
+            </Label>
             <Input
-              id="url"
-              className="w-[400px]"
+              id="key"
+              className="w-full rounded-l-none rounded-r-md border"
               size={32}
-              placeholder="ex: https://github.com"
-              {...register("url")}
+              placeholder="Your project key"
+              {...register("key")}
             />
-            {errors?.url && (
-              <p className="px-1 text-xs text-red-600">{errors.url.message}</p>
-            )}
           </div>
-        </CardContent>
-        <CardFooter>
-          <button
-            type="submit"
-            className={cn(buttonVariants(), className)}
-            disabled={isSaving}
-          >
-            {isSaving && (
-              <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
-            <span>Save</span>
-          </button>
-        </CardFooter>
-      </Card>
+          {errors?.key && (
+            <p className="px-1 text-xs text-red-600">{errors.key.message}</p>
+          )}
+
+          <Label htmlFor="url">Destination URL</Label>
+          <Input
+            id="url"
+            className="w-full"
+            size={32}
+            placeholder="ex: https://github.com"
+            {...register("url")}
+          />
+          {errors?.url && (
+            <p className="px-1 text-xs text-red-600">{errors.url.message}</p>
+          )}
+        </div>
+      </CardContent>
+      <CardFooter>
+        <button
+          type="submit"
+          className={cn(buttonVariants(), className)}
+          disabled={isSaving}
+        >
+          {isSaving && <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />}
+          <span>Save</span>
+        </button>
+      </CardFooter>
+      {/* </Card> */}
     </form>
   )
 }

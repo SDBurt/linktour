@@ -37,6 +37,9 @@ model Project {
   // Links
   links Link[]
 
+  // socials
+  socialLinks SocialLink[]
+
   views Int @default(0)
 }
 
@@ -64,10 +67,31 @@ model Link {
   // Creator
   userId String
 
+  active Boolean @default(true)
+
   // project
-  project Project? @relation(fields: [slug], references: [slug])
+  project Project? @relation(fields: [slug], references: [slug], onDelete: Cascade)
 
   @@unique([slug, key])
+  @@index([userId])
+}
+
+model SocialLink {
+  id   String @id @default(cuid())
+  url  String
+  type String
+
+  order Int @default(0)
+
+  slug    String
+  project Project? @relation(fields: [slug], references: [slug], onDelete: Cascade)
+
+  active Boolean @default(true)
+
+  // Creator
+  userId String
+
+  @@unique([slug, type])
   @@index([userId])
 }
 
@@ -95,6 +119,6 @@ model Theme {
   typefaceColor  String @default("#f5f5f5")
   typefaceFamily String @default("dm sans")
 
-  project     Project? @relation(fields: [projectSlug], references: [slug])
+  project     Project? @relation(fields: [projectSlug], references: [slug], onDelete: Cascade)
   projectSlug String   @unique
 }

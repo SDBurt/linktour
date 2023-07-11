@@ -1,3 +1,5 @@
+"use server"
+
 import { Link } from "@prisma/client"
 
 import { db } from "@/lib/db"
@@ -16,58 +18,14 @@ export const getLink = async (id: string) => {
 }
 
 /**
- * Increment link index
- */
-export const incrementLinkIndex = async (id: string) => {
-  const ref = await getLink(id)
-
-  if (!ref) {
-    return null
-  }
-
-  const link = await db.link.update({
-    where: {
-      id,
-    },
-    data: {
-      order: ref.order + 1,
-    },
-  })
-
-  return link
-}
-
-/**
- * Decrement link index
- */
-export const decrementLinkIndex = async (id: string) => {
-  const ref = await getLink(id)
-
-  if (!ref || ref.order === 0) {
-    return null
-  }
-
-  const link = await db.link.update({
-    where: {
-      id,
-    },
-    data: {
-      order: ref.order - 1,
-    },
-  })
-
-  return link
-}
-
-/**
  * reorderLinks
  */
-export const reorderLinks = async (newOrder: Link[]) => {
+export const reorderLinks = async (newOrder: { id: Link["id"] }[]) => {
   const result = await Promise.allSettled([
-    newOrder.map((link, index) => {
+    newOrder.map((item, index) => {
       return db.link.update({
         where: {
-          id: link.id,
+          id: item.id,
         },
         data: {
           order: index,

@@ -37,16 +37,19 @@ interface LinkItemProps {
 
 export function LinkItem({ link }: LinkItemProps) {
   return (
-    <Card className="w-full">
+    // <Card className="w-full">
+    <div>
       <CardHeader>
         <CardTitle>{link.title}</CardTitle>
-        <CardDescription>{link.url}</CardDescription>
+        <CardDescription className="overflow-hidden text-ellipsis">
+          {link.url}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex space-x-2">
           <TooltipProvider>
             <Tooltip>
-              <NextLink href={`/admin/${link.slug}/${link.key}`}>
+              <NextLink href={`/admin/${link.slug}/links/${link.key}`}>
                 <TooltipTrigger
                   className={cn(
                     buttonVariants({
@@ -79,7 +82,7 @@ export function LinkItem({ link }: LinkItemProps) {
                 </TooltipTrigger>
               </NextLink>
               <TooltipContent>
-                <p>{link.url}</p>
+                <p className="overflow-hidden text-ellipsis">{link.url}</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -95,7 +98,8 @@ export function LinkItem({ link }: LinkItemProps) {
           />
         </div>
       </CardContent>
-    </Card>
+      {/* </Card> */}
+    </div>
   )
 }
 

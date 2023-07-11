@@ -31,7 +31,8 @@ export default async function BioPage({ params }) {
     notFound()
   }
 
-  const { name, links, image, description, theme, userId } = project
+  const { name, links, image, description, theme, userId, socialLinks } =
+    project
 
   const user = await getUser(userId)
 
@@ -42,6 +43,7 @@ export default async function BioPage({ params }) {
       <ProjectBio
         theme={(theme as ThemeProps) || THEME}
         project={{ name: name, image: image, description: description }}
+        socials={socialLinks}
         links={links}
         user={{ imageUrl: user.imageUrl, username: user.username }}
       />

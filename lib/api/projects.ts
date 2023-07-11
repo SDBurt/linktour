@@ -85,6 +85,18 @@ export const getProject = async (slug: string) => {
           order: "asc",
         },
       },
+      socialLinks: {
+        select: {
+          id: true,
+          order: true,
+          type: true,
+          url: true,
+          active: true,
+        },
+        orderBy: {
+          order: "asc",
+        },
+      },
       theme: true,
       createdAt: true,
       userId: true,

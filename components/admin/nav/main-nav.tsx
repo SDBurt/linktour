@@ -48,9 +48,6 @@ export function MainNav({
           </span>
         )}
       </NextLink>
-      <span className="flex items-center justify-center text-xl text-muted-foreground/60">
-        /
-      </span>
       {items?.length ? (
         <nav className="hidden gap-6 md:flex">
           {items?.map((item, index) => (
@@ -78,7 +75,7 @@ export function MainNav({
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
-      <div className="hidden md:flex md:flex-row">
+      {/* <div className="hidden md:flex md:flex-row">
         <span className="flex items-center justify-center text-xl text-muted-foreground/60">
           /
         </span>
@@ -101,7 +98,7 @@ export function MainNav({
             />
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

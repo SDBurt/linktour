@@ -1,4 +1,6 @@
 import * as React from "react"
+import { useCallback } from "react"
+import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -49,42 +51,40 @@ export default function LinkEditForm({
       key: linkKey, // key of the link, uses the domain
     },
   })
+
+  const router = useRouter()
   const [isSaving, setIsSaving] = React.useState<boolean>(false)
 
-  async function onSubmit(data: FormData) {
-    setIsSaving(true)
+  const onSubmit = useCallback(
+    async (data: FormData) => {
+      setIsSaving(true)
 
-    const body = JSON.stringify({
-      title: data?.title,
-      url: data.url,
-      key: data.key,
-    })
-
-    // const response = await fetch(`/api/projects/${slug}/links/${linkKey}`, {
-    //   method: "PATCH",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body,
-    // })
-
-    const response = await submitHandler(body)
-
-    setIsSaving(false)
-
-    if (!response?.ok) {
-      console.error(await response?.json())
-      return toast({
-        title: "Something went wrong.",
-        description: "Your link was not updated. Please try again.",
-        variant: "destructive",
+      const body = JSON.stringify({
+        title: data?.title,
+        url: data.url,
+        key: data.key,
       })
-    }
 
-    toast({
-      description: "Your link has been updated.",
-    })
-  }
+      const response = await submitHandler(body)
+
+      setIsSaving(false)
+
+      if (!response?.ok) {
+        return toast({
+          title: "Something went wrong.",
+          description: "Your link was not updated. Please try again.",
+          variant: "destructive",
+        })
+      }
+
+      toast({
+        description: "Your link has been updated.",
+      })
+
+      router.refresh()
+    },
+    [router]
+  )
 
   return (
     <form

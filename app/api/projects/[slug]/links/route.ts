@@ -81,6 +81,10 @@ export async function POST(
       },
       select: {
         id: true,
+        slug: true,
+        key: true,
+        title: true,
+        url: true,
       },
     })
 

@@ -1,7 +1,7 @@
 import { useMemo } from "react"
 import NextLink from "next/link"
 import { User } from "@clerk/nextjs/dist/types/server"
-import { Link, Project } from "@prisma/client"
+import { Link, Project, SocialLink } from "@prisma/client"
 
 import { ThemeProps } from "@/lib/types"
 
@@ -14,7 +14,7 @@ import BioSocials from "./socials/socials"
 
 interface ProjectBioProps {
   user: Pick<User, "imageUrl" | "username">
-  socials?: BioSocialItem[]
+  socials?: Pick<SocialLink, "id" | "type" | "order" | "url" | "active">[]
   project: Pick<Project, "name" | "image" | "description">
   theme: ThemeProps
   links: Pick<Link, "title" | "url" | "slug" | "key">[]
@@ -45,6 +45,22 @@ const ProjectBio = ({
     return style
   }, [theme.backgroundColor, theme.backgroundStyle, theme.gradientColor])
 
+  const socialItems: BioSocialItem[] = useMemo(() => {
+    if (!socials || socials.length === 0) return []
+
+    const socialsData: BioSocialItem[] = []
+    socials.forEach((item: SocialLink) => {
+      socialsData.push({
+        label: item.type,
+        name: item.type,
+        Icon: Icons[item.type],
+        url: item.url,
+      })
+    })
+
+    return socialsData
+  }, [socials])
+
   return (
     <Bio style={backgroundStyle}>
       <BioContent>
@@ -57,7 +73,9 @@ const ProjectBio = ({
         />
 
         {/* List of social icon buttons */}
-        {socials && <BioSocials socials={socials} />}
+        {socials && (
+          <BioSocials socials={socialItems} color={theme.typefaceColor} />
+        )}
 
         {/* List of link buttons */}
         {links && (
@@ -80,7 +98,7 @@ const ProjectBio = ({
           }}
         >
           <Icons.logo />
-          <p className="font-normal">LinkTour</p>
+          <p className="font-primary">LinkTour</p>
         </NextLink>
       </BioFooter>
     </Bio>

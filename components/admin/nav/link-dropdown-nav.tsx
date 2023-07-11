@@ -53,7 +53,7 @@ export function LinkDropdownNav({ links, currentLink }: LinkDropdownNavProps) {
                 key={link.slug}
                 onSelect={() => {
                   setOpen(false)
-                  router.push(`/admin/${link.slug}/${link.key}`)
+                  router.push(`/admin/${link.slug}/links/${link.key}`)
                 }}
               >
                 <Check

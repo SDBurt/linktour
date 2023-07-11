@@ -91,7 +91,7 @@ export default function SlugPicker({ form, register }: SlugPickerProps) {
     <FormItem>
       <FormControl>
         <div className="flex w-full items-center bg-background">
-          <Label className="placeholder:text-muted-foreground0 h-10 items-center rounded-l-md border border-r-0 bg-muted px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900">
+          <Label className="placeholder:text-muted-foreground0 h-9 items-center rounded-l-md border border-r-0 bg-muted px-3 py-2 text-sm font-normal focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700  dark:focus:ring-slate-400 dark:focus:ring-offset-slate-900">
             linktour.ca/
           </Label>
           <Input

@@ -34,7 +34,7 @@ export default function BioBanner({
         }}
       >
         <h2 className="pb-2 text-xl font-bold">{name}</h2>
-        {description && <p className="font-normal">{description}</p>}
+        {description && <p className="font-primary">{description}</p>}
       </div>
     </div>
   )

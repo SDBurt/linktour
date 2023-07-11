@@ -4,9 +4,10 @@ import SocialItem, { BioSocialItem } from "./social-item"
 
 interface BioSocialsProps {
   socials: BioSocialItem[]
+  color: string
 }
 
-export default function BioSocials({ socials }: BioSocialsProps) {
+export default function BioSocials({ socials, color }: BioSocialsProps) {
   return (
     <div>
       {socials && socials.length > 0 && (
@@ -15,7 +16,13 @@ export default function BioSocials({ socials }: BioSocialsProps) {
             if (social.url.trim().length === 0) {
               return null
             }
-            return <SocialItem key={`${social}-${index}`} {...social} />
+            return (
+              <SocialItem
+                key={`${social}-${index}`}
+                color={color}
+                {...social}
+              />
+            )
           })}
         </div>
       )}

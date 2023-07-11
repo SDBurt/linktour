@@ -28,22 +28,20 @@ interface LinkListProps {
   slug: string
 }
 
-export function LinkList({ links, setLinks, slug }: LinkListProps) {
-  const reorderHandler = (newOrder) => {
+export function LinkList({ slug, links, setLinks }: LinkListProps) {
+  const reorderHandler = async (newOrder) => {
     const body = newOrder.map((item, index) => ({ id: item.id, order: index }))
-
     fetch(`/api/projects/${slug}/links/reorder`, {
       method: "PATCH",
       body: JSON.stringify(body),
     })
-
     setLinks(newOrder)
   }
 
   return (
-    <div>
+    <div className="flex flex-col space-y-4">
       {links?.length ? (
-        <div className="flex flex-col space-y-1">
+        <>
           <LinkCreateCard />
           <ReorderGroup items={links} setItems={reorderHandler}>
             {links.map((link) => (
@@ -52,7 +50,7 @@ export function LinkList({ links, setLinks, slug }: LinkListProps) {
               </ReorderItem>
             ))}
           </ReorderGroup>
-        </div>
+        </>
       ) : (
         <EmptyPlaceholder>
           <EmptyPlaceholder.Icon name="post" />

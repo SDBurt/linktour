@@ -26,6 +26,7 @@ export default function SocialsForm({
             >
               <social.icon />
               <Input
+                type="url"
                 placeholder={`${social.label} link`}
                 value={socials[social.name]}
                 onChange={(e) =>

@@ -1,5 +1,4 @@
-import { NextResponse } from "next/server"
-import { authMiddleware } from "@clerk/nextjs"
+import { authMiddleware, redirectToSignIn } from "@clerk/nextjs"
 
 import { reservedkeys } from "@/config/site"
 import BioMiddleware from "@/lib/middleware/bio"
@@ -12,9 +11,7 @@ export default authMiddleware({
     }
 
     if (!auth.userId && !auth.isPublicRoute) {
-      const signInUrl = new URL("/login", req.url)
-      signInUrl.searchParams.set("redirect_url", req.url)
-      return NextResponse.redirect(signInUrl)
+      return redirectToSignIn({ returnBackUrl: req.url })
     }
   },
   publicRoutes: ["/", "/((?!admin|api).*)"],

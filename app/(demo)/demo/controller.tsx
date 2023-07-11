@@ -1,7 +1,7 @@
 "use client"
 
 import { useMemo, useState } from "react"
-import { Link, Project } from "@prisma/client"
+import { Link, Project, SocialLink } from "@prisma/client"
 
 import { socialItemType, socialsOptions } from "@/config/marketing"
 import THEME from "@/lib/constants/theme"
@@ -37,17 +37,23 @@ export default function DemoEditor() {
     Pick<Link, "title" | "url" | "slug" | "key">[]
   >([])
 
-  const socials: BioSocialItem[] = useMemo(() => {
+  const socials = useMemo(() => {
     const userSocials = Object.keys(socialsData)
-    const socials: BioSocialItem[] = []
+    const socials: Pick<
+      SocialLink,
+      "id" | "type" | "order" | "url" | "active"
+    >[] = []
+    let index = 0
     socialsOptions.forEach((option: socialItemType) => {
       if (userSocials.includes(option.name)) {
         socials.push({
-          label: option.label,
-          name: option.name,
-          Icon: option.icon,
+          id: option.name,
+          type: option.name,
+          order: index,
           url: socialsData[option.name],
+          active: true,
         })
+        index += 1
       }
     })
     return socials

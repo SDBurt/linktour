@@ -1,13 +1,11 @@
 import Link from "next/link"
-import { notFound, useParams } from "next/navigation"
+import { notFound } from "next/navigation"
 import { UserButton, auth } from "@clerk/nextjs"
 
 import { adminConfig } from "@/config/admin"
 import { getProjectsForUserNav } from "@/lib/api/projects"
-import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { MainNav } from "@/components/admin/nav/main-nav"
-import Button from "@/components/shared/bio/buttons/button"
 import { SiteFooter } from "@/components/shared/page-footer"
 
 interface AdminLayoutProps {
@@ -47,11 +45,7 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
           </div>
         </div>
       </header>
-      <div className="container flex-1">
-        <main className="flex w-full flex-1 flex-col overflow-hidden">
-          {children}
-        </main>
-      </div>
+      <div className="container flex-1">{children}</div>
       <SiteFooter className="border-t" />
     </div>
   )

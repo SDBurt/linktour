@@ -1,15 +1,14 @@
 import { User } from "@clerk/nextjs/dist/types/server"
-import { Link, Project } from "@prisma/client"
+import { Link, Project, SocialLink } from "@prisma/client"
 
 import { ThemeProps } from "@/lib/types"
 
 import Preview from "../preview/preview"
 import ProjectBio from "./project-bio"
-import { BioSocialItem } from "./socials/social-item"
 
 interface PreviewProps {
   user: Pick<User, "imageUrl" | "username">
-  socials?: BioSocialItem[]
+  socials?: Pick<SocialLink, "id" | "type" | "order" | "url" | "active">[]
   project: Pick<Project, "name" | "image" | "description">
   theme: ThemeProps
   links: Pick<Link, "title" | "url" | "slug" | "key">[]

@@ -9,7 +9,7 @@ const Bio = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "flex h-full w-full flex-col items-center justify-center p-4",
+      "flex h-full w-full flex-col items-center justify-center px-2 py-12",
       className
     )}
     style={style}
@@ -24,7 +24,7 @@ const BioContent = React.forwardRef<
 >(({ className, style, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("mb-auto w-full max-w-2xl space-y-8 p-4", className)}
+    className={cn("mb-auto w-full max-w-2xl space-y-6 p-4", className)}
     style={style}
     {...props}
   />

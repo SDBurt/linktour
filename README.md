@@ -4,7 +4,7 @@
 
 ## Overview
 
-This repository contains the code for LinkTour, an open source link in bio app largely based on the open source project [dub.sh](https://dub.sh) and Nextjs template [Taxonomy](https://github.com/shadcn/taxonomy/tree/main/app).
+This repository contains the code for LinkTour, an open source link in bio app largely based on the open source project [linktour.ca](https://linktour.ca) and Nextjs template [Taxonomy](https://github.com/shadcn/taxonomy/tree/main/app).
 
 ## Technologies
 

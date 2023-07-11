@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { Link } from "@prisma/client"
 
@@ -26,8 +27,8 @@ import {
 import LinkEditForm from "@/components/admin/link/link-edit-form"
 import { Icons } from "@/components/shared/icons"
 
-async function deleteLink(key: string) {
-  const response = await fetch(`/api/links/${key}`, {
+async function deleteLink(slug: string, key: string) {
+  const response = await fetch(`/api/projects/${slug}/links/${key}`, {
     method: "DELETE",
   })
 
@@ -53,20 +54,25 @@ export function LinkOperations({ link }: LinkOperationsProps) {
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
 
-  async function onSubmit(body) {
-    const response = await fetch(
-      `/api/projects/${link.slug}/links/${link.key}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body,
-      }
-    )
+  const onSubmit = useCallback(
+    async (body) => {
+      const response = await fetch(
+        `/api/projects/${link.slug}/links/${link.key}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body,
+        }
+      )
 
-    return response
-  }
+      setShowEditDialog(false)
+
+      return response
+    },
+    [link]
+  )
 
   return (
     <>
@@ -106,9 +112,9 @@ export function LinkOperations({ link }: LinkOperationsProps) {
             <AlertDialogAction
               onClick={async (event) => {
                 event.preventDefault()
-                setIsDeleteLoading(true)
 
-                const deleted = await deleteLink(link.key)
+                setIsDeleteLoading(true)
+                const deleted = await deleteLink(link.slug, link.key)
 
                 if (deleted) {
                   setIsDeleteLoading(false)

@@ -81,29 +81,18 @@ export type EditorThemeType = Pick<
   | "typefaceFamily"
 >
 
-export type EditorBlockDataType = {
-  link: Pick<
-    Link,
-    | "id"
-    | "title"
-    | "slug"
-    | "key"
-    | "createdAt"
-    | "url"
-    | "clicks"
-    | "thumbnail"
-    | "thumbnailType"
-  >
-}
+export type LinkType = Pick<
+  Link,
+  | "id"
+  | "title"
+  | "slug"
+  | "key"
+  | "order"
+  | "createdAt"
+  | "url"
+  | "clicks"
+  | "thumbnail"
+  | "thumbnailType"
+>
 
-export type EditorBlockType = {
-  id: string
-  type: string
-  data: EditorBlockDataType
-}
-
-export type EditorComponentType = {
-  time?: number
-  theme: EditorThemeType
-  blocks: EditorBlockType[]
-}
+export type ProjectType = Pick<Project, "id" | "name" | "slug" | "description">

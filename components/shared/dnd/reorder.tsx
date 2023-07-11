@@ -35,18 +35,20 @@ function ReorderItem({ item, idField, children }: ReorderItemProps) {
       dragListener={draggable}
       dragControls={controls}
     >
-      <div className="flex w-full items-center pl-2">
-        <Icons.grip
-          height={20}
-          width={20}
-          className="mr-2 cursor-pointer"
-          onPointerDown={(e) => controls.start(e)}
-          onMouseEnter={() => setDraggable(true)}
-          onMouseLeave={() => setDraggable(false)} // retain this for better animation
-          onTouchStart={() => setDraggable(true)} // for mobile: need to set draggable to `false` in `onDragEnd` prop, not `onTouchEnd`
-        />
-        {children}
-      </div>
+      <Card className="p-2">
+        <div className="flex w-full flex-row items-center justify-start space-x-2">
+          <Icons.grip
+            height={20}
+            width={20}
+            className="min-w-[20px] cursor-pointer"
+            onPointerDown={(e) => controls.start(e)}
+            onMouseEnter={() => setDraggable(true)}
+            onMouseLeave={() => setDraggable(false)} // retain this for better animation
+            onTouchStart={() => setDraggable(true)} // for mobile: need to set draggable to `false` in `onDragEnd` prop, not `onTouchEnd`
+          />
+          <div className="w-full flex-1">{children}</div>
+        </div>
+      </Card>
     </Reorder.Item>
   )
 }

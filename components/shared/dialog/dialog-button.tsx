@@ -34,7 +34,7 @@ export function DialogButton({
         <Icons.add className="mr-2 h-4 w-4" />
         {text}
       </DialogTrigger>
-      <DialogContent className="p-0">{children}</DialogContent>
+      <DialogContent className="p-4">{children}</DialogContent>
     </Dialog>
   )
 }

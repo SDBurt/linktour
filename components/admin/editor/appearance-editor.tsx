@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { User } from "@clerk/nextjs/dist/types/server"
-import { Link, Project } from "@prisma/client"
+import { Link, Project, SocialLink } from "@prisma/client"
 
 import { ThemeProps } from "@/lib/types"
 import { toast } from "@/hooks/use-toast"
@@ -12,11 +12,10 @@ import BackgroundCard from "@/components/admin/appearance/backgroundCard"
 import ButtonsCard from "@/components/admin/appearance/buttonsCard"
 import FontsCard from "@/components/admin/appearance/fontsCard"
 import ProjectPreview from "@/components/shared/bio/project-preview"
-import { BioSocialItem } from "@/components/shared/bio/socials/social-item"
 
 interface AppearanceEditorProps {
   user: Pick<User, "imageUrl" | "username">
-  socials?: BioSocialItem[]
+  socials?: Pick<SocialLink, "id" | "type" | "order" | "url" | "active">[]
   project: Pick<Project, "name" | "image" | "description" | "slug">
   theme: ThemeProps
   links: Pick<
@@ -71,8 +70,14 @@ export function AppearanceEditor({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-4">
-      <div className="col-span-3 flex justify-center p-4 lg:col-span-1">
+    <div className="grid grid-cols-4 gap-4">
+      <div className="col-span-4 flex flex-col space-y-2 lg:col-span-2">
+        <BackgroundCard theme={themePreview} setTheme={setThemePreview} />
+        <ButtonsCard theme={themePreview} setTheme={setThemePreview} />
+        <FontsCard theme={themePreview} setTheme={setThemePreview} />
+        <Button onClick={onSubmitClicked}>Update</Button>
+      </div>
+      <div className="col-span-4 hidden justify-center p-4 lg:col-span-2 lg:flex">
         <ProjectPreview
           theme={themePreview}
           socials={socials}
@@ -80,12 +85,6 @@ export function AppearanceEditor({
           links={links}
           user={{ username: user.username, imageUrl: user.imageUrl }}
         />
-      </div>
-      <div className="col-span-3 flex flex-col space-y-2 lg:-order-1 lg:col-span-2">
-        <BackgroundCard theme={themePreview} setTheme={setThemePreview} />
-        <ButtonsCard theme={themePreview} setTheme={setThemePreview} />
-        <FontsCard theme={themePreview} setTheme={setThemePreview} />
-        <Button onClick={onSubmitClicked}>Update</Button>
       </div>
     </div>
   )
